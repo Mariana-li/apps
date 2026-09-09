@@ -1,7 +1,7 @@
 /* Bump CACHE whenever any file below changes, or installed copies keep the old one.
    PREFIX keeps clean-up inside this app: several apps on one github.io domain share
    one cache store, and deleting every cache but ours would wipe the neighbours. */
-const CACHE = "vitals-v2";
+const CACHE = "vitals-v3";
 const PREFIX = "vitals-";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",

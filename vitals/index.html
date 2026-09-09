@@ -39,7 +39,11 @@
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
-  min-height:100vh;padding:18px 13px 34px;
+  min-height:100vh;
+  padding:calc(env(safe-area-inset-top,0px) + 16px)
+          calc(13px + env(safe-area-inset-right,0px))
+          calc(34px + env(safe-area-inset-bottom,0px))
+          calc(13px + env(safe-area-inset-left,0px));
   font-family:var(--sans);color:var(--sumi);
   background:radial-gradient(130% 90% at 50% -10%,#22335A 0%,var(--wall) 55%,#101A2E 100%);
   display:flex;flex-direction:column;align-items:center;gap:12px;
