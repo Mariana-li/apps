@@ -1,5 +1,8 @@
-/* Bump CACHE whenever any file below changes, or installed copies keep the old one. */
-const CACHE = "vitals-v1";
+/* Bump CACHE whenever any file below changes, or installed copies keep the old one.
+   PREFIX keeps clean-up inside this app: several apps on one github.io domain share
+   one cache store, and deleting every cache but ours would wipe the neighbours. */
+const CACHE = "vitals-v2";
+const PREFIX = "vitals-";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./icon-180.png", "./icon-512.png",
@@ -16,7 +19,8 @@ self.addEventListener("install", e => {
 });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    .then(keys => Promise.all(
+      keys.filter(k => k.startsWith(PREFIX) && k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {

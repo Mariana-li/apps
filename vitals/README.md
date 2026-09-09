@@ -50,6 +50,20 @@ GitHub Pages serves the folder as a website over HTTPS, which the service worker
 
 Free accounts only serve public repositories. The app holds no secrets, so that is fine.
 
+## Several apps in one repo
+
+Pages serves any folder structure, so `apps/vitals/` and `apps/other/` become
+`yourname.github.io/apps/vitals/` and `.../apps/other/`. Every path in `index.html` is
+relative, so moving this folder deeper changes nothing.
+
+Two things are shared across every app on that domain, because they belong to the origin
+rather than the folder:
+
+- **`localStorage`.** This app uses keys beginning `vitals:`. Give each app its own prefix.
+- **The cache store.** `sw.js` only deletes caches beginning `vitals-`, so it cannot wipe
+  a neighbour's offline files. Any other app's service worker needs the same guard, or it
+  will delete this one's cache on its next activation.
+
 To use your own domain: add a file named `CNAME` containing `vitals.example.com`, point a CNAME record at `YOURNAME.github.io`, then tick **Enforce HTTPS** in the Pages settings once the certificate is issued.
 
 ## Installing it on a phone
