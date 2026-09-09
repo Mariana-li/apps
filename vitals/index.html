@@ -1,0 +1,2230 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vitals</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vitals">
+<meta name="theme-color" content="#16213A">
+<meta name="description" content="One health fact a day, with the reason behind it and something to do about it.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-512.png">
+<style>
+@font-face{font-family:"Fredoka";src:url("fonts/fredoka-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Fredoka";src:url("fonts/fredoka-latin-500-normal.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Fredoka";src:url("fonts/fredoka-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Nunito";src:url("fonts/nunito-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Nunito";src:url("fonts/nunito-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Nunito";src:url("fonts/nunito-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+</style>
+<style>
+:root{
+  --kon:#22355C;
+  --ai:#3C5B86;
+  --ai-soft:#7788A3;
+  --shu:#C64A31;
+  --shu-tint:rgba(198,74,49,.08);
+  --shu-tint-2:rgba(198,74,49,.16);
+  --mint:#7FC0AC;
+  --sand:#EFC98A;
+  --paper:#F0EDE6;
+  --paper-2:#FAF8F3;
+  --line:#D8D3C7;
+  --sumi:#232833;
+  --wall:#16213A;
+  --disp:"Fredoka",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --sans:"Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  min-height:100vh;padding:18px 13px 34px;
+  font-family:var(--sans);color:var(--sumi);
+  background:radial-gradient(130% 90% at 50% -10%,#22335A 0%,var(--wall) 55%,#101A2E 100%);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  -webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;
+}
+.wrap{width:100%;max-width:412px}
+.mock{width:100%;max-width:412px;display:flex;align-items:center;gap:8px;color:#8FA1BD;font-size:11.5px;padding:0 2px 2px}
+.mock i{flex:1;height:1px;background:rgba(255,255,255,.10)}
+
+.board{background:linear-gradient(#2E4269,#26375A);border-radius:20px 20px 5px 5px;padding:13px 18px;
+  display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 30px rgba(0,0,0,.40)}
+.brand{display:flex;align-items:center;gap:9px;color:#F3F0EA;font-size:18px;font-weight:500;font-family:var(--disp)}
+.period{color:#A3B4CC;font-size:12.5px}
+
+.stack{position:relative}
+.stack::before,.stack::after{content:'';position:absolute;left:7px;right:7px;top:3px;bottom:-5px;
+  background:#E2DED4;border-radius:0 0 4px 4px;z-index:0}
+.stack::after{left:13px;right:13px;top:7px;bottom:-10px;background:#D4CFC3}
+.page{position:relative;z-index:1;background:var(--paper);padding:16px 20px 22px;border-radius:0 0 4px 4px;transform-origin:50% 0}
+.page::after{content:'';position:absolute;left:0;right:0;bottom:-8px;height:9px;background:var(--paper);
+  -webkit-mask-image:radial-gradient(circle at 6px 0,transparent 5.4px,#000 6px);
+  mask-image:radial-gradient(circle at 6px 0,transparent 5.4px,#000 6px);
+  -webkit-mask-size:12px 9px;mask-size:12px 9px}
+
+.head{display:flex;align-items:flex-start;justify-content:space-between}
+.date{display:flex;align-items:baseline;gap:10px}
+.num{font-family:var(--disp);font-size:64px;font-weight:600;letter-spacing:-.02em;line-height:.9;color:var(--kon)}
+.num.sun{color:var(--shu)}
+.dow{font-size:13.5px;font-weight:600;color:var(--ai-soft)}
+.bm{width:40px;height:40px;border-radius:14px;border:1.5px solid var(--line);background:transparent;
+  display:grid;place-items:center;cursor:pointer;flex:0 0 auto}
+.bm svg{width:17px;height:17px;fill:none;stroke:var(--ai);stroke-width:1.9;stroke-linejoin:round}
+.bm.on{background:var(--shu);border-color:var(--shu)}
+.bm.on svg{fill:#fff;stroke:#fff}
+
+.chip{display:inline-flex;align-items:center;gap:6px;margin:14px 0 12px;padding:6px 13px;border-radius:999px;
+  background:var(--shu-tint);color:var(--shu);font-size:12.5px;font-weight:600;font-family:var(--disp)}
+.chip s{width:5px;height:5px;border-radius:50%;background:var(--shu);text-decoration:none}
+
+.fact{font-family:var(--disp);font-size:24px;line-height:1.32;font-weight:500;letter-spacing:-.01em;margin:0;color:var(--kon)}
+
+.doodle{margin:18px 0 4px;background:var(--paper-2);border:1.5px dashed rgba(34,53,92,.18);border-radius:22px;padding:10px 10px 8px}
+.doodle svg{width:100%;height:auto;display:block}
+.doodle.mascot{padding:6px 10px 4px;background:transparent;border-style:dotted;border-color:rgba(34,53,92,.13)}
+.doodle figcaption{font-size:12px;color:var(--ai-soft);line-height:1.45;margin:6px 8px 2px;text-align:center}
+
+.open-btn{position:relative;width:100%;margin-top:20px;border:0;cursor:pointer;font-family:var(--disp);
+  background:var(--shu);color:#fff;border-radius:20px;padding:15px 52px;
+  display:flex;align-items:center;justify-content:center;text-align:center;font-size:17px;font-weight:500;
+  box-shadow:0 6px 16px rgba(198,74,49,.26)}
+.open-btn:active{transform:translateY(1px)}
+.open-btn .ic{position:absolute;right:15px;top:50%;width:27px;height:27px;border-radius:50%;
+  background:rgba(255,255,255,.22);display:grid;place-items:center;
+  transform:translateY(-50%);transition:transform .25s ease}
+.open-btn .ic svg{width:12px;height:12px;stroke:#fff;stroke-width:2.6;fill:none;stroke-linecap:round}
+.open-btn[aria-expanded="true"]{border-radius:20px 20px 0 0;box-shadow:none}
+.open-btn[aria-expanded="true"] .ic{transform:translateY(-50%) rotate(180deg)}
+
+.panel{overflow:hidden;max-height:0;transition:max-height .32s cubic-bezier(.3,0,.2,1)}
+.panel.open{max-height:800px}
+.panel-in{background:var(--shu-tint);border-radius:0 0 20px 20px;padding:16px 17px 18px}
+.lbl{font-family:var(--disp);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--shu)}
+.why{font-size:15px;line-height:1.55;color:#3E4653;margin:8px 0 0}
+.do{margin-top:16px;padding-top:14px;border-top:1.5px dashed var(--shu-tint-2)}
+.do ul{list-style:none;margin:9px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.do li{display:flex;gap:10px;font-size:15px;line-height:1.5;color:#3E4653}
+.do li b{flex:0 0 auto;width:21px;height:21px;border-radius:50%;background:var(--shu);color:#fff;
+  font-family:var(--disp);font-size:12px;font-weight:500;display:grid;place-items:center;margin-top:1px}
+
+.save{width:100%;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 12px;
+  border-radius:20px;border:2px solid var(--shu);background:transparent;color:var(--shu);
+  font-family:var(--disp);font-size:16.5px;cursor:pointer}
+.save svg{width:18px;height:18px;fill:none;stroke:var(--shu);stroke-width:2;stroke-linejoin:round}
+.save.on{background:var(--shu);color:#fff}
+.save.on svg{fill:#fff;stroke:#fff}
+.save:active{transform:translateY(1px)}
+.doodle.mascot{background:transparent;border-style:dotted;border-color:rgba(34,53,92,.14);padding:8px 10px 6px}
+.tear{display:none;
+  color:var(--kon);font-family:var(--disp);font-size:16px;font-weight:400;cursor:pointer}
+.tear:active{background:#E5E1D6}
+
+.bar{width:100%;max-width:412px;display:flex;gap:8px}
+.pill{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.10);color:#C9D5E6;font-size:13px;font-family:var(--sans);cursor:pointer}
+.pill .badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--shu);color:#fff;
+  font-family:var(--disp);font-size:11.5px;display:grid;place-items:center}
+.pill.plain{cursor:default}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--mint)}
+
+.sheet{width:100%;max-width:412px;background:var(--paper-2);border-radius:22px;padding:16px 18px}
+.sheet h2{font-family:var(--disp);font-size:16px;font-weight:500;margin:0 0 10px;color:var(--kon)}
+.sheet .grp+.grp{margin-top:18px}
+.sheet .ghead{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;
+  background:var(--shu-tint);color:var(--shu);font-family:var(--disp);font-size:12.5px;font-weight:600}
+.sheet .ghead s{width:5px;height:5px;border-radius:50%;background:var(--shu);text-decoration:none}
+.sheet .ghead b{font-weight:400;opacity:.65;font-size:11.5px}
+.sheet ul{list-style:none;margin:10px 0 0;padding:0 0 0 4px;display:flex;flex-direction:column;gap:10px;
+  border-left:1.5px dashed var(--shu-tint-2)}
+.sheet li{font-size:14.5px;line-height:1.45;padding-left:12px;color:var(--sumi)}
+.sheet .empty{font-size:13.5px;color:var(--ai-soft);margin:0}
+.fine{width:100%;max-width:412px;color:#63738D;font-size:11.5px;padding:2px 4px}
+
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:5;display:flex;align-items:center;gap:4px;
+  padding:6px;border-radius:999px;background:rgba(22,33,58,.92);border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.nav button{width:38px;height:38px;border-radius:999px;border:0;background:rgba(255,255,255,.09);color:#DCE5F2;
+  font-family:var(--disp);font-size:17px;cursor:pointer}
+.nav span{color:#A3B4CC;font-size:12.5px;min-width:70px;text-align:center;font-family:var(--disp)}
+
+@keyframes tear{0%{transform:rotate(0) translateY(0);opacity:1}
+ 30%{transform:rotate(2deg) translateY(5px)}100%{transform:rotate(-7deg) translateY(460px);opacity:0}}
+.tearing{animation:tear .48s cubic-bezier(.42,.1,.72,1) forwards}
+@media (prefers-reduced-motion:reduce){.tearing{animation:none;opacity:0}.panel{transition:none}}
+button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
+</style>
+
+
+<div class="wrap">
+  <div class="board">
+    <span class="brand">
+      <svg width="19" height="19" viewBox="0 0 18 18"><rect x="1" y="2.5" width="16" height="13.5" rx="4.5" fill="#F0EDE6"/><rect x="1" y="2.5" width="16" height="4.5" rx="2.2" fill="#8D9DB6"/><path d="M4.2 11.8c2.6-1.6 7.3-2 10-.8-2.8.2-7.2.9-10 .8z" fill="#C64A31"/></svg>
+      Vitals
+    </span>
+    <span class="period" id="period"></span>
+  </div>
+
+  <div class="stack">
+    <div class="page" id="page">
+      <div class="head">
+        <div class="date"><span class="num" id="num">3</span><span class="dow" id="dow"></span></div>
+      </div>
+
+      <span class="chip" id="chip"><s id="chipDot"></s><span id="chipLabel"></span></span>
+      <p class="fact" id="fact"></p>
+      <div id="art"></div>
+
+      <button class="open-btn" id="openBtn" aria-expanded="false" aria-controls="panel">
+        <span id="openLabel">Why?</span>
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg></span>
+      </button>
+      <div class="panel" id="panel"><div class="panel-in">
+        <span class="lbl">Why</span>
+        <p class="why" id="why"></p>
+        <div class="do" id="doWrap">
+          <span class="lbl">Do this</span>
+          <ul id="doList"></ul>
+        </div>
+      </div></div>
+
+      <button class="save" id="save">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.6h11a1 1 0 011 1v15.2c0 .8-.9 1.3-1.6.8L12 17.2l-4.9 3.4c-.7.5-1.6 0-1.6-.8V4.6a1 1 0 011-1z"/></svg>
+        <span id="saveLabel">Save</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="bar">
+  <button class="pill" id="savedPill">Saved<span class="badge" id="savedCount">0</span></button>
+  <span class="pill plain"><span class="dot"></span><span id="streak"></span></span>
+</div>
+
+<div class="sheet" id="sheet" hidden><h2>Saved</h2><div id="sheetBody"></div></div>
+<div class="fine">General information, not medical advice.</div>
+
+
+<script>
+/* ── doodle kit ─────────────────────────────────────────── */
+const K="#22355C", S="#C64A31", M="#7FC0AC", SA="#EFC98A", G="#8B99AF", BL="#E8907A";
+let uid=0;
+function draw(inner,vb){
+  const id="w"+(++uid);
+  return '<svg viewBox="'+(vb||"0 0 320 165")+'" xmlns="http://www.w3.org/2000/svg">'+
+    '<defs><filter id="'+id+'"><feTurbulence type="fractalNoise" baseFrequency="0.026" numOctaves="2" seed="'+(uid*5)+'" result="n"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>'+
+    '<marker id="a'+id+'" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="'+K+'" stroke="none"/></marker>'+
+    '<marker id="s'+id+'" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="'+S+'" stroke="none"/></marker></defs>'+
+    '<g filter="url(#'+id+')" fill="none" stroke="'+K+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">'+
+    inner.replace(/#ARR#/g,'url(#a'+id+')').replace(/#ARS#/g,'url(#s'+id+')')+'</g></svg>';
+}
+const t=(x,y,s,o={})=>'<text x="'+x+'" y="'+y+'" font-size="'+(o.s||11)+'" fill="'+(o.c||G)+'" stroke="none" text-anchor="'+(o.a||"middle")+'" font-family="Fredoka,Nunito,sans-serif" font-weight="'+(o.w||400)+'">'+s+'</text>';
+function face(x,y,sc,mood){
+  const dot=r=>'<circle cx="'+(x-7*sc)+'" cy="'+y+'" r="'+r+'" fill="'+K+'" stroke="none"/><circle cx="'+(x+7*sc)+'" cy="'+y+'" r="'+r+'" fill="'+K+'" stroke="none"/>';
+  let eyes=dot(2.4*sc), mouth='<path d="M'+(x-5*sc)+' '+(y+7*sc)+' q'+(5*sc)+' '+(5*sc)+' '+(10*sc)+' 0" stroke-width="2.2"/>';
+  if(mood==="tired"){
+    eyes='<path d="M'+(x-11*sc)+' '+y+' q'+(4*sc)+' '+(4.5*sc)+' '+(8*sc)+' 0" stroke-width="2.2"/><path d="M'+(x+3*sc)+' '+y+' q'+(4*sc)+' '+(4.5*sc)+' '+(8*sc)+' 0" stroke-width="2.2"/>';
+    mouth='<path d="M'+(x-4*sc)+' '+(y+9*sc)+' q'+(4*sc)+' -'+(3*sc)+' '+(8*sc)+' 0" stroke-width="2.2"/>';
+  }
+  if(mood==="gone"){
+    eyes='<path d="M'+(x-10*sc)+' '+(y-3*sc)+' l'+(6*sc)+' '+(6*sc)+' M'+(x-4*sc)+' '+(y-3*sc)+' l-'+(6*sc)+' '+(6*sc)+
+         ' M'+(x+4*sc)+' '+(y-3*sc)+' l'+(6*sc)+' '+(6*sc)+' M'+(x+10*sc)+' '+(y-3*sc)+' l-'+(6*sc)+' '+(6*sc)+'" stroke-width="2.2"/>';
+    mouth='<path d="M'+(x-4.5*sc)+' '+(y+8*sc)+' h'+(9*sc)+'" stroke-width="2.2"/>';
+  }
+  if(mood==="sad") mouth='<path d="M'+(x-5*sc)+' '+(y+10*sc)+' q'+(5*sc)+' -'+(5*sc)+' '+(10*sc)+' 0" stroke-width="2.2"/>';
+  const blush='<circle cx="'+(x-15*sc)+'" cy="'+(y+5*sc)+'" r="'+(3.8*sc)+'" fill="'+BL+'" opacity=".5" stroke="none"/>'+
+              '<circle cx="'+(x+15*sc)+'" cy="'+(y+5*sc)+'" r="'+(3.8*sc)+'" fill="'+BL+'" opacity=".5" stroke="none"/>';
+  return blush+eyes+mouth;
+}
+const zzz=(x,y)=>t(x,y,"z",{s:9,c:G})+t(x+7,y-8,"z",{s:11,c:G})+t(x+16,y-18,"z",{s:13,c:G});
+const clock=(x,y,r,lab)=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" stroke-width="2.3"/>'+
+  '<path d="M'+x+' '+(y-r*0.55)+' V'+y+' l'+(r*0.42)+' '+(r*0.3)+'" stroke-width="2.1"/>'+(lab?t(x,y+r+13,lab,{s:10.5,c:K,w:500}):'');
+
+const ART={
+
+/* CAFFEINE: the same cup, halving every five hours */
+coffee:{cap:"Same cup, five hours later, then five more.",
+ svg:draw(
+  [[40,"3pm",1,"awake"],[140,"8pm",.5,""],[240,"1am",.25,"tired"]].map((c,i)=>{
+    const x=c[0], lv=c[2], top=52, bot=104, fillTop=bot-(bot-top)*lv;
+    return '<g>'+
+      '<path d="M'+x+' '+top+' h50 l-6 52 h-38 z" fill="#fff" fill-opacity=".55" stroke-width="2.6"/>'+
+      '<path d="M'+(x+2+(fillTop-top)*0.06)+' '+fillTop+' h'+(46-(fillTop-top)*0.12)+' l-'+(5*lv+1)+' '+(bot-fillTop)+' h-'+(38+(1-lv)*6)+' z" fill="'+SA+'" fill-opacity=".85" stroke-width="0"/>'+
+      '<path d="M'+(x+52)+' '+(top+8)+' a11 11 0 0 1 0 20" stroke-width="2.4"/>'+
+      face(x+25,74,.78,c[3]==="tired"?"tired":"")+
+      t(x+25,124,c[1],{s:13,c:K,w:600})+
+      t(x+25,139,Math.round(lv*100)+"% left",{s:10.5})+
+      '</g>'+
+      (i<2?'<path d="M'+(x+70)+' 78 h18" stroke="'+S+'" stroke-width="2.4" marker-end="#ARS#"/>'+
+           t(x+80,66,"5 hrs",{s:10.5,c:S,w:600}):'');
+  }).join('')+
+  t(160,22,"caffeine left in you",{s:11.5,c:K,w:600})
+ )},
+
+/* LUNGS: the branch, then one bag magnified with the swap happening */
+lungs:{cap:"Air stops at the bag. Oxygen crosses a wall two cells thick and gets on the blood.",
+ svg:draw(
+  '<path d="M74 20 v22 M74 42 c-14 0 -22 6 -30 12 M74 42 c14 0 22 6 30 12"/>'+
+  '<path d="M44 54 c-24 4 -34 22 -34 44 0 20 10 30 24 30 11 0 17 -7 17 -20 v-48 c0 -5 -2 -7 -7 -6z" fill="'+M+'" fill-opacity=".22"/>'+
+  '<path d="M104 54 c24 4 34 22 34 44 0 20 -10 30 -24 30 -11 0 -17 -7 -17 -20 v-48 c0 -5 2 -7 7 -6z" fill="'+M+'" fill-opacity=".22"/>'+
+  face(38,92,.8)+
+  [[112,88,5],[122,98,4],[110,106,3.5]].map(c=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+c[2]+'" fill="'+SA+'" fill-opacity=".7" stroke-width="1.6"/>').join('')+
+  '<path d="M128 96 c14 -6 24 -8 34 -8" stroke="'+G+'" stroke-width="1.8" stroke-dasharray="4 4" marker-end="#ARR#"/>'+
+  '<circle cx="226" cy="78" r="44" fill="#fff" fill-opacity=".5" stroke-width="2.4"/>'+
+  '<circle cx="222" cy="78" r="21" fill="'+SA+'" fill-opacity=".55" stroke-width="2.5"/>'+
+  face(222,76,.6)+
+  '<path d="M192 52 c22 -10 46 -6 58 12" stroke="'+S+'" stroke-width="4.5" stroke-linecap="round" opacity=".8"/>'+
+  '<path d="M194 106 c22 10 46 6 58 -10" stroke="'+S+'" stroke-width="4.5" stroke-linecap="round" opacity=".8"/>'+
+  '<path d="M214 44 v14" stroke="'+K+'" stroke-width="2.2" marker-end="#ARR#"/>'+
+  '<path d="M238 96 v-16" stroke="'+G+'" stroke-width="2.2" marker-end="#ARR#"/>'+
+  t(316,66,"O\u2082 in",{a:"end",s:11,c:K,w:600})+
+  t(316,100,"CO\u2082 out",{a:"end",s:11,w:600})+
+  t(226,142,"blood runs right past",{s:11,c:S,w:500})+
+  t(60,148,"70 m\u00B2 folded up small",{s:11,c:K,w:500})
+ )},
+
+/* EYES: the lens changes shape, the muscle is what gets tired */
+eye:{cap:"Close up, the muscle squeezes the lens fat. Far away, it lets go.",
+ svg:draw(
+  [[0,true],[164,false]].map(p=>{
+    const x=p[0], close=p[1];
+    return '<g transform="translate('+x+',0)">'+
+    '<circle cx="86" cy="72" r="42" fill="#fff" fill-opacity=".6" stroke-width="2.6"/>'+
+    '<path d="M46 54 c-12 6 -12 30 0 36" stroke-width="2.4"/>'+
+    '<ellipse cx="56" cy="72" rx="'+(close?11:6)+'" ry="'+(close?16:19)+'" fill="'+M+'" fill-opacity=".45" stroke-width="2.4"/>'+
+    '<path d="M50 '+(close?50:44)+' h12 M50 '+(close?94:100)+' h12" stroke="'+S+'" stroke-width="'+(close?3.4:2.2)+'"/>'+
+    (close?'<path d="M64 46 l8 -6 M64 98 l8 6" stroke="'+S+'" stroke-width="2.2"/>':'')+
+    '<path d="M8 56 l'+(close?48:50)+' 12 L124 72 M8 88 l'+(close?48:50)+' -12 L124 72" stroke="'+G+'" stroke-width="1.6"/>'+
+    '<circle cx="124" cy="72" r="3.2" fill="'+S+'" stroke="none"/>'+
+    (close?'<path d="M104 34 c5 8 5 13 0 15 c-5 -2 -5 -7 0 -15z" fill="'+M+'" fill-opacity=".7" stroke-width="2"/>'
+          :zzz(96,40))+
+    t(66,132,close?"lens squeezed fat":"lens relaxed flat",{s:11,c:close?K:M,w:600})+
+    t(66,148,close?"muscle working":"muscle off duty",{s:10.5,c:close?S:G})+
+    '</g>';
+  }).join('')+
+  '<path d="M150 72 h14" stroke="'+G+'" stroke-width="2" stroke-dasharray="4 4"/>'
+ )},
+
+/* EARS: bend and spring back, or bend too far and stay down */
+hair:{cap:"Bend and they spring back. Bend too far and they stay down for good.",
+ svg:draw(
+  '<path d="M10 66 q14 -13 28 0 t28 0" stroke="'+M+'" stroke-width="2.6"/>'+
+  t(38,42,"85 dB",{s:11.5,c:K,w:600})+
+  '<path d="M76 60 h14" stroke="'+G+'" stroke-width="2" marker-end="#ARR#"/>'+
+  [104,132].map(x=>'<g><path d="M'+x+' 92 c-3 -14 4 -20 2 -30" stroke-width="2.6"/>'+
+    '<circle cx="'+(x+2)+'" cy="'+56+'" r="11" fill="'+M+'" fill-opacity=".35" stroke-width="2.3"/>'+face(x+2,54,.55)+'</g>').join('')+
+  '<path d="M10 92 h150" stroke-width="2.8"/>'+
+  t(118,112,"springs back",{s:11,c:M,w:600})+
+  t(118,127,"8 hours is fine",{s:10.5})+
+  '<path d="M172 20 v124" stroke="'+G+'" stroke-width="1.6" stroke-dasharray="5 5"/>'+
+  '<path d="M182 66 q10 -22 20 0 t20 0" stroke="'+S+'" stroke-width="3.4"/>'+
+  t(212,42,"100 dB",{s:11.5,c:S,w:600})+
+  '<path d="M232 60 h12" stroke="'+S+'" stroke-width="2" marker-end="#ARS#"/>'+
+  '<g><path d="M258 92 c8 -6 26 -8 40 -4" stroke-width="2.6"/>'+
+   '<circle cx="302" cy="86" r="11" fill="#E4DFD4" stroke-width="2.3"/>'+face(302,84,.55,"gone")+'</g>'+
+  '<path d="M186 92 h130" stroke-width="2.8"/>'+
+  t(250,112,"stays down",{s:11,c:S,w:600})+
+  t(250,127,"15 minutes does it",{s:10.5})
+ )},
+
+/* NERVES: same stub, two wires, two arrival times */
+nerve:{cap:"One stub, two wires. The sharp one gets there first.",
+ svg:draw(
+  '<path d="M14 60 c-6 14 4 24 16 24 10 0 14 -8 12 -18" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+
+  t(26,102,"toe",{s:10.5,c:K,w:500})+
+  [56,102,148,194].map(x=>'<rect x="'+x+'" y="26" width="38" height="20" rx="10" fill="'+SA+'" fill-opacity=".5" stroke-width="2.3"/>').join('')+
+  '<path d="M96 22 q10 -14 20 0 M142 22 q10 -14 20 0 M188 22 q10 -14 20 0" stroke="'+S+'" stroke-width="2.2" stroke-dasharray="4 3"/>'+
+  '<path d="M44 36 h10" stroke-width="2.2"/>'+
+  '<path d="M232 36 h16" stroke="'+S+'" stroke-width="2.4" marker-end="#ARS#"/>'+
+  t(316,32,"\u201Cow!\u201D",{a:"end",s:12,c:S,w:600})+t(316,46,"arrives first",{a:"end",s:10})+
+  t(126,60,"insulated, jumps the gaps",{s:10.5,c:K,w:500})+
+  '<path d="M44 96 h186" stroke="'+G+'" stroke-width="2.6" stroke-dasharray="7 6"/>'+
+  '<path d="M116 96 c0 -6 6 -10 14 -10 h8" stroke-width="2.3"/>'+
+  '<circle cx="148" cy="86" r="11" fill="'+M+'" fill-opacity=".4" stroke-width="2.3"/>'+
+  '<path d="M148 86 a5.5 5.5 0 1 0 5 -4.6" stroke-width="1.9"/>'+
+  '<path d="M116 96 c-6 0 -9 -2 -11 -6 M108 84 v-7 M115 84 v-6" stroke-width="2.1"/>'+
+  '<circle cx="108" cy="75" r="1.7" fill="'+K+'" stroke="none"/><circle cx="115" cy="76" r="1.7" fill="'+K+'" stroke="none"/>'+
+  '<path d="M232 96 h16" stroke="'+G+'" stroke-width="2.2" marker-end="#ARR#"/>'+
+  t(316,92,"the ache",{a:"end",s:12,c:K,w:600})+t(316,106,"a second later",{a:"end",s:10})+
+  t(126,124,"bare, has to crawl the whole way",{s:10.5})
+ )},
+
+/* SMELL: two doors into the same brain */
+smell:{cap:"Smell walks straight in. The others check in at the desk first.",
+ svg:draw(
+  '<path d="M148 26 c48 0 74 26 74 56 0 32 -28 54 -74 54 -14 0 -22 -4 -28 -10" fill="'+SA+'" fill-opacity=".18" stroke-width="2.6"/>'+
+  '<path d="M120 126 c-16 -12 -22 -28 -22 -44 0 -30 26 -56 50 -56" stroke-width="2.6"/>'+
+  '<path d="M160 44 c10 6 4 18 12 24 M150 100 c14 -4 18 -14 30 -14" stroke="'+K+'" stroke-width="2" opacity=".45"/>'+
+  '<path d="M186 56 c-8 -10 -24 -5 -24 8 0 11 14 18 24 26 10 -8 24 -15 24 -26 0 -13 -16 -18 -24 -8z" fill="'+S+'" fill-opacity=".3" stroke-width="2.4"/>'+
+  face(186,74,.6)+
+  t(178,114,"memories",{s:11,c:S,w:600})+t(178,128,"and feelings",{s:10.5,c:S})+
+  '<path d="M40 44 c-8 6 -8 18 0 22 6 3 12 0 14 -6" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+
+  '<circle cx="36" cy="52" r="1.9" fill="'+K+'" stroke="none"/>'+
+  t(40,34,"nose",{s:10.5,c:K,w:600})+
+  '<path d="M58 54 c22 -12 44 -12 62 0" stroke="'+S+'" stroke-width="2.5" stroke-dasharray="5 4" marker-end="#ARS#"/>'+
+  t(92,32,"one hop",{s:10.5,c:S,w:600})+
+  '<circle cx="34" cy="112" r="10" stroke-width="2.3"/><circle cx="34" cy="112" r="3" fill="'+K+'" stroke="none"/>'+
+  '<path d="M48 112 h10" stroke="'+G+'" stroke-width="2"/>'+
+  '<rect x="60" y="100" width="40" height="24" rx="10" stroke="'+G+'" stroke-width="2.2" fill="#fff" fill-opacity=".5"/>'+
+  t(80,116,"desk",{s:10.5})+
+  '<path d="M102 112 c12 2 18 4 24 4" stroke="'+G+'" stroke-width="2" marker-end="#ARR#"/>'+
+  t(34,140,"eyes, ears",{s:10.5})
+ )},
+
+/* TEETH: three panels, acid then the mistake then the wait */
+tooth:{cap:"Acid softens the shell. Brush now and you scrub the soft bit off.",
+ svg:draw(
+  '<path d="M106 18 v128 M212 18 v128" stroke="'+G+'" stroke-width="1.5" stroke-dasharray="5 5"/>'+
+  [0,106,212].map((ox,i)=>{
+    const soft=i<2;
+    return '<g transform="translate('+ox+',0)">'+
+      '<path d="M26 52 c14 -10 34 -10 50 0 6 12 4 22 2 30 l-7 30 c-2 7 -8 7 -10 0 l-5 -18 -5 18 c-2 7 -8 7 -10 0 l-7 -30 c-2 -8 -4 -18 -8 -30z" fill="#fff" fill-opacity=".75" stroke-width="2.6"/>'+
+      (soft
+        ? '<path d="M26 52 c14 -10 34 -10 50 0 2 5 3 8 3 12 -20 -6 -38 -6 -56 0 0 -4 1 -7 3 -12z" fill="'+S+'" fill-opacity=".28" stroke-width="0"/>'+
+          '<path d="M23 62 q7 -6 14 0 t14 0 t14 0 t14 0" stroke="'+S+'" stroke-width="2.2"/>'
+        : '<path d="M26 52 c14 -10 34 -10 50 0 2 5 3 8 3 12 -20 -6 -38 -6 -56 0 0 -4 1 -7 3 -12z" fill="'+M+'" fill-opacity=".45" stroke-width="2.2"/>')+
+      face(51,88,.72,i===1?"sad":"")+
+      '</g>';
+  }).join('')+
+  '<path d="M30 20 c10 4 16 12 18 20" stroke="'+S+'" stroke-width="2.3"/>'+
+  '<circle cx="26" cy="34" r="4.5" fill="'+S+'" fill-opacity=".5" stroke-width="1.8"/>'+
+  t(84,26,"acid",{s:11,c:S,w:600})+
+  '<g transform="translate(106,0)"><path d="M74 22 l-22 14" stroke-width="2.6"/>'+
+   '<rect x="66" y="14" width="22" height="10" rx="5" transform="rotate(-33 77 19)" fill="'+M+'" fill-opacity=".5" stroke-width="2.2"/>'+
+   '<path d="M46 40 l4 -6 M53 43 l4 -6 M60 45 l4 -6" stroke="'+S+'" stroke-width="2"/></g>'+
+  '<g transform="translate(212,0)">'+clock(78,32,15,"")+'</g>'+
+  t(53,152,"0 min",{s:11.5,c:K,w:600})+t(53,166,"shell soft",{s:10.5})+
+  t(159,152,"brush now",{s:11.5,c:S,w:600})+t(159,166,"you lose some",{s:10.5,c:S})+
+  t(265,152,"30 min",{s:11.5,c:M,w:600})+t(265,166,"hard again",{s:10.5})
+ ,"0 0 320 176")}
+};
+
+
+/* Broad categories shown on the page and used to group saved pages.
+   The narrow tag on each fact is kept as f.sub and only picks the character. */
+const CATS = {
+  heart:     { label:"heart & blood",     color:"#A8362A" },
+  breathing: { label:"breathing",         color:"#1B6E64" },
+  brain:     { label:"brain & nerves",    color:"#6A4A93" },
+  senses:    { label:"senses",            color:"#265E8C" },
+  teeth:     { label:"mouth & teeth",     color:"#7F6224" },
+  organs:    { label:"organs & hormones", color:"#9E5A1D" },
+  food:      { label:"food & drink",      color:"#4F731F" },
+  sleep:     { label:"sleep",             color:"#334485" },
+  movement:  { label:"movement",          color:"#1A6742" },
+  bones:     { label:"bones & joints",    color:"#4F6070" },
+  skin:      { label:"skin & hair",       color:"#A24560" },
+  germs:     { label:"germs & immunity",  color:"#1D6B7D" },
+  medicines: { label:"medicines",         color:"#78503A" },
+  mind:      { label:"mind & mood",       color:"#843F78" },
+  emergency: { label:"emergencies",       color:"#B34129" },
+  curious:   { label:"curious body",      color:"#6A5D34" },
+  myths:     { label:"myths",             color:"#8F4C42" }
+};
+
+const CAT_OF = {
+  heart:"heart", "blood pressure":"heart", circulation:"heart", blood:"heart", spleen:"heart",
+  lymph:"heart", fitness:"heart",
+  lungs:"breathing", breathing:"breathing",
+  brain:"brain", nerves:"brain", memory:"brain", balance:"brain", reflexes:"brain",
+  eyes:"senses", hearing:"senses", ears:"senses", smell:"senses", taste:"senses",
+  teeth:"teeth", mouth:"teeth", throat:"teeth", voice:"teeth",
+  gut:"organs", stomach:"organs", kidneys:"organs", liver:"organs", pancreas:"organs",
+  bladder:"organs", hormones:"organs", "blood sugar":"organs",
+  nutrition:"food", eating:"food", vitamins:"food", salt:"food", water:"food",
+  cooking:"food", food:"food", "food safety":"food", alcohol:"food", caffeine:"food",
+  sleep:"sleep", light:"sleep", travel:"sleep",
+  exercise:"movement", walking:"movement", strength:"movement", muscle:"movement",
+  sitting:"movement", heat:"movement",
+  bones:"bones", joints:"bones", injury:"bones",
+  skin:"skin", hair:"skin", nails:"skin", healing:"skin", sun:"skin",
+  immunity:"germs", hygiene:"germs", colds:"germs",
+  medicine:"medicines", smoking:"medicines",
+  mind:"mind", social:"mind", outdoors:"mind",
+  emergency:"emergency", safety:"emergency",
+  body:"curious",
+  myths:"myths"
+};
+
+/* tint of a category colour, for pill backgrounds */
+function tint(hex, a){
+  const n=parseInt(hex.slice(1),16);
+  return "rgba("+(n>>16)+","+((n>>8)&255)+","+(n&255)+","+a+")";
+}
+
+/* Characters, one per subject area. Decorative rather than explanatory:
+   they give every page a face without pretending to teach the mechanism. */
+const MASCOT = {}, MASCOT_ART = {};
+function mascot(key, inner){ MASCOT_ART[key] = inner; MASCOT[key] = draw(inner, "0 0 320 108"); }
+
+mascot("heart",
+  '<path d="M160 34 c-14 -16 -38 -8 -38 12 0 18 22 28 38 42 16 -14 38 -24 38 -42 0 -20 -24 -28 -38 -12z" fill="'+S+'" fill-opacity=".3" stroke-width="2.8"/>'+
+  face(160,54,.78));
+
+mascot("lungs",
+  '<path d="M160 20 v18 M160 38 c-12 0 -18 5 -25 10 M160 38 c12 0 18 5 25 10"/>'+
+  '<path d="M135 48 c-22 4 -32 20 -32 38 0 17 10 26 22 26 10 0 15 -6 15 -17 v-41 c0 -5 -1 -7 -5 -6z" fill="'+M+'" fill-opacity=".25" stroke-width="2.6"/>'+
+  '<path d="M185 48 c22 4 32 20 32 38 0 17 -10 26 -22 26 -10 0 -15 -6 -15 -17 v-41 c0 -5 1 -7 5 -6z" fill="'+M+'" fill-opacity=".25" stroke-width="2.6"/>'+
+  face(160,72,.72));
+
+mascot("blood",
+  '<path d="M160 22 c16 20 26 32 26 44 0 16 -12 26 -26 26 -14 0 -26 -10 -26 -26 0 -12 10 -24 26 -44z" fill="'+S+'" fill-opacity=".3" stroke-width="2.8"/>'+
+  face(160,62,.72));
+
+mascot("brain",
+  '<path d="M132 34 c26 -12 56 -8 66 6 12 4 14 18 6 26 6 12 -4 26 -20 26 -8 8 -30 8 -40 0 -18 2 -28 -12 -22 -24 -8 -10 -2 -28 10 -34z" fill="'+SA+'" fill-opacity=".4" stroke-width="2.7"/>'+
+  '<path d="M150 36 c-4 12 4 16 0 26 M176 38 c6 10 -2 16 4 24" stroke="'+K+'" stroke-width="1.9" opacity=".45"/>'+
+  face(160,62,.7));
+
+mascot("nerves",
+  '<circle cx="128" cy="54" r="20" fill="'+SA+'" fill-opacity=".45" stroke-width="2.7"/>'+face(128,52,.7)+
+  '<path d="M150 58 c14 -14 26 8 40 -6 s26 8 40 -6" stroke-width="2.7"/>'+
+  '<path d="M232 44 l10 -6 M232 44 l10 6" stroke-width="2.4"/>');
+
+mascot("bones",
+  '<path d="M126 34 a12 12 0 1 0 0 24 h68 a12 12 0 1 0 0 -24 z" fill="#fff" fill-opacity=".85" stroke-width="2.7"/>'+
+  '<path d="M194 34 a12 12 0 1 1 0 24" stroke-width="2.7"/>'+
+  face(160,44,.68));
+
+mascot("muscle",
+  '<path d="M118 76 c0 -22 16 -34 36 -34 14 0 20 -8 20 -18 12 4 22 14 24 26 2 14 -6 24 -20 26 -18 2 -34 4 -44 10 -10 6 -16 4 -16 -10z" fill="'+S+'" fill-opacity=".26" stroke-width="2.7"/>'+
+  face(148,62,.6));
+
+mascot("skin",
+  '<rect x="112" y="30" width="96" height="52" rx="16" fill="'+BL+'" fill-opacity=".35" stroke-width="2.7"/>'+
+  '<path d="M112 46 h96 M112 62 h96" stroke="'+K+'" stroke-width="1.8" opacity=".35"/>'+
+  face(160,64,.66));
+
+mascot("teeth",
+  '<path d="M134 32 c16 -10 36 -10 52 0 6 12 4 20 2 28 l-6 24 c-2 6 -8 6 -10 0 l-4 -14 -4 14 c-2 6 -8 6 -10 0 l-6 -24 c-2 -8 -4 -16 -8 -28z" fill="#fff" fill-opacity=".8" stroke-width="2.7"/>'+
+  face(160,56,.62));
+
+mascot("eyes",
+  '<path d="M110 54 c26 -28 74 -28 100 0 -26 28 -74 28 -100 0z" fill="#fff" fill-opacity=".7" stroke-width="2.7"/>'+
+  '<circle cx="160" cy="54" r="16" fill="'+M+'" fill-opacity=".45" stroke-width="2.4"/>'+
+  '<circle cx="160" cy="54" r="6" fill="'+K+'" stroke="none"/>'+
+  '<circle cx="153" cy="48" r="2.6" fill="#fff" stroke="none"/>');
+
+mascot("ears",
+  '<path d="M172 26 c-26 -4 -44 14 -42 40 2 22 14 30 12 40 8 2 16 -4 16 -14 0 -12 8 -14 16 -16 16 -4 22 -18 20 -32 -2 -12 -10 -16 -22 -18z" fill="'+SA+'" fill-opacity=".45" stroke-width="2.7"/>'+
+  '<path d="M164 44 c-10 2 -14 10 -12 18 2 6 8 8 12 6" stroke-width="2.3"/>'+
+  face(146,60,.55));
+
+mascot("gut",
+  '<path d="M124 32 h72 c8 0 8 12 0 12 h-64 c-8 0 -8 12 0 12 h64 c8 0 8 12 0 12 h-64 c-8 0 -8 12 0 12 h56" fill="none" stroke-width="3.4" stroke="'+SA+'"/>'+
+  '<path d="M124 32 h72 c8 0 8 12 0 12 h-64 c-8 0 -8 12 0 12 h64 c8 0 8 12 0 12 h-64 c-8 0 -8 12 0 12 h56" fill="none" stroke-width="2.4"/>'+
+  face(158,86,.52));
+
+mascot("stomach",
+  '<path d="M132 30 c26 -12 50 -4 56 18 6 22 -8 40 -30 42 -20 2 -34 -10 -34 -28 0 -14 2 -24 8 -32z" fill="'+SA+'" fill-opacity=".45" stroke-width="2.7"/>'+
+  face(156,58,.72));
+
+mascot("kidneys",
+  '<path d="M138 30 c22 -10 40 4 40 26 0 22 -18 36 -38 28 -10 -4 -4 -14 -4 -28 0 -12 -6 -22 2 -26z" fill="'+SA+'" fill-opacity=".45" stroke-width="2.7"/>'+
+  face(156,58,.66));
+
+mascot("sleep",
+  '<path d="M170 24 c-24 2 -42 20 -42 42 0 22 18 38 42 38 -16 -8 -26 -22 -26 -38 0 -18 10 -34 26 -42z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.7"/>'+
+  face(154,64,.6)+
+  t(206,42,"z",{s:11,c:G})+t(216,30,"z",{s:14,c:G})+t(230,18,"z",{s:17,c:G}));
+
+mascot("food",
+  '<circle cx="160" cy="56" r="30" fill="#fff" fill-opacity=".7" stroke-width="2.7"/>'+
+  '<circle cx="160" cy="56" r="21" stroke-width="1.9" opacity=".5"/>'+
+  '<path d="M110 34 v44 M116 34 v18 c0 6 -6 6 -6 0 M204 34 c8 4 8 12 0 16 v28" stroke-width="2.5"/>'+
+  face(160,56,.6));
+
+mascot("water",
+  '<path d="M136 30 h48 l-6 52 h-36 z" fill="'+M+'" fill-opacity=".35" stroke-width="2.7"/>'+
+  '<path d="M139 50 c8 -4 14 4 22 0 s14 4 20 0" stroke="'+M+'" stroke-width="2.4"/>'+
+  face(160,66,.6));
+
+mascot("medicine",
+  '<rect x="118" y="40" width="84" height="30" rx="15" fill="'+S+'" fill-opacity=".28" stroke-width="2.7"/>'+
+  '<path d="M160 40 v30" stroke-width="2.4"/>'+
+  face(139,56,.55));
+
+mascot("exercise",
+  '<path d="M124 40 v32 M136 34 v44 M184 34 v44 M196 40 v32" stroke-width="2.7"/>'+
+  '<rect x="136" y="48" width="48" height="14" rx="7" fill="'+M+'" fill-opacity=".4" stroke-width="2.5"/>'+
+  face(160,55,.62));
+
+mascot("immunity",
+  '<path d="M160 24 c14 6 28 8 34 8 2 22 -6 44 -34 54 -28 -10 -36 -32 -34 -54 6 0 20 -2 34 -8z" fill="'+M+'" fill-opacity=".35" stroke-width="2.7"/>'+
+  face(160,54,.7));
+
+mascot("mind",
+  '<path d="M130 74 c-14 0 -20 -10 -14 -20 -6 -14 6 -26 20 -22 6 -12 26 -14 34 -4 14 -6 28 4 26 18 10 4 10 20 -2 24 -6 8 -56 8 -64 4z" fill="'+BL+'" fill-opacity=".3" stroke-width="2.7"/>'+
+  face(158,58,.66));
+
+mascot("safety",
+  '<path d="M160 26 l38 58 h-76 z" fill="'+SA+'" fill-opacity=".55" stroke-width="2.8"/>'+
+  '<path d="M160 48 v14" stroke="'+S+'" stroke-width="3"/>'+
+  '<circle cx="160" cy="72" r="2.6" fill="'+S+'" stroke="none"/>');
+
+mascot("sun",
+  '<circle cx="160" cy="54" r="24" fill="'+SA+'" fill-opacity=".6" stroke-width="2.7"/>'+
+  face(160,52,.66)+
+  '<path d="M160 18 v-8 M160 98 v-8 M124 54 h-10 M206 54 h-10 M134 28 l-7 -7 M186 80 l7 7 M186 28 l7 -7 M134 80 l-7 7" stroke-width="2.5"/>');
+
+mascot("clock",
+  '<circle cx="160" cy="54" r="26" fill="#fff" fill-opacity=".6" stroke-width="2.7"/>'+
+  '<path d="M160 36 v18 l12 8" stroke-width="2.5"/>'+
+  face(160,68,.5));
+
+mascot("body",
+  '<circle cx="160" cy="54" r="28" fill="'+M+'" fill-opacity=".3" stroke-width="2.7"/>'+
+  face(160,52,.8));
+
+/* Every category in the pool maps to one of the above. */
+const MASCOT_FOR = {
+  heart:"heart", "blood pressure":"heart", circulation:"heart", fitness:"heart",
+  lungs:"lungs", breathing:"lungs",
+  blood:"blood", spleen:"blood", lymph:"blood", "blood sugar":"blood",
+  brain:"brain", memory:"brain", hormones:"brain",
+  nerves:"nerves", balance:"nerves", reflexes:"nerves",
+  bones:"bones", joints:"bones", injury:"bones",
+  muscle:"muscle", strength:"muscle", exercise:"exercise", walking:"exercise", sitting:"exercise",
+  skin:"skin", hair:"skin", nails:"skin", healing:"skin",
+  teeth:"teeth", mouth:"teeth", taste:"teeth", voice:"teeth", throat:"teeth",
+  eyes:"eyes",
+  hearing:"ears", ears:"ears",
+  gut:"gut", stomach:"stomach", bladder:"kidneys", kidneys:"kidneys", liver:"kidneys", pancreas:"kidneys",
+  eating:"food", nutrition:"food", vitamins:"food", cooking:"food", food:"food", "food safety":"food", salt:"food",
+  water:"water", alcohol:"water", caffeine:"clock",
+  sleep:"sleep", light:"sun", travel:"clock", heat:"sun", sun:"sun",
+  medicine:"medicine", smoking:"medicine",
+  immunity:"immunity", hygiene:"immunity", colds:"immunity", smell:"immunity",
+  mind:"mind", social:"mind", outdoors:"sun", myths:"mind",
+  emergency:"safety", safety:"safety", body:"body"
+};
+
+/* Scene layouts. Each takes short labels from the fact and draws a multi part
+   picture around the subject's character, so a page without a bespoke drawing
+   still shows something with information in it. */
+
+/* place a character inside a scene: its own art is centred on (160,54) */
+function place(key,x,y,s,mood){
+  const inner=MASCOT_ART[key||"body"];
+  if(!inner) return "";
+  return '<g transform="translate('+x+','+y+') scale('+s+') translate(-160,-54)">'+inner+'</g>';
+}
+function wrap(str,max){
+  const w=String(str).split(" "), lines=[]; let cur="";
+  w.forEach(x=>{ if((cur+" "+x).trim().length<=max){ cur=(cur+" "+x).trim(); } else { if(cur)lines.push(cur); cur=x; } });
+  if(cur) lines.push(cur);
+  return lines.slice(0,3);
+}
+const lines=(arr,x,y,step,o)=>arr.map((l,i)=>t(x,y+i*step,l,o)).join("");
+
+/* a → b → c, the shape of a process */
+function sceneFlow(sp,col,char){
+  const n=sp.items.length, gap=13, x0=74, span=314-x0;
+  const w=(span-(n-1)*gap)/n;
+  const cards=sp.items.map((it,i)=>{
+    const x=x0+i*(w+gap), last=i===n-1;
+    const ls=wrap(it,Math.floor((w-12)/5.0));
+    return '<rect x="'+x+'" y="34" width="'+w+'" height="66" rx="14" fill="'+(last?tint(col,.16):tint(col,.07))+'" stroke="'+(last?col:K)+'" stroke-width="'+(last?2.6:2.2)+'"/>'+
+      lines(ls,x+w/2,(ls.length===1?71:ls.length===2?63:56),14,{s:9.5,c:last?col:K,w:last?600:400})+
+      (i<n-1?'<path d="M'+(x+w+2)+' 67 h'+(gap-6)+'" stroke="'+col+'" stroke-width="2.4" marker-end="#ARS#"/>':'');
+  }).join("");
+  return draw(place(char,38,66,.55)+cards, "0 0 320 122");
+}
+
+/* this against that, the shape of a comparison */
+function nearShu(hex){
+  const n=parseInt(hex.slice(1),16), m=parseInt(S.slice(1),16);
+  const d=[16,8,0].reduce((a,sh)=>a+Math.pow(((n>>sh)&255)-((m>>sh)&255),2),0);
+  return Math.sqrt(d)<60;
+}
+function sceneVs(sp,col,char){
+  const okCol = (sp.bad && nearShu(col)) ? "#4F6070" : col;
+  const panel=(sd,x0,bad)=>{
+    const c=bad?S:okCol, w=144, cx=x0+w/2;
+    const head=wrap(sd.l,17), val=sd.v?wrap(sd.v,20):[];
+    return '<rect x="'+x0+'" y="46" width="'+w+'" height="84" rx="16" fill="'+tint(c,.09)+'" stroke="'+c+'" stroke-width="2.4"/>'+
+      lines(head,cx,(val.length?76:88),14,{s:11.5,c:c,w:600})+
+      lines(val,cx,(head.length===1?96:110),13,{s:10.5});
+  };
+  return draw(
+    place(char,160,24,.42)+
+    panel(sp.a,8,sp.bad==="a")+
+    panel(sp.b,168,sp.bad==="b"),
+    "0 0 320 142");
+}
+
+/* one thing, several labelled facts about it */
+function sceneParts(sp,col,char){
+  const rows=sp.items.slice(0,3);
+  const ys=rows.length===2?[54,96]:[38,76,114];
+  return draw(
+    place(char,80,72,.92)+
+    rows.map((it,i)=>{
+      const y=ys[i], ls=wrap(it,22);
+      return '<path d="M134 '+(72+(y-72)*.55)+' C160 '+(72+(y-72)*.8)+' 164 '+y+' 180 '+y+'" stroke="'+G+'" stroke-width="1.6"/>'+
+        '<circle cx="180" cy="'+y+'" r="3.4" fill="'+col+'" stroke="none"/>'+
+        lines(ls,190,y+4,13,{a:"start",s:10.5,c:K});
+    }).join(""),
+    "0 0 320 148");
+}
+
+function scene(sp,col,char){
+  if(sp.t==="seq")  return sceneSeq(sp,col);
+  if(sp.t==="lanes")return sceneLanes(sp,col);
+  if(sp.t==="cmp")  return sceneCmp(sp,col);
+  if(sp.t==="many") return sceneMany(sp,col);
+  if(sp.t==="flow") return sceneFlow(sp,col,char);
+  if(sp.t==="vs")   return sceneVs(sp,col,char);
+  if(sp.t==="parts")return sceneParts(sp,col,char);
+  return "";
+}
+
+/* ── per fact content ───────────────────────────────────── */
+const SCENES = {
+"heart-beats-a-day":{t:"flow",items:["100,000 beats a day","7,000 litres moved","same 5 litres reused"]},
+"red-cells-per-second":{t:"flow",items:["2 million made a second","each lasts 120 days","replaced 3x a year"]},
+"skin-largest-organ":{t:"parts",items:["1.8 square metres of you","3 to 4 kilos, more than brain and liver","outer layer rebuilt monthly"]},
+"gut-bacteria-count":{t:"vs",a:{l:"bacteria",v:"38 trillion cells"},b:{l:"you",v:"30 trillion cells"}},
+"baby-bones":{t:"vs",a:{l:"newborn",v:"about 300 bones"},b:{l:"adult",v:"206, the rest fused"}},
+"brain-energy-share":{t:"vs",a:{l:"2% of your weight"},b:{l:"20% of your energy"}},
+"nerve-speed":null,
+"stomach-acid-strength":{t:"parts",items:["acid at pH 1.5 to 3.5","mucus layer holds it off","lining replaced every few days"]},
+"small-intestine-length":{t:"parts",items:["6 metres, coiled up","folded, then covered in bumps","absorbing surface of a small flat"]},
+"bladder-capacity":{t:"vs",a:{l:"urge starts",v:"around 250ml"},b:{l:"actually holds",v:"400 to 600ml"}},
+"blood-volume-lap":{t:"flow",items:["5 litres in you","one lap a minute","70 laps an hour at rest"]},
+"bone-remodelling":{t:"flow",items:["old bone dissolved","new bone laid down","skeleton, 10 years"]},
+"tendon-vs-ligament":{t:"vs",a:{l:"tendon",v:"muscle to bone"},b:{l:"ligament",v:"bone to bone"}},
+"shivering-heat":{t:"vs",a:{l:"at rest"},b:{l:"shivering",v:"five times the heat"}},
+"pupil-light-response":{t:"vs",a:{l:"bright light",v:"pupil 2mm"},b:{l:"darkness",v:"pupil 8mm"}},
+"colour-vision-cones":{t:"vs",a:{l:"cones",v:"6 million, colour and detail"},b:{l:"rods",v:"120 million, dim light only"}},
+"night-vision-rods":{t:"flow",items:["lights out","25 minutes to adjust","a phone glance undoes it"]},
+"taste-buds-map":{t:"vs",a:{l:"the school diagram",v:"tastes in zones",},b:{l:"reality",v:"all five, everywhere"},bad:"a"},
+"body-temp-36-6":{t:"vs",a:{l:"the 1851 figure",v:"37.0 degrees"},b:{l:"modern average",v:"about 36.6"}},
+"fever-is-defence":{t:"flow",items:["germ arrives","brain raises the target","shivering while hot"]},
+"bruise-colours":{t:"flow",items:["red, day one","green, day five","yellow, day nine"]},
+"hiccups":{t:"flow",items:["diaphragm twitches","vocal cords snap shut","hic, 35ms later"]},
+"melatonin-darkness":{t:"flow",items:["light drops","melatonin rises","body clock says night"]},
+"immune-memory-cells":{t:"flow",items:["first infection","memory cells kept","no illness next time"]},
+"insulin-basics":null,
+"thyroid-metabolism":{t:"vs",a:{l:"too little",v:"cold, tired, slow"},b:{l:"too much",v:"hot, shaky, racing"}},
+"cortisol-rhythm":{t:"flow",items:["peaks 30 min after waking","falls all day","bottoms out near midnight"]},
+
+"sleep-regularity":{t:"vs",a:{l:"same time daily",v:"clock stays put"},b:{l:"two hour lie in",v:"like two time zones"},bad:"b"},
+"alcohol-rem":{t:"vs",a:{l:"first half",v:"dreaming suppressed"},b:{l:"second half",v:"sleep breaks up"},bad:"b"},
+"sleep-memory":{t:"flow",items:["learn it","sleep replays it","recall is better next day"]},
+"morning-light":{t:"vs",a:{l:"your living room",v:"about 100 lux"},b:{l:"a cloudy street",v:"about 10,000 lux"}},
+"nap-20-minutes":{t:"vs",a:{l:"20 minutes",v:"wake up clear"},b:{l:"40 minutes",v:"half an hour of fog"},bad:"b"},
+"jet-lag-rate":{t:"flow",items:["six zones east","one hour a day","six days to settle"]},
+"sleep-apnea-snoring":{t:"flow",items:["airway collapses","oxygen drops","brain wakes silently"]},
+"bedroom-temperature":{t:"flow",items:["body sheds a degree","then sleep starts","a cool room helps it"]},
+"salt-in-food":{t:"vs",a:{l:"already in the food",v:"about 70%"},b:{l:"cooking and table",v:"about 30%"}},
+"fibre-gap":{t:"vs",a:{l:"most people eat",v:"around 17g"},b:{l:"the target",v:"25 to 30g"}},
+"water-eight-glasses":{t:"vs",a:{l:"from drinks",v:"three quarters"},b:{l:"from food",v:"one quarter"}},
+"vitamin-c-humans":{t:"vs",a:{l:"most animals",v:"make their own"},b:{l:"humans",v:"last gene broken"}},
+"b12-sources":{t:"flow",items:["made by bacteria","liver stores years of it","a shortfall shows up late"]},
+"vitamin-d-latitude":{t:"vs",a:{l:"summer sun",v:"skin makes it"},b:{l:"October to March",v:"sun angle too low"},bad:"b"},
+"iron-absorption-vitamin-c":{t:"vs",a:{l:"beans alone",v:"little iron absorbed"},b:{l:"beans plus lemon",v:"up to three times more"}},
+"calcium-and-bone":{t:"vs",a:{l:"calcium alone",v:"nothing to build on"},b:{l:"calcium plus load",v:"bone lays it down"},bad:"a"},
+"ultra-processed":{t:"vs",a:{l:"whole food"},b:{l:"ultra processed",v:"500 more calories a day"},bad:"b"},
+"food-poisoning-danger-zone":{t:"flow",items:["5 to 60 degrees","one becomes a million","two hours is the limit"]},
+"fullness-20-minutes":null,
+"exercise-first-hour":{t:"flow",items:["doing nothing","the first hour a week","biggest drop in risk"]},
+"steps-10000-myth":{t:"vs",a:{l:"10,000 steps",v:"a 1965 brand name"},b:{l:"7,500 to 9,000",v:"where the gains flatten"}},
+"muscle-loss-decades":{t:"flow",items:["3 to 8% lost a decade","faster after 60","training reverses part"]},
+"doms-not-lactic":{t:"vs",a:{l:"lactic acid",v:"cleared within an hour"},b:{l:"the ache",v:"tiny tears, 48 hours"}},
+"resting-heart-rate":{t:"vs",a:{l:"typical",v:"60 to 100 a minute"},b:{l:"trained",v:"often in the 40s"}},
+"blood-pressure-silent":{t:"flow",items:["no symptoms at all","damage builds quietly","only a cuff tells you"]},
+"cholesterol-types":{t:"vs",a:{l:"the LDL carrier",v:"drops it in artery walls"},b:{l:"the HDL carrier",v:"takes it away"},bad:"a"},
+"afib-pulse-check":{t:"flow",items:["beat turns irregular","often no symptoms","stroke risk 5 times up"]},
+
+"antibiotics-viruses":{t:"vs",a:{l:"bacteria",v:"have a wall to attack"},b:{l:"viruses",v:"nothing to attack"}},
+"paracetamol-limit":{t:"flow",items:["4g a day is the max","harm starts just above","hides in cold sachets"]},
+"ibuprofen-stomach":{t:"flow",items:["blocks the pain signal","and the lining repair","ulcers with long use"]},
+"grapefruit-interaction":{t:"flow",items:["gut enzyme blocked","more dose gets through","lasts over a day"]},
+"placebo-open-label":{t:"flow",items:["told it is a placebo","taken daily anyway","pain scores drop 30%"]},
+"nocebo-effect":{t:"vs",a:{l:"read the leaflet",v:"side effects more likely"},b:{l:"dummy pill",v:"still reported them"}},
+"sugar-hyperactivity":{t:"vs",a:{l:"parents told 'sugar'",v:"rated the child wilder"},b:{l:"parents not told",v:"same child, calmer"},bad:"a"},
+"ten-percent-brain":{t:"vs",a:{l:"the myth",v:"10% in use"},b:{l:"scans",v:"all of it, all the time"},bad:"a"},
+"knuckle-cracking":{t:"flow",items:["gas bubble collapses","one hand, 60 years","no difference found"]},
+"gum-disease-heart":{t:"flow",items:["gums bleed","bacteria reach blood","arteries inflame too"]},
+"mouthwash-timing":{t:"vs",a:{l:"rinse after brushing",v:"fluoride washed away"},b:{l:"spit only",v:"fluoride stays on"},bad:"a"},
+"toothbrush-pressure":{t:"vs",a:{l:"hard scrubbing",v:"gums wear back"},b:{l:"light circles",v:"plaque still goes"},bad:"a"},
+"uva-through-glass":{t:"vs",a:{l:"burning rays",v:"mostly stopped by glass"},b:{l:"ageing rays",v:"straight through"},bad:"b"},
+"handwashing-soap":{t:"flow",items:["soap grabs the fat","the coat rips open","20 seconds of contact"]},
+"cold-air-nose":{t:"flow",items:["nose drops 5 degrees","defence falls by half","a virus is still needed"]},
+"loneliness-risk":{t:"flow",items:["weak social ties","26 to 32% higher risk","regular beats intense"]},
+"exercise-and-mood":{t:"vs",a:{l:"exercise",v:"similar effect size"},b:{l:"medication",v:"works alongside it"}},
+"rumination-vs-reflection":{t:"vs",a:{l:"why me?",v:"loops forever"},b:{l:"what next?",v:"tends to resolve"},bad:"a"},
+"hearing-loss-and-dementia":{t:"flow",items:["restaurants first","average 10 year delay","aids slowed decline"]},
+"smoking-quit-timeline":{t:"flow",items:["20 min: pressure falls","1 year: risk halved","15 years: near normal"]},
+"seatbelt-physics":{t:"flow",items:["car stops, you do not","3.5 tonnes of force","belt spreads the force"]},
+"helmet-evidence":{t:"flow",items:["foam crushes","your head stops slower","injury down two thirds"]},
+"choking-back-blows":{t:"flow",items:["cough goes silent","five hard back blows","then abdominal thrusts"]},
+"heat-exhaustion-vs-stroke":{t:"vs",a:{l:"heat exhaustion",v:"sweating, pale, weak"},b:{l:"heatstroke",v:"dry skin, confused"},bad:"b"},
+"hypothermia-shivering-stops":{t:"flow",items:["cold: shivering hard","worse: shivering stops","that is the emergency"]},
+"anaphylaxis-adrenaline":{t:"flow",items:["adrenaline in the thigh","then call an ambulance","keep them lying flat"]},
+"sepsis-signs":{t:"flow",items:["infection turns inward","slurred speech, no wee","say the word sepsis"]},
+"carbon-monoxide-alarm":{t:"flow",items:["no smell at all","feels like flu","better away from home"]},
+"drowning-looks-quiet":{t:"flow",items:["no shouting, no waving","head low, eyes blank","20 to 60 seconds"]},
+"cpr-rate":{t:"flow",items:["100 to 120 a minute","5 to 6cm deep","let the chest rise"]},
+"stroke-timing":{t:"flow",items:["face, arm, speech","note the exact minute","4.5 hours to treat"]},
+"vaccine-soreness":{t:"flow",items:["cells arrive at the site","the ache is that work","protected in 2 weeks"]},
+"appendix-function":{t:"parts",items:["dead end off the large intestine","may restock gut bacteria","after an illness clears them out"]},
+"liver-regrows":null,
+"kidney-filtering":null,
+"earwax-self-cleaning":null,
+"swallowing-airway":null,
+"blink-rate-screens":null,
+"breathing-exhale":null,
+"sitting-breaks":null,
+"sneeze-distance":null,
+"burns-cool-water":null,
+"nosebleed-position":null,
+"first-aid-recovery-position":null,
+"sunscreen-spf-numbers":null,
+"enamel-no-repair":null,
+"eye-focus-distance":null,
+"hair-cells-no-regrow":null,
+"smell-one-step":null,
+"lungs-air-bags":null,
+"caffeine-half-life":null
+};
+
+/* Props: small cute objects drawn around their own centre, so layouts can place
+   and scale them. No lettering anywhere. Meaning comes from shape, colour,
+   count, size and the tick or cross badge. */
+
+const smile=(x,y,s)=>'<circle cx="'+(x-4*s)+'" cy="'+(y-1*s)+'" r="'+(1.5*s)+'" fill="'+K+'" stroke="none"/>'+
+  '<circle cx="'+(x+4*s)+'" cy="'+(y-1*s)+'" r="'+(1.5*s)+'" fill="'+K+'" stroke="none"/>'+
+  '<path d="M'+(x-3*s)+' '+(y+4*s)+' q'+(3*s)+' '+(3*s)+' '+(6*s)+' 0" stroke-width="1.8"/>';
+const frown=(x,y,s)=>'<path d="M'+(x-6*s)+' '+(y-3*s)+' l'+(4*s)+' '+(4*s)+' M'+(x-2*s)+' '+(y-3*s)+' l-'+(4*s)+' '+(4*s)+
+  ' M'+(x+2*s)+' '+(y-3*s)+' l'+(4*s)+' '+(4*s)+' M'+(x+6*s)+' '+(y-3*s)+' l-'+(4*s)+' '+(4*s)+'" stroke-width="1.8"/>'+
+  '<path d="M'+(x-3*s)+' '+(y+6*s)+' q'+(3*s)+' -'+(2.5*s)+' '+(6*s)+' 0" stroke-width="1.8"/>';
+
+const PROPS={
+skin:o=>'<rect x="-20" y="-16" width="40" height="32" rx="10" fill="'+(o.c||BL)+'" fill-opacity=".55" stroke-width="2.4"/>'+smile(0,2,1),
+germ:o=>'<circle cx="0" cy="0" r="15" fill="'+M+'" fill-opacity=".4" stroke-width="2.4"/>'+
+  [0,45,90,135,180,225,270,315].map(a=>{const r=a*Math.PI/180;
+    return '<path d="M'+(15*Math.cos(r)).toFixed(1)+' '+(15*Math.sin(r)).toFixed(1)+' L'+(21*Math.cos(r)).toFixed(1)+' '+(21*Math.sin(r)).toFixed(1)+'" stroke-width="2.1"/>';}).join('')+
+  (o.sad?frown(0,0,.9):smile(0,1,.9)),
+germs:o=>[[-14,6],[10,-8],[14,12]].map(p=>'<g transform="translate('+p[0]+','+p[1]+') scale(.62)">'+PROPS.germ({})+'</g>').join(''),
+virus:o=>(o.broken
+  ? '<path d="M-16 -6 a16 16 0 0 1 30 -6" stroke-width="2.4" fill="'+S+'" fill-opacity=".18"/>'+
+    '<path d="M-10 12 a16 16 0 0 0 24 -2" stroke-width="2.4" fill="'+S+'" fill-opacity=".18"/>'+
+    '<path d="M-22 2 l8 -3 M20 4 l8 3" stroke-width="2"/>'
+  : '<circle cx="0" cy="0" r="14" fill="'+S+'" fill-opacity=".26" stroke-width="2.4"/>'+
+    [20,80,140,200,260,320].map(a=>{const r=a*Math.PI/180;
+      return '<circle cx="'+(17*Math.cos(r)).toFixed(1)+'" cy="'+(17*Math.sin(r)).toFixed(1)+'" r="3.4" fill="'+S+'" fill-opacity=".5" stroke-width="1.8"/>';}).join('')+
+    frown(0,0,.85)),
+shield:o=>'<path d="M0 -18 c9 4 18 5 22 5 1 15 -4 28 -22 35 -18 -7 -23 -20 -22 -35 4 0 13 -1 22 -5z" fill="'+M+'" fill-opacity=".4" stroke-width="2.5"/>'+smile(0,6,.95),
+thermo:o=>'<rect x="-5" y="-22" width="10" height="30" rx="5" fill="#fff" fill-opacity=".7" stroke-width="2.3"/>'+
+  '<circle cx="0" cy="14" r="8" fill="'+S+'" fill-opacity=".5" stroke-width="2.3"/>'+
+  '<rect x="-2.4" y="'+(-6-14*(o.lv||.5))+'" width="4.8" height="'+(20+14*(o.lv||.5))+'" rx="2.4" fill="'+S+'" fill-opacity=".8" stroke="none"/>',
+sun:o=>'<circle cx="0" cy="0" r="'+(o.big?15:8)+'" fill="'+SA+'" fill-opacity=".7" stroke-width="2.3"/>'+
+  (o.big?[0,45,90,135,180,225,270,315]:[0,90,180,270]).map(a=>{const r=a*Math.PI/180,r1=(o.big?19:11),r2=(o.big?26:15);
+    return '<path d="M'+(r1*Math.cos(r)).toFixed(1)+' '+(r1*Math.sin(r)).toFixed(1)+' L'+(r2*Math.cos(r)).toFixed(1)+' '+(r2*Math.sin(r)).toFixed(1)+'" stroke-width="2.1"/>';}).join('')+
+  (o.big?smile(0,0,.9):''),
+moon:o=>'<path d="M8 -18 c-14 2 -24 12 -24 24 0 12 10 22 24 24 -9 -6 -15 -14 -15 -24 0 -10 6 -18 15 -24z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+smile(-2,4,.8),
+bed:o=>'<path d="M-22 8 h44 M-22 8 v10 M22 8 v10 M-22 -2 h30 a8 8 0 0 1 8 8" stroke-width="2.4"/>'+
+  '<rect x="-20" y="-10" width="14" height="9" rx="4" fill="'+M+'" fill-opacity=".5" stroke-width="2.1"/>'+
+  '<path d="M-4 -1 c6 -6 14 -6 20 0" stroke-width="2.1"/>',
+clock:o=>'<circle cx="0" cy="0" r="17" fill="#fff" fill-opacity=".6" stroke-width="2.4"/>'+
+  '<path d="M0 0 v-11" stroke-width="2.2"/>'+
+  '<path d="M0 0 l'+(9*Math.sin((o.frac||.25)*2*Math.PI)).toFixed(1)+' '+(-9*Math.cos((o.frac||.25)*2*Math.PI)).toFixed(1)+'" stroke="'+S+'" stroke-width="2.4"/>'+
+  '<circle cx="0" cy="0" r="1.8" fill="'+K+'" stroke="none"/>',
+eye:o=>'<path d="M-22 0 c11 -14 33 -14 44 0 -11 14 -33 14 -44 0z" fill="#fff" fill-opacity=".75" stroke-width="2.4"/>'+
+  '<circle cx="0" cy="0" r="'+(o.wide?9:4.5)+'" fill="'+K+'" stroke="none"/>',
+bulb:o=>'<path d="M0 -16 c-9 0 -14 7 -14 13 0 6 5 8 5 13 h18 c0 -5 5 -7 5 -13 0 -6 -5 -13 -14 -13z" fill="'+SA+'" fill-opacity=".45" stroke-width="2.3"/>'+
+  '<path d="M-6 14 h12 M-5 19 h10" stroke-width="2.1"/>',
+head:o=>'<circle cx="0" cy="0" r="17" fill="'+(o.hot?S:SA)+'" fill-opacity="'+(o.hot?".3":".45")+'" stroke-width="2.4"/>'+
+  (o.mood==="groggy"
+    ? '<path d="M-10 -2 q4 4 8 0 M2 -2 q4 4 8 0" stroke-width="2"/><path d="M-4 8 q4 -3 8 0" stroke-width="2"/>'
+    : o.mood==="wild"
+    ? '<path d="M-9 -6 l7 5 M-2 -6 l-7 5 M2 -6 l7 5 M9 -6 l-7 5" stroke-width="2"/><path d="M-6 6 q6 8 12 0" stroke-width="2.2"/>'
+    : smile(0,0,1.05))+
+  (o.sweat?'<path d="M14 -12 c4 6 4 10 0 12 c-4 -2 -4 -6 0 -12z" fill="'+M+'" fill-opacity=".7" stroke-width="1.8"/>':'')+
+  (o.cold?'<path d="M-24 -8 l-5 -4 M-24 2 l-5 4 M24 -8 l5 -4 M24 2 l5 4" stroke-width="2.1"/>':''),
+waves:o=>Array.from({length:o.n||2},(_,i)=>
+  '<path d="M'+(-16+i*16)+' 18 q6 -10 0 -18 q-6 -9 0 -18" stroke="'+(o.hot?S:M)+'" stroke-width="2.8"/>').join(''),
+heart:o=>'<path d="M0 -12 c-7 -8 -18 -4 -18 6 0 9 11 14 18 20 7 -6 18 -11 18 -20 0 -10 -11 -14 -18 -6z" fill="'+S+'" fill-opacity=".3" stroke-width="2.5"/>'+smile(0,0,.75),
+pill:o=>'<rect x="-18" y="-8" width="36" height="16" rx="8" fill="'+S+'" fill-opacity=".28" stroke-width="2.4"/>'+'<path d="M0 -8 v16" stroke-width="2.1"/>',
+tooth:o=>'<path d="M-14 -14 c8 -6 20 -6 28 0 3 7 2 12 1 16 l-4 15 c-1 4 -5 4 -6 0 l-3 -9 -3 9 c-1 4 -5 4 -6 0 l-4 -15 c-1 -4 -2 -9 -3 -16z" fill="#fff" fill-opacity=".85" stroke-width="2.4"/>'+
+  (o.sore?'<path d="M-15 -14 c9 -6 21 -6 29 0" stroke="'+S+'" stroke-width="3.4"/>':'')+
+  (o.sparkle?'<path d="M16 -18 l0 8 M12 -14 l8 0" stroke="'+M+'" stroke-width="2.2"/>':'')+smile(0,2,.7),
+brush:o=>'<rect x="-6" y="-20" width="12" height="'+(o.hard?9:9)+'" rx="3" fill="'+M+'" fill-opacity=".5" stroke-width="2.2"/>'+
+  '<path d="M0 -11 v26" stroke-width="'+(o.hard?4.4:2.6)+'"/>'+
+  (o.hard?'<path d="M-9 -22 v-5 M0 -24 v-5 M9 -22 v-5" stroke="'+S+'" stroke-width="2.1"/>':''),
+bone:o=>'<path d="M-16 -6 a7 7 0 1 0 0 12 h32 a7 7 0 1 0 0 -12 z" fill="#fff" fill-opacity=".85" stroke-width="2.4"/>'+
+  '<path d="M16 -6 a7 7 0 1 1 0 12" stroke-width="2.4"/>'+
+  (o.chip?'<path d="M2 -7 l7 7 l-7 7" fill="'+S+'" fill-opacity=".25" stroke="'+S+'" stroke-width="2.1"/>':'')+
+  smile(-4,0,.6),
+brain:o=>'<path d="M-16 -8 c10 -10 26 -8 30 0 6 2 6 10 2 13 3 7 -3 13 -11 13 -5 5 -16 5 -20 0 -9 1 -14 -6 -11 -12 -4 -6 0 -12 10 -14z" fill="'+SA+'" fill-opacity="'+(o.part?".04":".62")+'" stroke-width="2.4" stroke-dasharray="'+(o.part?"5 4":"0")+'"/>'+
+  (o.part?'<path d="M-16 -8 c6 -6 13 -7 19 -6 -1 6 -1 11 0 15 -9 1 -16 -2 -19 -9z" fill="'+SA+'" fill-opacity=".95" stroke="'+K+'" stroke-width="2"/>':'')+
+  smile(0,4,.75),
+muscle:o=>'<path d="M-18 14 c0 -14 10 -22 22 -22 8 0 12 -5 12 -11 8 3 14 9 15 17 1 9 -4 15 -13 16 -11 1 -21 3 -27 6 -6 4 -9 3 -9 -6z" fill="'+S+'" fill-opacity=".26" stroke-width="2.4"/>'+smile(0,4,.7),
+glass:o=>'<path d="M-11 -16 h22 l-3 32 h-16 z" fill="'+(o.c||M)+'" fill-opacity=".45" stroke-width="2.4"/>'+
+  '<path d="M-9 -4 c5 -3 9 3 14 0 s6 2 6 2" stroke="'+(o.c||M)+'" stroke-width="2"/>',
+plate:o=>'<circle cx="0" cy="0" r="17" fill="#fff" fill-opacity=".7" stroke-width="2.4"/>'+
+  '<circle cx="0" cy="0" r="11" stroke-width="1.7" opacity=".5"/>',
+bread:o=>'<path d="M-16 4 c0 -12 6 -18 16 -18 10 0 16 6 16 18 v10 h-32 z" fill="'+SA+'" fill-opacity=".55" stroke-width="2.4"/>',
+shaker:o=>'<path d="M-9 -12 c0 -5 3 -8 9 -8 6 0 9 3 9 8 l3 26 h-24 z" fill="#fff" fill-opacity=".8" stroke-width="2.4"/>'+
+  '<circle cx="-3" cy="-15" r="1.4" fill="'+K+'" stroke="none"/><circle cx="3" cy="-15" r="1.4" fill="'+K+'" stroke="none"/>',
+bean:o=>'<path d="M-12 -8 c10 -6 20 0 20 10 0 10 -10 14 -18 10 -5 -3 -2 -8 -2 -12 0 -5 -3 -6 0 -8z" fill="'+SA+'" fill-opacity=".6" stroke-width="2.3"/>',
+lemon:o=>'<ellipse cx="0" cy="0" rx="16" ry="11" fill="'+SA+'" fill-opacity=".7" stroke-width="2.3"/>'+
+  '<path d="M-16 0 h32 M0 -11 v22" stroke-width="1.7" opacity=".45"/>',
+dumbbell:o=>'<path d="M-14 -9 v18 M-8 -13 v26 M8 -13 v26 M14 -9 v18" stroke-width="2.5"/>'+
+  '<rect x="-8" y="-4" width="16" height="8" rx="4" fill="'+M+'" fill-opacity=".5" stroke-width="2.2"/>',
+cube:o=>'<rect x="-11" y="-11" width="22" height="22" rx="4" fill="#fff" fill-opacity=".85" stroke-width="2.4"/>'+
+  '<path d="M-11 -4 h22 M-4 -11 v22" stroke-width="1.6" opacity=".4"/>',
+drop:o=>{
+  const one=(x,y,s)=>'<path transform="translate('+x+','+y+') scale('+s+')" d="M0 -16 c9 12 14 18 14 24 0 8 -6 13 -14 13 -8 0 -14 -5 -14 -13 0 -6 5 -12 14 -24z" fill="'+(o.c||M)+'" fill-opacity=".55" stroke-width="'+(2.3/s).toFixed(2)+'"/>';
+  if(!o.n||o.n===1) return one(0,0,1);
+  if(o.n===2) return one(-9,2,.66)+one(9,-2,.66);
+  return one(-11,4,.56)+one(0,-8,.56)+one(11,4,.56);
+},
+snow:o=>[0,60,120].map(a=>{const r=a*Math.PI/180;
+  return '<path d="M'+(-16*Math.cos(r)).toFixed(1)+' '+(-16*Math.sin(r)).toFixed(1)+' L'+(16*Math.cos(r)).toFixed(1)+' '+(16*Math.sin(r)).toFixed(1)+'" stroke-width="2.3"/>';}).join('')+
+  '<circle cx="0" cy="0" r="3" fill="'+M+'" fill-opacity=".6" stroke="none"/>',
+nose:o=>'<path d="M4 -18 c-10 6 -14 18 -12 26 1 6 7 8 11 6" fill="'+SA+'" fill-opacity=".4" stroke-width="2.4"/>'+
+  '<circle cx="-2" cy="10" r="1.8" fill="'+K+'" stroke="none"/>',
+tongue:o=>'<path d="M-16 -8 c0 -8 32 -8 32 0 0 14 -7 22 -16 22 -9 0 -16 -8 -16 -22z" fill="'+BL+'" fill-opacity=".45" stroke-width="2.4"/>'+
+  (o.zones
+    ? '<path d="M-16 -1 h32 M-8 -8 v28 M8 -8 v28" stroke="'+S+'" stroke-width="1.9"/>'
+    : [[-8,2],[0,-2],[8,2],[-4,10],[4,10]].map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.3" fill="'+M+'" stroke="none"/>').join('')),
+window:o=>'<rect x="-16" y="-18" width="32" height="36" rx="3" fill="'+M+'" fill-opacity=".18" stroke-width="2.4"/>'+
+  '<path d="M0 -18 v36 M-16 0 h32" stroke-width="1.8" opacity=".6"/>'+
+  (o.through
+    ? '<path d="M-34 -16 L34 18" stroke="'+S+'" stroke-width="2.6" marker-end="#ARS#"/>'
+    : '<path d="M-34 -16 L-16 -7 L-34 6" stroke="'+S+'" stroke-width="2.6" marker-end="#ARS#"/>'+
+      '<path d="M-8 -2 l6 6 M-2 -2 l-6 6" stroke="'+S+'" stroke-width="2.2"/>')
+};
+
+/* badges */
+const badge=(x,y,ok)=>'<circle cx="'+x+'" cy="'+y+'" r="13" fill="'+(ok?tint(M,.55):tint(S,.28))+'" stroke="'+(ok?"#3D8C74":S)+'" stroke-width="2.3"/>'+
+  (ok?'<path d="M'+(x-5)+' '+y+' l4 4 l7 -8" stroke="#2F6B58" stroke-width="2.6"/>'
+     :'<path d="M'+(x-4.5)+' '+(y-4.5)+' l9 9 M'+(x+4.5)+' '+(y-4.5)+' l-9 9" stroke="'+S+'" stroke-width="2.6"/>');
+
+function prop(spec,x,y,s){
+  const name=typeof spec==="string"?spec:spec.p;
+  const o=typeof spec==="string"?{}:spec;
+  const f=PROPS[name]; if(!f) return "";
+  return '<g transform="translate('+x+','+y+') scale('+(s||1)+')">'+f(o)+'</g>';
+}
+
+/* a → b → c, no words */
+function sceneSeq(sp,col){
+  const n=sp.items.length, step=300/n;
+  return draw(sp.items.map((it,i)=>{
+    const x=10+step*(i+.5);
+    return prop(it,x,56,1)+
+      (i<n-1?'<path d="M'+(x+step*.34)+' 56 h'+(step*.32)+'" stroke="'+col+'" stroke-width="2.6" marker-end="#ARS#"/>':'');
+  }).join(""), "0 0 320 108");
+}
+
+/* this against that, with a tick or a cross */
+function sceneCmp(sp,col){
+  const side=(sd,cx,bad)=>{
+    const ps=sd.props||[sd];
+    const off=ps.length>2?[-36,0,36]:ps.length>1?[-27,27]:[0];
+    return ps.map((p,i)=>prop(p,cx+off[i],50,ps.length>2?.7:ps.length>1?.86:1.05)).join("")+
+      (sp.badge===false?"":badge(cx,100,!bad));
+  };
+  return draw(
+    side(sp.a,80,sp.bad==="a")+
+    '<path d="M160 18 v92" stroke="'+G+'" stroke-width="1.5" stroke-dasharray="5 5"/>'+
+    side(sp.b,240,sp.bad==="b"),
+    "0 0 320 124");
+}
+
+/* how much of each, shown by counting */
+function sceneMany(sp,col){
+  const row=(g,x0)=>{
+    const n=g.n, per=Math.min(n,4), s=.62;
+    return Array.from({length:n},(_,i)=>{
+      const r=Math.floor(i/per), c=i%per;
+      return prop(g.p,x0+c*33+(r?16:0),36+r*40,s);
+    }).join("");
+  };
+  return draw(
+    row(sp.a,26)+
+    '<path d="M160 14 v92" stroke="'+G+'" stroke-width="1.5" stroke-dasharray="5 5"/>'+
+    row(sp.b,190),
+    "0 0 320 116");
+}
+
+/* ── pictures that replace the wordy scenes ─────────────── */
+const PICS={
+"bruise-colours":{t:"seq",items:[{p:"skin",c:"#B5493A"},{p:"skin",c:"#4E8A57"},{p:"skin",c:"#D9A93A"}]},
+"fever-is-defence":{t:"seq",items:["germ",{p:"thermo",lv:.95},{p:"germ",sad:true}]},
+"food-poisoning-danger-zone":{t:"seq",items:["germ",{p:"thermo",lv:.55},"germs"]},
+"melatonin-darkness":{t:"seq",items:[{p:"sun",big:true},"moon","bed"]},
+"immune-memory-cells":{t:"seq",items:["germ","shield",{p:"germ",sad:true}]},
+"handwashing-soap":{t:"seq",items:["virus",{p:"drop",c:"#7FC0AC"},{p:"virus",broken:true}]},
+"cold-air-nose":{t:"seq",items:["snow","nose","virus"]},
+"bone-remodelling":{t:"seq",items:[{p:"bone",chip:true},{p:"clock",frac:.5},"bone"]},
+"night-vision-rods":{t:"seq",items:["moon",{p:"clock",frac:.42},{p:"eye",wide:true}]},
+"jet-lag-rate":{t:"seq",items:[{p:"clock",frac:.1},{p:"clock",frac:.25},{p:"clock",frac:.4},"bed"]},
+
+"morning-light":{t:"cmp",a:{p:"bulb"},b:{p:"sun",big:true},badge:false},
+"nap-20-minutes":{t:"cmp",a:{props:[{p:"clock",frac:.33},"head"]},b:{props:[{p:"clock",frac:.66},{p:"head",mood:"groggy"}]},bad:"b"},
+"pupil-light-response":{t:"cmp",a:{props:[{p:"sun",big:true},"eye"]},b:{props:["moon",{p:"eye",wide:true}]},badge:false},
+"antibiotics-viruses":{t:"cmp",a:{props:["germ","pill"]},b:{props:["virus","pill"]},bad:"b"},
+"toothbrush-pressure":{t:"cmp",a:{props:[{p:"brush",hard:true},{p:"tooth",sore:true}]},b:{props:["brush","tooth"]},bad:"a"},
+"mouthwash-timing":{t:"cmp",a:{props:[{p:"tooth"},{p:"glass",c:"#7FC0AC"}]},b:{props:[{p:"tooth",sparkle:true}]},bad:"a"},
+"resting-heart-rate":{t:"cmp",a:{props:["heart",{p:"waves",n:3,hot:true}]},b:{props:["heart",{p:"waves",n:1}]},badge:false},
+"heat-exhaustion-vs-stroke":{t:"cmp",a:{p:"head",sweat:true},b:{p:"head",hot:true,mood:"groggy"},bad:"b"},
+"shivering-heat":{t:"cmp",a:{props:["head",{p:"waves",n:1}]},b:{props:[{p:"head",cold:true},{p:"waves",n:3,hot:true}]},badge:false},
+"iron-absorption-vitamin-c":{t:"cmp",a:{p:"bean"},b:{props:["bean","lemon"]},bad:"a"},
+"calcium-and-bone":{t:"cmp",a:{props:[{p:"glass",c:"#FFFFFF"},{p:"bone",chip:true}]},b:{props:["dumbbell","bone"]},bad:"a"},
+"sugar-hyperactivity":{t:"cmp",a:{props:["cube",{p:"head",mood:"wild"}]},b:{props:["head"]},bad:"a"},
+"ten-percent-brain":{t:"cmp",a:{p:"brain",part:true},b:{p:"brain"},bad:"a"},
+"uva-through-glass":{t:"cmp",a:{p:"window"},b:{p:"window",through:true},badge:false},
+"taste-buds-map":{t:"cmp",a:{p:"tongue",zones:true},b:{p:"tongue"},bad:"a"},
+"tendon-vs-ligament":{t:"cmp",a:{props:["muscle","bone"]},b:{props:["bone","bone"]},badge:false},
+
+"salt-in-food":{t:"many",a:{p:"bread",n:7},b:{p:"shaker",n:3}},
+"water-eight-glasses":{t:"many",a:{p:"glass",n:6},b:{p:"plate",n:2}}
+};
+Object.assign(SCENES, PICS);
+
+/* More props, plus a two lane layout for "this route against that route". */
+
+Object.assign(PROPS,{
+veg:o=>'<path d="M0 16 v-12" stroke-width="2.4"/>'+
+  '<path d="M-14 -2 c-6 -8 0 -16 7 -14 2 -7 12 -8 15 -2 8 -3 14 5 10 12 -3 6 -26 8 -32 4z" fill="'+(o.wilt?"#9AA37A":M)+'" fill-opacity="'+(o.wilt?".45":".55")+'" stroke-width="2.4"/>'+
+  (o.wilt?'<path d="M-10 -14 l-5 -5 M10 -16 l5 -4" stroke="'+G+'" stroke-width="2"/>':smile(0,-4,.8)),
+truck:o=>'<rect x="-20" y="-10" width="24" height="16" rx="3" fill="'+M+'" fill-opacity=".4" stroke-width="2.3"/>'+
+  '<path d="M4 -4 h10 l6 6 v4 h-16 z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.3"/>'+
+  '<circle cx="-12" cy="9" r="4.5" stroke-width="2.2"/><circle cx="10" cy="9" r="4.5" stroke-width="2.2"/>',
+pack:o=>'<path d="M-14 -12 h28 v22 h-28 z" fill="'+M+'" fill-opacity=".3" stroke-width="2.3"/>'+
+  '<path d="M-14 -12 q7 -6 14 0 q7 6 14 0" stroke-width="2.3"/>'+
+  '<path d="M-6 -2 l0 8 M-10 2 l8 0 M4 0 l0 6 M1 3 l6 0" stroke="'+M+'" stroke-width="1.9"/>',
+pot:o=>'<path d="M-16 -6 h32 l-3 18 h-26 z" fill="'+G+'" fill-opacity=".25" stroke-width="2.4"/>'+
+  '<path d="M-20 -6 h40" stroke-width="2.4"/>'+
+  '<path d="M-8 -14 q4 -6 0 -10 M0 -14 q4 -6 0 -10 M8 -14 q4 -6 0 -10" stroke="'+S+'" stroke-width="2"/>',
+microwave:o=>'<rect x="-19" y="-14" width="38" height="27" rx="4" fill="#fff" fill-opacity=".6" stroke-width="2.4"/>'+
+  '<rect x="-15" y="-10" width="20" height="19" rx="3" fill="'+SA+'" fill-opacity=".35" stroke-width="2"/>'+
+  '<circle cx="12" cy="-4" r="2" fill="'+K+'" stroke="none"/><circle cx="12" cy="4" r="2" fill="'+K+'" stroke="none"/>',
+ricebowl:o=>'<path d="M-16 -2 c0 12 7 18 16 18 9 0 16 -6 16 -18 z" fill="#fff" fill-opacity=".8" stroke-width="2.4"/>'+
+  '<path d="M-18 -2 h36" stroke-width="2.4"/>'+
+  [[-8,-8],[0,-11],[8,-8]].map(p=>'<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="4" ry="3" fill="'+SA+'" fill-opacity=".7" stroke-width="1.7"/>').join(''),
+meat:o=>'<path d="M-16 -4 c2 -10 14 -14 22 -10 8 4 12 14 6 20 -6 6 -22 4 -28 -2 z" fill="'+BL+'" fill-opacity=".5" stroke-width="2.4"/>'+
+  '<path d="M-4 -8 c4 4 4 10 0 14" stroke-width="1.8" opacity=".5"/>',
+board:o=>'<rect x="-20" y="-12" width="36" height="26" rx="4" fill="'+SA+'" fill-opacity=".4" stroke-width="2.3"/>'+
+  '<path d="M16 -4 h8 v8 h-8" stroke-width="2.3"/>',
+fridge:o=>'<rect x="-13" y="-18" width="26" height="36" rx="4" fill="'+M+'" fill-opacity=".28" stroke-width="2.4"/>'+
+  '<path d="M-13 -4 h26" stroke-width="2.2"/>'+
+  '<path d="M7 -12 v5 M7 2 v5" stroke-width="2.2"/>',
+jar:o=>'<path d="M-11 -8 h22 v20 a4 4 0 0 1 -4 4 h-14 a4 4 0 0 1 -4 -4 z" fill="'+SA+'" fill-opacity=".65" stroke-width="2.3"/>'+
+  '<rect x="-13" y="-14" width="26" height="7" rx="3" fill="'+SA+'" fill-opacity=".9" stroke-width="2.2"/>',
+baby:o=>'<circle cx="0" cy="0" r="10" fill="'+BL+'" fill-opacity=".4" stroke-width="2.3"/>'+
+  '<path d="M-4 -9 q4 -6 8 -2" stroke-width="2"/>'+smile(0,-1,.6)+
+  '<circle cx="0" cy="9" r="4" fill="'+M+'" fill-opacity=".6" stroke-width="1.9"/>',
+pan:o=>'<path d="M-16 -2 h28 v8 a8 8 0 0 1 -8 8 h-12 a8 8 0 0 1 -8 -8 z" fill="'+G+'" fill-opacity=".3" stroke-width="2.4"/>'+
+  '<path d="M12 -2 h14" stroke-width="2.4"/>'+
+  (o.smoke?'<path d="M-8 -10 q5 -6 0 -12 M2 -10 q5 -6 0 -12" stroke="'+S+'" stroke-width="2.2"/>':''),
+can:o=>'<path d="M-9 -16 h18 v30 a3 3 0 0 1 -3 3 h-12 a3 3 0 0 1 -3 -3 z" fill="'+S+'" fill-opacity=".28" stroke-width="2.3"/>'+
+  '<path d="M-9 -10 h18" stroke-width="2"/>',
+teacup:o=>'<path d="M-12 -6 h22 l-2 14 a6 6 0 0 1 -6 5 h-6 a6 6 0 0 1 -6 -5 z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.3"/>'+
+  '<path d="M10 -2 a7 7 0 0 1 0 10" stroke-width="2.2"/>'+
+  '<path d="M-14 -6 h26" stroke-width="2.2"/>',
+coffee:o=>'<path d="M-11 -8 h20 l-2 18 a5 5 0 0 1 -5 4 h-6 a5 5 0 0 1 -5 -4 z" fill="#8A5B3F" fill-opacity=".45" stroke-width="2.3"/>'+
+  '<path d="M9 -4 a7 7 0 0 1 0 10" stroke-width="2.2"/>'+
+  '<path d="M-4 -14 q4 -5 0 -9 M4 -14 q4 -5 0 -9" stroke="'+G+'" stroke-width="1.9"/>',
+phone:o=>'<rect x="-10" y="-17" width="20" height="34" rx="4" fill="'+K+'" fill-opacity=".12" stroke-width="2.4"/>'+
+  '<path d="M-5 -13 h10" stroke-width="2"/>'+
+  (o.glow?'<path d="M14 -10 h6 M14 0 h7 M14 10 h6" stroke="'+SA+'" stroke-width="2.2"/>':''),
+tree:o=>'<path d="M0 18 v-10" stroke-width="2.6"/>'+
+  '<circle cx="0" cy="-4" r="14" fill="'+M+'" fill-opacity=".45" stroke-width="2.4"/>'+smile(0,-4,.8),
+glasses:o=>'<circle cx="-9" cy="0" r="8" fill="'+(o.uv?M:K)+'" fill-opacity="'+(o.uv?".35":".55")+'" stroke-width="2.3"/>'+
+  '<circle cx="9" cy="0" r="8" fill="'+(o.uv?M:K)+'" fill-opacity="'+(o.uv?".35":".55")+'" stroke-width="2.3"/>'+
+  '<path d="M-1 0 h2 M-17 -2 l-6 -3 M17 -2 l6 -3" stroke-width="2.2"/>'+
+  (o.uv?'<path d="M0 -14 l0 -6 M-6 -12 l-3 -5 M6 -12 l3 -5" stroke="'+M+'" stroke-width="2"/>':''),
+tube:o=>'<path d="M-6 -16 h12 l3 30 a3 3 0 0 1 -3 3 h-12 a3 3 0 0 1 -3 -3 z" fill="'+M+'" fill-opacity=".35" stroke-width="2.3"/>'+
+  '<rect x="-4" y="-20" width="8" height="5" rx="2" fill="'+M+'" fill-opacity=".7" stroke-width="2"/>',
+bandage:o=>'<rect x="-18" y="-7" width="36" height="14" rx="7" transform="rotate(-18)" fill="'+SA+'" fill-opacity=".55" stroke-width="2.3"/>'+
+  '<circle cx="0" cy="-2" r="4.5" fill="#fff" fill-opacity=".8" stroke-width="1.8"/>',
+jab:o=>'<path d="M-14 6 l14 -14" stroke-width="2.6"/>'+
+  '<rect x="-4" y="-14" width="16" height="10" rx="3" transform="rotate(45 4 -9)" fill="'+M+'" fill-opacity=".45" stroke-width="2.2"/>'+
+  '<path d="M-16 8 l-4 4" stroke-width="2.2"/>',
+defib:o=>'<rect x="-16" y="-13" width="32" height="26" rx="5" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+
+  '<path d="M-4 -8 l-4 9 h7 l-3 9 8 -11 h-7 z" fill="'+S+'" fill-opacity=".8" stroke="none"/>',
+liver:o=>'<path d="M-17 -6 c9 -8 26 -8 34 0 2 10 -4 17 -13 19 -11 2 -21 -2 -23 -8 -2 -5 -1 -8 2 -11z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+smile(-2,2,.8),
+stomach:o=>'<path d="M-12 -12 c9 -5 18 -1 20 7 2 9 -4 15 -12 15 -8 0 -13 -5 -13 -12 0 -5 1 -8 5 -10z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+smile(0,0,.75),
+hand:o=>'<path d="M-8 16 c-6 -4 -8 -12 -8 -18 0 -4 4 -5 6 -2 l0 -10 c0 -4 5 -4 5 0 l0 -2 c0 -5 5 -5 5 0 l0 2 c0 -4 5 -4 5 0 l0 12 c0 8 -4 14 -8 18z" fill="'+BL+'" fill-opacity=".4" stroke-width="2.3"/>',
+alarm:o=>'<path d="M0 -16 l16 26 h-32 z" fill="'+SA+'" fill-opacity=".6" stroke-width="2.5"/>'+
+  '<path d="M0 -4 v6" stroke="'+S+'" stroke-width="2.8"/>'+
+  '<circle cx="0" cy="7" r="2" fill="'+S+'" stroke="none"/>',
+floss:o=>'<path d="M-16 -12 c8 -4 24 -4 32 0" stroke-width="2.4"/>'+
+  '<path d="M-10 -12 v22 M10 -12 v22" stroke-width="2.4"/>'+
+  '<path d="M0 -14 v26" stroke="'+M+'" stroke-width="2.2" stroke-dasharray="4 3"/>'
+});
+
+/* two lanes, the good route and the poor one */
+function sceneLanes(sp,col){
+  const lane=(g,y,bad)=>{
+    const n=g.items.length;
+    return g.items.map((it,i)=>{
+      const x=30+i*56;
+      return prop(it,x,y,.76)+
+        (i<n-1?'<path d="M'+(x+19)+' '+y+' h13" stroke="'+(bad?S:col)+'" stroke-width="2.4" marker-end="'+(bad?'#ARS#':'#ARR#')+'"/>':'');
+    }).join("")+badge(30+n*56-8,y,!bad);
+  };
+  return draw(
+    lane(sp.a,40,sp.bad==="a")+
+    '<path d="M14 78 h292" stroke="'+G+'" stroke-width="1.4" stroke-dasharray="5 5"/>'+
+    lane(sp.b,116,sp.bad==="b"),
+    "0 0 320 158");
+}
+
+/* ── pictures for the pages that only had a character ──── */
+Object.assign(SCENES,{
+"frozen-vegetables":{t:"lanes",a:{items:["veg","snow","pack","veg"]},b:{items:["veg","truck",{p:"clock",frac:.7},{p:"veg",wilt:true}]},bad:"b"},
+"microwave-nutrients":{t:"lanes",a:{items:["veg","microwave","veg"]},b:{items:["veg","pot",{p:"veg",wilt:true}]},bad:"b"},
+"rice-bacillus":{t:"lanes",a:{items:["ricebowl",{p:"clock",frac:.08},"fridge"]},b:{items:["ricebowl",{p:"clock",frac:.5},"germs","pot"]},bad:"b"},
+"chicken-washing":{t:"lanes",a:{items:["meat","pan"]},b:{items:["meat","drop","germs"]},bad:"b"},
+"cutting-board-cross-contamination":{t:"lanes",a:{items:["board","veg","meat"]},b:{items:["board","meat","veg"]},bad:"b"},
+"leftovers-cooling":{t:"lanes",a:{items:["pot","pack","fridge"]},b:{items:["pot","fridge",{p:"thermo",lv:.7}]},bad:"b"},
+"wound-moist-healing":{t:"lanes",a:{items:[{p:"skin",c:"#B5493A"},"bandage","skin"]},b:{items:[{p:"skin",c:"#B5493A"},{p:"sun",big:true},{p:"skin",c:"#8A6A4A"}]},bad:"b"},
+"hand-cream-timing":{t:"lanes",a:{items:["drop","tube","skin"]},b:{items:[{p:"skin",c:"#C8BFA8"},"tube",{p:"skin",c:"#C8BFA8"}]},bad:"b"},
+"sugar-in-drinks":{t:"lanes",a:{items:["cube","plate","head"]},b:{items:["cube","can",{p:"head",mood:"groggy"}]},bad:"b"},
+"vitamin-d-vs-burn":{t:"lanes",a:{items:[{p:"sun",big:true},{p:"clock",frac:.1},"skin"]},b:{items:[{p:"sun",big:true},{p:"clock",frac:.6},{p:"skin",c:"#B5493A"}]},bad:"b"},
+"alcohol-units-liver":{t:"many",a:{p:"glass",n:3},b:{p:"clock",n:3}},
+
+"chewing-and-digestion":{t:"seq",items:["veg","tooth","drop","stomach"]},
+"stomach-lining-renewal":{t:"seq",items:["stomach",{p:"drop",c:"#C64A31"},{p:"clock",frac:.3},"stomach"]},
+"flu-vaccine-timing":{t:"seq",items:["jab",{p:"clock",frac:.4},"shield"]},
+"defibrillator-access":{t:"seq",items:[{p:"heart",},"defib",{p:"heart"}]},
+"statins-basics":{t:"seq",items:["liver",{p:"drop",c:"#EFC98A",n:3},"pill",{p:"drop",c:"#EFC98A",n:1}]},
+"gallbladder-bile":{t:"seq",items:["liver","jar","drop"]},
+"mole-abcde":{t:"seq",items:[{p:"skin",c:"#8A6A4A"},{p:"clock",frac:.6},{p:"skin",c:"#5A4632"},"alarm"]},
+"concussion-red-flags":{t:"seq",items:["head",{p:"clock",frac:.5},{p:"head",mood:"groggy"},"alarm"]},
+"cooking-oil-smoke-point":{t:"seq",items:["pan",{p:"thermo",lv:.9},{p:"pan",smoke:true}]},
+
+"dehydration-urine-colour":{t:"cmp",a:{p:"drop",c:"#EFDCA0"},b:{p:"drop",c:"#B5872A"},bad:"b"},
+"tea-and-iron":{t:"cmp",a:{props:["bean","teacup"]},b:{props:["bean","lemon"]},bad:"a"},
+"breathing-anxiety":{t:"cmp",a:{props:[{p:"head",mood:"wild"},{p:"waves",n:3,hot:true}]},b:{props:["head",{p:"waves",n:1}]},bad:"a"},
+"sunglasses-uv":{t:"cmp",a:{props:["glasses",{p:"eye",wide:true}]},b:{props:[{p:"glasses",uv:true},"eye"]},bad:"a"},
+"flossing-evidence":{t:"cmp",a:{p:"tooth",sore:true},b:{p:"floss"},bad:"a"},
+"eczema-barrier":{t:"cmp",a:{props:[{p:"skin",c:"#C8BFA8"},"drop"]},b:{props:["tube","skin"]},bad:"a"},
+"warm-up-vs-stretch":{t:"cmp",a:{props:["muscle",{p:"snow"}]},b:{props:["muscle",{p:"waves",n:2,hot:true}]},bad:"a"},
+"potassium-blood-pressure":{t:"cmp",a:{props:["shaker",{p:"heart"}]},b:{props:["bean","heart"]},bad:"a"},
+"wholegrain-vs-refined":{t:"cmp",a:{props:["bread","bean"]},b:{p:"bread"},bad:"b"},
+"coffee-and-liver":{t:"cmp",a:{props:["coffee","liver"]},b:{p:"liver"},badge:false},
+"honey-infants":{t:"cmp",a:{props:["jar","baby"]},b:{props:["jar","head"]},bad:"a"},
+"outdoor-time-myopia":{t:"cmp",a:{props:[{p:"sun",big:true},"eye"]},b:{props:["phone",{p:"glasses"}]},bad:"b"},
+"muscle-fibre-types":{t:"cmp",a:{props:["muscle",{p:"clock",frac:.9}]},b:{props:["muscle",{p:"waves",n:3,hot:true}]},badge:false},
+"protein-spread":{t:"cmp",a:{props:["plate","plate","plate"]},b:{p:"plate"},bad:"b"},
+"nature-120-minutes":{t:"cmp",a:{props:["tree","head"]},b:{props:[{p:"phone",glow:true},{p:"head",mood:"groggy"}]},bad:"b"},
+"expiry-dates-medicines":{t:"cmp",a:{props:["pill",{p:"clock",frac:.8}]},b:{props:["jab",{p:"clock",frac:.8}]},bad:"b"},
+"proprioception":{t:"cmp",a:{props:[{p:"head",mood:"groggy"},"hand"]},b:{props:["head","hand"]},badge:false}
+});
+
+/* Second set of doodles. Same kit: draw(), face(), t(), clock(). */
+Object.assign(ART, {
+
+kidney:{cap:"Dump everything out, then take back almost all of it.",
+ svg:draw(
+  '<path d="M22 30 c0 0 6 10 0 16" stroke="'+G+'" stroke-width="2.2"/>'+
+  [[30,44],[44,52],[26,60]].map(c=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="4" fill="'+M+'" fill-opacity=".6" stroke-width="1.6"/>').join('')+
+  t(34,26,"180 L in",{s:11,c:K,w:600})+
+  '<path d="M104 44 c26 -14 54 4 54 36 0 32 -26 50 -52 38 -12 -6 -4 -20 -4 -38 0 -18 -8 -30 2 -36z" fill="'+SA+'" fill-opacity=".45" stroke-width="2.6"/>'+
+  face(132,88,.85)+
+  '<path d="M60 56 h34" stroke="'+G+'" stroke-width="2.2" marker-end="#ARR#"/>'+
+  '<path d="M162 60 c34 -14 44 -34 26 -44 -14 -8 -34 -4 -44 4" stroke="'+M+'" stroke-width="2.8" marker-end="#ARR#"/>'+
+  t(232,30,"178 L back",{s:11,c:K,w:600})+t(232,44,"to the blood",{s:10.5})+
+  '<path d="M152 122 c14 8 26 10 40 8" stroke="'+S+'" stroke-width="2.4" marker-end="#ARS#"/>'+
+  '<circle cx="206" cy="126" r="6" fill="'+S+'" fill-opacity=".45" stroke-width="1.8"/>'+
+  t(258,124,"1.5 L out",{s:11,c:S,w:600})+t(258,138,"that is your wee",{s:10})
+ )},
+
+liver:{cap:"Take two thirds away and it builds itself back.",
+ svg:draw(
+  '<path d="M24 48 c34 -16 78 -14 104 4 6 26 -8 48 -34 54 -30 6 -60 -4 -70 -22 -6 -12 -6 -26 0 -36z" fill="'+SA+'" fill-opacity=".4" stroke-width="2.6"/>'+
+  '<path d="M92 44 c-4 24 -6 44 -2 62" stroke="'+K+'" stroke-width="2" stroke-dasharray="5 4"/>'+
+  '<path d="M92 44 c14 -2 26 2 36 8 4 18 -2 34 -18 44 -8 4 -14 6 -20 6" fill="#fff" fill-opacity=".65" stroke-width="2"/>'+
+  face(62,74,.85,"sad")+
+  t(76,128,"two thirds removed",{s:11,c:K,w:500})+
+  '<path d="M154 78 h26" stroke="'+S+'" stroke-width="2.4" marker-end="#ARS#"/>'+
+  t(168,66,"months",{s:10.5,c:S,w:600})+
+  '<path d="M196 48 c34 -16 78 -14 104 4 6 26 -8 48 -34 54 -30 6 -60 -4 -70 -22 -6 -12 -6 -26 0 -36z" fill="'+M+'" fill-opacity=".35" stroke-width="2.6"/>'+
+  face(240,74,.85)+
+  t(248,128,"whole again",{s:11,c:M,w:600})
+ )},
+
+blink:{cap:"A blink repaints the film of tears. Staring lets it dry through.",
+ svg:draw(
+  [[0,true],[164,false]].map(p=>{
+    const x=p[0], wet=p[1];
+    return '<g transform="translate('+x+',0)">'+
+      '<path d="M14 74 c22 -30 74 -30 96 0 -22 30 -74 30 -96 0z" fill="#fff" fill-opacity=".7" stroke-width="2.6"/>'+
+      '<circle cx="62" cy="74" r="17" fill="'+(wet?M:SA)+'" fill-opacity=".45" stroke-width="2.3"/>'+
+      '<circle cx="62" cy="74" r="6.5" fill="'+K+'" stroke="none"/>'+
+      (wet
+        ? '<path d="M22 62 c16 -8 44 -10 60 -2 M26 88 c18 8 44 6 58 -2" stroke="'+M+'" stroke-width="2.2"/>'+
+          '<circle cx="52" cy="66" r="3" fill="#fff" stroke="none"/>'
+        : '<path d="M28 62 l6 6 M44 58 l5 7 M78 60 l-5 7 M92 66 l6 -6 M34 88 l6 -6 M84 88 l-6 -6" stroke="'+S+'" stroke-width="2"/>')+
+      t(62,116,wet?"blinking":"staring at a screen",{s:11.5,c:wet?M:S,w:600})+
+      t(66,132,wet?"renewed, 17 a minute":"dries, 8 a minute",{s:10.5})+
+      '</g>';
+  }).join('')+
+  '<path d="M138 74 h16" stroke="'+G+'" stroke-width="2" stroke-dasharray="4 4"/>'
+ )},
+
+earwax:{cap:"The canal moves wax out on its own. A bud pushes it back in.",
+ svg:draw(
+  [[0,true],[168,false]].map(p=>{
+    const x=p[0], good=p[1];
+    return '<g transform="translate('+x+',0)">'+
+      '<path d="M16 50 h96 v44 h-96" fill="#fff" fill-opacity=".5" stroke-width="2.5"/>'+
+      '<path d="M112 46 v52" stroke="'+K+'" stroke-width="3.4"/>'+
+      t(112,110,"eardrum",{s:10,a:"middle"})+
+      (good
+        ? [[84,72],[60,72],[36,72]].map((c,i)=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+(7-i)+'" fill="'+SA+'" fill-opacity=".7" stroke-width="1.8"/>').join('')+
+          '<path d="M92 34 h-56" stroke="'+M+'" stroke-width="2.4" marker-end="#ARR#"/>'+
+          t(64,26,"wax travels out",{s:10.5,c:M,w:600})
+        : '<path d="M20 72 h58" stroke-width="2.6"/><rect x="72" y="64" width="18" height="16" rx="8" fill="'+M+'" fill-opacity=".6" stroke-width="2.2"/>'+
+          '<circle cx="102" cy="72" r="7" fill="'+SA+'" fill-opacity=".8" stroke-width="1.8"/>'+
+          '<path d="M40 34 h52" stroke="'+S+'" stroke-width="2.4" marker-end="#ARS#"/>'+
+          t(64,26,"packed against it",{s:10.5,c:S,w:600}))+
+      '</g>';
+  }).join('')+
+  '<path d="M148 70 h12" stroke="'+G+'" stroke-width="2" stroke-dasharray="4 4"/>'
+ )},
+
+swallow:{cap:"A flap shuts your windpipe for about a second, every swallow.",
+ svg:draw(
+  [[0,true],[168,false]].map(p=>{
+    const x=p[0], breathing=p[1];
+    return '<g transform="translate('+x+',0)">'+
+      '<path d="M40 20 c-14 20 -14 40 -8 58 l0 46" stroke-width="2.6"/>'+
+      '<path d="M96 20 c14 20 14 40 8 58 l0 46" stroke-width="2.6"/>'+
+      '<path d="M32 78 h30 M74 78 h32" stroke-width="2.2"/>'+
+      '<path d="M62 78 v46" stroke-width="2.4"/>'+
+      t(46,138,"wind",{s:9.5})+t(88,138,"food",{s:9.5})+
+      (breathing
+        ? '<path d="M62 74 l-22 -18" stroke="'+M+'" stroke-width="3.4"/>'+
+          '<path d="M50 30 v30" stroke="'+M+'" stroke-width="2.4" marker-end="#ARR#"/>'+
+          t(62,158,"open: air goes down",{s:10.5,c:M,w:600})
+        : '<path d="M40 74 h30" stroke="'+S+'" stroke-width="3.6"/>'+
+          '<circle cx="88" cy="44" r="9" fill="'+SA+'" fill-opacity=".7" stroke-width="2"/>'+
+          '<path d="M88 56 v22" stroke="'+S+'" stroke-width="2.4" marker-end="#ARS#"/>'+
+          t(62,158,"shut: food goes past",{s:10.5,c:S,w:600}))+
+      '</g>';
+  }).join(''),
+  "0 0 320 168")},
+
+insulin:{cap:"Sugar cannot walk into a cell. Insulin opens the door.",
+ svg:draw(
+  '<rect x="28" y="44" width="96" height="76" rx="18" fill="'+M+'" fill-opacity=".22" stroke-width="2.6"/>'+
+  face(74,84,.9)+
+  t(76,138,"a cell",{s:11,c:K,w:600})+
+  '<rect x="118" y="66" width="14" height="32" rx="6" fill="#fff" fill-opacity=".8" stroke-width="2.3"/>'+
+  '<circle cx="125" cy="82" r="3" fill="'+K+'" stroke="none"/>'+
+  '<path d="M168 82 h-24" stroke="'+S+'" stroke-width="2.6" marker-end="#ARS#"/>'+
+  '<circle cx="184" cy="82" r="11" fill="'+S+'" fill-opacity=".3" stroke-width="2.4"/>'+
+  '<path d="M195 82 h18 M204 82 v8 M212 82 v9" stroke="'+S+'" stroke-width="2.6"/>'+
+  t(206,60,"insulin, the key",{s:11,c:S,w:600})+
+  [[262,104],[288,92],[268,128]].map(c=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="8" fill="'+SA+'" fill-opacity=".75" stroke-width="1.8"/>').join('')+
+  t(278,150,"sugar waiting",{s:10.5})+
+  '<path d="M252 100 c-14 -6 -26 -10 -40 -10" stroke="'+G+'" stroke-width="2" stroke-dasharray="4 4"/>'
+ )},
+
+fullness:{cap:"Your stomach fills now. Your brain hears about it in 20 minutes.",
+ svg:draw(
+  '<path d="M28 56 c26 -14 52 -6 58 16 6 22 -8 40 -30 42 -20 2 -34 -10 -34 -28 0 -12 2 -22 6 -30z" fill="'+SA+'" fill-opacity=".45" stroke-width="2.6"/>'+
+  face(56,84,.8)+
+  t(56,134,"stomach: full",{s:11,c:K,w:600})+
+  '<path d="M100 84 h26" stroke="'+G+'" stroke-width="2.2" marker-end="#ARR#"/>'+
+  clock(160,84,26,"")+
+  t(160,134,"20 minutes",{s:11.5,c:S,w:600})+
+  '<path d="M194 84 h26" stroke="'+G+'" stroke-width="2.2" marker-end="#ARR#"/>'+
+  '<path d="M246 54 c26 -6 46 8 46 30 0 24 -22 38 -46 32 -12 -4 -18 -12 -18 -30 0 -18 6 -28 18 -32z" fill="'+M+'" fill-opacity=".3" stroke-width="2.6"/>'+
+  '<path d="M252 62 c8 6 2 16 10 22 M248 100 c12 -4 16 -12 26 -12" stroke="'+K+'" stroke-width="1.8" opacity=".5"/>'+
+  face(262,86,.75)+
+  t(262,134,"brain: full",{s:11,c:M,w:600})
+ )},
+
+legsugar:{cap:"Walking legs pull sugar out of the blood with no insulin needed.",
+ svg:draw(
+  '<path d="M14 116 h292" stroke="'+G+'" stroke-width="2.2" stroke-dasharray="6 5"/>'+
+  '<path d="M60 30 c22 -6 40 6 40 26 0 18 -10 28 -14 42 l-8 26" fill="'+SA+'" fill-opacity=".45" stroke-width="2.6"/>'+
+  '<path d="M78 124 l-6 -12 h26 l-4 12 z" fill="'+K+'" fill-opacity=".2" stroke-width="2.3"/>'+
+  face(76,58,.8)+
+  t(78,142,"leg muscle, working",{s:11,c:K,w:600})+
+  '<rect x="150" y="44" width="150" height="34" rx="17" fill="'+S+'" fill-opacity=".16" stroke="'+S+'" stroke-width="2.3"/>'+
+  t(226,36,"blood",{s:10.5,c:S,w:600})+
+  [[176,61],[206,61],[236,61],[266,61]].map((c,i)=>'<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+(i<2?6:8)+'" fill="'+SA+'" fill-opacity=".8" stroke-width="1.6"/>').join('')+
+  '<path d="M164 62 c-24 4 -40 0 -56 -6" stroke="'+M+'" stroke-width="2.6" marker-end="#ARR#"/>'+
+  t(226,100,"no insulin needed",{s:11,c:M,w:600})
+ )},
+
+exhale:{cap:"Breathing out puts the brake on. Breathing in lets it off.",
+ svg:draw(
+  '<path d="M52 40 c30 -10 54 6 54 34 0 30 -24 46 -50 40 -10 -2 -14 -8 -14 -18 0 -8 -6 -12 -14 -14 -10 -2 -12 -12 -6 -22 6 -12 16 -16 30 -20z" fill="'+SA+'" fill-opacity=".4" stroke-width="2.6"/>'+
+  '<circle cx="76" cy="66" r="2.6" fill="'+K+'" stroke="none"/>'+
+  '<path d="M64 90 q10 8 20 0" stroke-width="2.2"/>'+
+  '<path d="M22 52 h22" stroke="'+M+'" stroke-width="2.6" marker-end="#ARR#"/>'+
+  t(22,42,"in 4",{a:"start",s:11,c:M,w:600})+
+  '<path d="M44 106 h-26" stroke="'+S+'" stroke-width="2.6" marker-end="#ARS#"/>'+
+  t(22,124,"out 6",{a:"start",s:11,c:S,w:600})+
+  '<path d="M132 84 c-8 -10 -22 -5 -22 7 0 11 13 17 22 25 9 -8 22 -14 22 -25 0 -12 -14 -17 -22 -7z" fill="'+S+'" fill-opacity=".3" stroke-width="2.4"/>'+
+  face(132,98,.55)+
+  '<path d="M166 96 h10 l6 -22 6 40 6 -30 5 20 h12" stroke="'+M+'" stroke-width="2.4"/>'+
+  '<path d="M222 96 h16 l7 -18 6 32 6 -24 5 16 h20" stroke="'+S+'" stroke-width="2.4"/>'+
+  t(196,128,"in: faster",{s:10.5,c:M,w:600})+
+  t(314,148,"out: slower",{a:"end",s:10.5,c:S,w:600})
+ )},
+
+sneeze:{cap:"The old one metre rule was drawn before anyone filmed a sneeze.",
+ svg:draw(
+  '<path d="M56 42 c-16 8 -22 26 -18 44 3 14 14 24 28 26 8 1 12 -4 12 -12 0 -8 4 -12 10 -14" fill="'+SA+'" fill-opacity=".4" stroke-width="2.6"/>'+
+  '<circle cx="52" cy="66" r="2.6" fill="'+K+'" stroke="none"/>'+
+  '<path d="M44 92 q10 6 18 -2" stroke-width="2.2"/>'+
+  '<path d="M100 78 c40 -26 96 -22 140 -4" stroke="'+G+'" stroke-width="1.8" stroke-dasharray="4 4"/>'+
+  [[112,72,5],[134,60,7],[156,84,6],[180,66,8],[206,88,6],[232,70,7],[258,92,5],[284,76,6],[300,58,4]].map(c=>
+   '<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+c[2]+'" fill="'+S+'" fill-opacity=".35" stroke-width="1.5"/>').join('')+
+  '<path d="M112 118 v10 h30 v-10" stroke="'+G+'" stroke-width="2"/>'+
+  t(127,142,"1 metre",{s:10.5})+
+  '<path d="M112 118 v10 M300 118 v10 M112 128 h188" stroke="'+S+'" stroke-width="2"/>'+
+  t(240,142,"where it actually goes",{s:10.5,c:S,w:600})
+ )},
+
+burn:{cap:"Twenty minutes of cool water. Not ice, not butter.",
+ svg:draw(
+  '<path d="M60 20 v26 c0 6 -6 8 -14 8" stroke-width="2.6"/>'+
+  '<rect x="44" y="14" width="34" height="14" rx="6" fill="'+M+'" fill-opacity=".5" stroke-width="2.3"/>'+
+  [[50,64],[52,84],[48,104]].map(c=>'<path d="M'+c[0]+' '+c[1]+' c6 6 6 12 0 16 c-6 -4 -6 -10 0 -16z" fill="'+M+'" fill-opacity=".6" stroke-width="1.8"/>').join('')+
+  '<path d="M72 118 c14 -14 42 -16 58 -6 8 6 4 16 -6 18 -18 4 -44 2 -52 -12z" fill="'+SA+'" fill-opacity=".5" stroke-width="2.5"/>'+
+  face(104,116,.62)+
+  t(96,148,"20 minutes under the tap",{s:11,c:K,w:600})+
+  '<g transform="translate(176,0)">'+clock(50,70,24,"")+'</g>'+
+  '<rect x="242" y="90" width="34" height="34" rx="8" fill="'+M+'" fill-opacity=".35" stroke-width="2.3"/>'+
+  '<path d="M238 86 l42 42" stroke="'+S+'" stroke-width="3"/>'+
+  t(259,148,"no ice",{s:10.5,c:S,w:600})
+ )},
+
+nosebleed:{cap:"Lean forward and pinch the soft part, not the bony bridge.",
+ svg:draw(
+  '<path d="M96 40 c-30 6 -46 30 -42 58 3 22 20 34 42 34" stroke-width="2.6"/>'+
+  '<path d="M54 74 c-12 4 -14 12 -6 17 5 3 10 1 12 -3" fill="'+SA+'" fill-opacity=".5" stroke-width="2.4"/>'+
+  '<circle cx="74" cy="70" r="2.6" fill="'+K+'" stroke="none"/>'+
+  '<path d="M40 78 c-6 4 -10 2 -12 -2 M42 92 c-8 2 -12 0 -14 -4" stroke="'+K+'" stroke-width="2.4"/>'+
+  '<circle cx="30" cy="112" r="5" fill="'+S+'" fill-opacity=".5" stroke-width="1.8"/>'+
+  '<path d="M96 34 c14 -8 28 -6 36 4" stroke="'+M+'" stroke-width="2.4" marker-end="#ARR#"/>'+
+  t(120,24,"lean forward",{s:10.5,c:M,w:600})+
+  '<g transform="translate(178,0)">'+clock(40,72,24,"")+t(40,112,"10 minutes",{s:11,c:K,w:600})+'</g>'+
+  '<path d="M262 52 c0 22 0 22 0 0" stroke-width="0"/>'+
+  '<path d="M262 90 c-12 -8 -12 -26 4 -30 M266 60 c16 -4 24 10 16 22" stroke="'+S+'" stroke-width="2.8"/>'+
+  t(314,116,"pinch here",{a:"end",s:10.5,c:S,w:600})+t(314,130,"soft part only",{a:"end",s:10})
+ )},
+
+recovery:{cap:"On their side, the airway drains. On their back, it does not.",
+ svg:draw(
+  '<circle cx="46" cy="58" r="17" fill="'+SA+'" fill-opacity=".45" stroke-width="2.5"/>'+face(46,56,.7)+
+  '<path d="M62 66 c30 -6 60 -2 78 8" stroke-width="2.8"/>'+
+  '<path d="M104 74 c10 -18 30 -18 34 2 M138 76 c8 12 4 24 -6 30" stroke-width="2.6"/>'+
+  '<path d="M74 78 c8 12 4 20 -6 24" stroke-width="2.4"/>'+
+  '<path d="M14 96 h150" stroke="'+G+'" stroke-width="2.2"/>'+
+  '<path d="M30 44 c-8 -8 -6 -16 4 -18" stroke="'+M+'" stroke-width="2.3" marker-end="#ARR#"/>'+
+  t(84,124,"on the side: clear",{s:11,c:M,w:600})+
+  '<path d="M182 96 h130" stroke="'+G+'" stroke-width="2.2"/>'+
+  '<circle cx="204" cy="76" r="17" fill="#E4DFD4" stroke-width="2.5"/>'+face(204,74,.7,"gone")+
+  '<path d="M222 84 h74" stroke-width="2.8"/>'+
+  '<path d="M216 60 c-6 -6 -4 -12 4 -14" stroke="'+S+'" stroke-width="2.3"/>'+
+  '<path d="M210 48 l14 14 M224 48 l-14 14" stroke="'+S+'" stroke-width="2.6"/>'+
+  t(248,124,"on the back: blocked",{s:11,c:S,w:600})
+ )},
+
+sunscreen:{cap:"A teaspoon for your face. A shot glass for the rest of you.",
+ svg:draw(
+  '<path d="M34 62 c14 -10 34 -10 46 0 4 14 -4 24 -23 24 -19 0 -27 -10 -23 -24z" fill="'+M+'" fill-opacity=".5" stroke-width="2.5"/>'+
+  '<path d="M80 66 c14 -4 24 -8 30 -14" stroke-width="2.4"/>'+
+  t(57,110,"1 teaspoon",{s:11.5,c:K,w:600})+t(57,126,"face and neck",{s:10.5})+
+  '<path d="M150 20 v100" stroke="'+G+'" stroke-width="1.5" stroke-dasharray="5 5"/>'+
+  '<path d="M182 44 h44 l-6 44 h-32 z" fill="'+M+'" fill-opacity=".5" stroke-width="2.5"/>'+
+  '<path d="M184 56 h40" stroke-width="2"/>'+
+  t(204,110,"1 shot glass",{s:11.5,c:K,w:600})+t(204,126,"the rest of you",{s:10.5})+
+  '<path d="M262 20 v100" stroke="'+G+'" stroke-width="1.5" stroke-dasharray="5 5"/>'+
+  '<circle cx="290" cy="78" r="11" fill="'+S+'" fill-opacity=".35" stroke-width="2.3"/>'+
+  t(314,110,"what most",{a:"end",s:10.5,c:S,w:600})+t(314,126,"people use",{a:"end",s:10.5,c:S})
+ )}
+});
+
+/* Batch 1: body, organs, senses. Ids are permanent. Never renamed, never reused. */
+const FACTS_1 = [
+{id:"heart-beats-a-day",c:"heart",t:"Your heart beats about 100,000 times a day.",
+ w:"It moves roughly 7,000 litres in that time, reusing the same 5 litres over and over. One full lap of your body takes about a minute."},
+
+{id:"lungs-air-bags",c:"lungs",t:"Your lungs hold up to 500 million tiny air bags.",art:"lungs",
+ w:"Flattened out they would cover about 70 square metres. Oxygen crosses a wall two cells thick with nothing pushing it. It drifts to where there is less of it.",
+ a:["If stairs got harder this year, tell a doctor in those words. The breathing test takes 10 minutes.",
+    "In cold air, breathe through your nose. It warms and wets the air better than your mouth."]},
+
+{id:"red-cells-per-second",c:"blood",t:"You make about 2 million red blood cells every second.",
+ w:"Each lasts around 120 days before being broken down in your spleen, so your whole red cell supply gets replaced roughly three times a year."},
+
+{id:"skin-largest-organ",c:"skin",t:"Your skin weighs more than your brain and liver combined.",
+ w:"About 3 to 4 kilos, covering roughly 1.8 square metres. Its outer layer is dead flattened cells, and you rebuild that layer about every four weeks."},
+
+{id:"gut-bacteria-count",c:"gut",t:"You carry slightly more bacterial cells than human ones.",
+ w:"About 38 trillion against 30 trillion. Most live in your large intestine and weigh around 200 grams together, less than a small apple."},
+
+{id:"baby-bones",c:"bones",t:"Babies have about 300 bones. You have 206.",
+ w:"Nothing is lost. Skull plates, spine segments and parts of the pelvis start separate so a baby can grow and be born, then knit together."},
+
+{id:"brain-energy-share",c:"brain",t:"Your brain is 2% of your weight and eats 20% of your energy.",
+ w:"That barely changes between hard concentration and daydreaming. Most of it goes on keeping an electrical charge across nerve cell walls, which never stops."},
+
+{id:"nerve-speed",c:"nerves",t:"Some of your nerves run at 120 metres a second. Others crawl at 1.",art:"nerve",
+ w:"Fast ones are wrapped in insulation with gaps, so the signal skips gap to gap. Slow ones are bare and travel every millimetre. Stub your toe and the sharp signal arrives first, the deep ache a second later."},
+
+{id:"kidney-filtering",art:"kidney",c:"kidneys",t:"Your kidneys filter 180 litres a day and put 99% of it back.",
+ w:"They dump everything small out of the blood first, then reclaim the water, salt and sugar worth keeping. What is left is the litre or two you pass."},
+
+{id:"liver-regrows",art:"liver",c:"liver",t:"The liver is the only organ inside you that regrows.",
+ w:"Take away two thirds and the rest divides until the mass is back, usually within a few months. That is how living donors can give part of theirs."},
+
+{id:"saliva-litres",c:"mouth",t:"You make up to one and a half litres of spit a day.",
+ w:"It starts breaking down starch before food reaches your stomach, buffers acid, and carries calcium that repairs very early enamel damage."},
+
+{id:"taste-buds-map",c:"taste",t:"The tongue map you were taught in school is wrong.",
+ w:"Sweet, salty, sour, bitter and savoury are picked up all over the tongue. The zoned diagram came from a 1901 German paper mistranslated in 1942 and copied for decades. Your taste buds are also replaced about every 10 days."},
+
+{id:"blink-rate-screens",art:"blink",c:"eyes",t:"You blink half as often at a screen.",
+ w:"Normally 15 to 20 times a minute. Fewer blinks means the film of tears over your eye evaporates and does not get replaced, which is most of what people call screen eye strain.",
+ a:["Blink hard and slowly ten times when your eyes feel gritty. A full closure spreads the oily layer that stops tears drying.",
+    "Reduce the fan or air vent pointing at your face before reaching for drops."]},
+
+{id:"eye-focus-distance",c:"eyes",t:"20 seconds of looking far away rests your eyes.",art:"eye",
+ w:"A ring of muscle squeezes your lens fatter for close work. Distance is its relaxed shape, so looking far away is time off rather than effort.",
+ a:["Pick one thing over 6 metres away you can see from your seat. Use the same one every time.",
+    "Put the top of your screen at eye level or a bit below. Looking down slows tears drying out.",
+    "Eyes burning by 4pm? Preservative free artificial tears, not the redness drops."]},
+
+{id:"hair-cells-no-regrow",c:"hearing",t:"Above 85 decibels, your ears start taking damage.",art:"hair",
+ w:"85dB is heavy traffic, and about 8 hours of it is a full day. A 100dB gig hits the same dose in 15 minutes. The tiny hairs that pick up sound shear off and humans cannot regrow them.",
+ a:["Set it once: iPhone, Settings, Sounds and Haptics, Headphone Safety, 85dB.",
+    "Foam plugs rated 20dB make a gig roughly 100 times safer to sit through.",
+    "Ringing that lasts a day, or one ear going quiet, is a this week appointment."]},
+
+{id:"smell-one-step",c:"smell",t:"Smell reaches your memory in one step. Every other sense detours.",art:"smell",
+ w:"Sight, sound and touch queue at a relay station first. Smell arrives right beside the parts that store events and attach feelings to them.",
+ a:["Lost your smell after an illness? Sniff four strong scents for 20 seconds each, twice a day, 12 weeks.",
+    "Rose, eucalyptus, lemon and clove are the four used in the trials."]},
+
+{id:"body-temp-36-6",c:"body",t:"Normal body temperature is not 37 degrees.",
+ w:"That figure comes from measurements taken in 1851. Modern averages sit closer to 36.6, and your own swings about half a degree across the day, lowest in the early morning."},
+
+{id:"fever-is-defence",c:"immunity",t:"A fever is your body turning the heat up on purpose.",
+ w:"Your brain raises its own target temperature, which is why you shiver while already hot. Many bacteria and viruses copy themselves less well a couple of degrees up."},
+
+{id:"bruise-colours",c:"body",t:"A bruise changes colour because your body is dismantling the spill.",
+ w:"Red haemoglobin breaks down into green biliverdin, then yellow bilirubin, then gets cleared. The colour tells you roughly how old the bruise is."},
+
+{id:"goosebumps",c:"body",t:"Goosebumps are tiny muscles pulling hairs you no longer have.",
+ w:"In a furry animal, raised hair traps warm air and makes it look bigger. The muscles still fire in you. There is just nothing much left to lift."},
+
+{id:"hiccups",c:"body",t:"A hiccup is your diaphragm twitching. The sound comes 35 milliseconds later.",
+ w:"The twitch pulls air in, then your vocal cords snap shut and make the noise. Anything irritating the nerve loop can set it off, including a full stomach or fizzy drinks."},
+
+{id:"yawn-contagious",c:"body",t:"Catching a yawn does not start until about age 4.",
+ w:"It develops alongside the ability to read what other people are feeling, and it is weaker in people who find that harder."},
+
+{id:"motion-sickness",c:"balance",t:"Travel sickness is your ears and eyes telling different stories.",
+ w:"Your inner ear reports movement your eyes cannot see, and your brain reads the mismatch as a warning.",
+ a:["Look at the horizon or take the front seat, so your eyes report the same motion your ears feel.",
+    "On a boat or a coach, keeping your head still against a headrest helps more than staring at your phone."]},
+
+{id:"standing-up-dip",c:"circulation",t:"Stand up fast and your blood pressure dips for a few seconds.",
+ w:"Gravity drags blood towards your legs. Sensors in your neck spot the drop and tighten your vessels, but that takes a moment. The grey out is the gap.",
+ a:["Pump your ankles ten times before getting out of bed, then sit on the edge for 20 seconds.",
+    "Happening a lot? Ask about the timing of any blood pressure tablets. It is often movable.",
+    "Actually fainting, or grey outs with chest pain, needs a real look."]},
+
+{id:"hair-shedding",c:"hair",t:"Losing 50 to 100 hairs a day is normal.",
+ w:"Each follicle runs its own cycle instead of matching its neighbours, so shedding spreads out. Hair grows about 1 cm a month."},
+
+{id:"nail-growth",c:"nails",t:"Fingernails grow twice as fast as toenails.",
+ w:"About 3.5mm a month against 1.6mm. Faster on your dominant hand, slower in winter and with age. A whole fingernail takes about six months to replace."},
+
+{id:"wound-moist-healing",c:"healing",t:"Wounds heal faster covered than left to dry out.",
+ w:"New skin cells travel across a moist surface more easily than they tunnel under a hard scab.",
+ a:["Cover a graze with a plaster or a thin layer of ointment rather than letting it crust.",
+    "Spreading redness, heat, or pus after day two means infection, not healing."]},
+
+{id:"stomach-acid-strength",c:"stomach",t:"Your stomach acid could dissolve a razor blade.",
+ w:"It runs at pH 1.5 to 3.5, close to battery acid. The stomach survives it by making a layer of mucus and replacing its own lining constantly."},
+
+{id:"stomach-lining-renewal",c:"stomach",t:"Your stomach relines itself every few days.",
+ w:"Cells at the surface are destroyed by the acid they contain, so the lining is rebuilt continuously. Painkillers like ibuprofen slow that rebuild, which is why they cause ulcers."},
+
+{id:"small-intestine-length",c:"gut",t:"Your small intestine is about 6 metres long, coiled into your belly.",
+ w:"Its wall is folded, then covered in finger shaped bumps, then each bump is covered in smaller ones. That is how a 6 metre tube ends up with the absorbing surface of a small flat."},
+
+{id:"bladder-capacity",c:"bladder",t:"You feel the urge at half a bladder, not a full one.",
+ w:"Stretch sensors start reporting around 250ml of a 400 to 600ml capacity. The feeling is a heads up, not an emergency."},
+
+{id:"blood-volume-lap",c:"blood",t:"You hold about 5 litres of blood and it laps your body every minute.",
+ w:"At rest that means the same blood passes your heart around 70 times an hour. During hard exercise the rate can quadruple."},
+
+{id:"spleen-function",c:"spleen",t:"Your spleen is a filter that decides when red cells are past it.",
+ w:"It squeezes blood through narrow gaps. Cells too stiff to pass get broken down, and the iron is recycled. It also stores platelets and helps fight certain bacteria."},
+
+{id:"lymph-system",c:"lymph",t:"Your lymph system has no pump. It moves when you do.",
+ w:"Fluid that leaks out of blood vessels is returned by vessels squeezed by your own muscles and breathing. That is part of why swelling settles when you walk about."},
+
+{id:"bone-remodelling",c:"bones",t:"Your skeleton rebuilds itself roughly every 10 years.",
+ w:"One set of cells dissolves old bone, another lays down new. Loading a bone tells it to build, which is why weight bearing exercise and not calcium alone protects bone strength."},
+
+{id:"cartilage-no-blood",c:"joints",t:"Cartilage has no blood supply, so it barely heals.",
+ w:"It is fed by joint fluid squeezed in and out as you move. That is also why gentle movement is usually better for a stiff joint than complete rest."},
+
+{id:"tendon-vs-ligament",c:"joints",t:"Tendons join muscle to bone. Ligaments join bone to bone.",
+ w:"Tendons transmit force and are built to stretch a little. Ligaments limit how far a joint travels, and a sprain is a stretched or torn one."},
+
+{id:"muscle-fibre-types",c:"muscle",t:"You have two kinds of muscle fibre and you were born with the mix.",
+ w:"Slow fibres resist fatigue, fast ones produce force quickly and tire. Training shifts their size and endurance a lot, and the ratio only a little."},
+
+{id:"shivering-heat",c:"body",t:"Shivering can multiply your heat production by five.",
+ w:"It is muscle contracting with no useful movement, so nearly all the energy comes out as heat. It is expensive, which is why it exhausts you."},
+
+{id:"sweat-glands",c:"skin",t:"You have between 2 and 4 million sweat glands.",
+ w:"Sweat itself is nearly odourless. The smell comes from skin bacteria breaking it down, which is why antibacterial deodorant works differently from antiperspirant."},
+
+{id:"earwax-self-cleaning",art:"earwax",c:"ears",t:"Your ear canal cleans itself outward, like a conveyor belt.",
+ w:"Skin in the canal migrates towards the opening, carrying wax with it.",
+ a:["Do not put cotton buds in. They push wax against the eardrum and cause most of the blockages seen in clinics.",
+    "If your ear is blocked, olive oil drops for a few days beats digging."]},
+
+{id:"balance-inner-ear",c:"balance",t:"Your sense of balance runs on three fluid loops in each ear.",
+ w:"They sit at right angles to each other, so movement in any direction tips fluid against sensing hairs. Infections and crystals loose in the loops both cause spinning dizziness."},
+
+{id:"proprioception",c:"nerves",t:"You have a sense that tells you where your limbs are without looking.",
+ w:"Sensors in muscles, tendons and joints report position constantly. Close your eyes and touch your nose. That is the sense working.",
+ a:["Standing on one leg is a direct test. Under 10 seconds with eyes open is worth mentioning to a physio.",
+    "Practising it while brushing your teeth is enough to improve it."]},
+
+{id:"pupil-light-response",c:"eyes",t:"Your pupil changes size by a factor of about five.",
+ w:"From roughly 2mm in bright light to 8mm in the dark. That is a 16 fold change in light let in, and it happens in under a second."},
+
+{id:"blind-spot",c:"eyes",t:"Each eye has a blind spot and your brain paints over it.",
+ w:"It is where the optic nerve leaves the retina, so there are no light sensors there. Your brain fills the gap with a guess based on what surrounds it."},
+
+{id:"colour-vision-cones",c:"eyes",t:"You see colour with 6 million cells and darkness with 120 million.",
+ w:"Cones handle colour and detail but need good light. Rods handle dim light and see no colour, which is why everything looks grey at night."},
+
+{id:"night-vision-rods",c:"eyes",t:"Your eyes take about 25 minutes to fully adjust to darkness.",
+ w:"A pigment in your rod cells has to rebuild, and one glance at a bright phone resets much of it.",
+ a:["Use the dimmest red light you can if you need to see in the dark. Red light barely affects the pigment."]},
+
+{id:"tears-three-types",c:"eyes",t:"You make three different kinds of tears.",
+ w:"Basal ones keep the eye wet, reflex ones flush out onions and grit, and emotional ones have a different protein and hormone mix. Only humans seem to make the third kind."},
+
+{id:"vocal-cords-pitch",c:"voice",t:"Your vocal cords vibrate 100 to 300 times a second when you speak.",
+ w:"Pitch depends on their length and tension. They grow longer and thicker in puberty, which drops the voice.",
+ a:["Losing your voice is usually swelling. Whispering strains the cords more than speaking quietly does.",
+    "Hoarseness lasting over three weeks needs looking at, especially if you smoke."]},
+
+{id:"tongue-muscle",c:"mouth",t:"Your tongue is eight muscles and it never fully rests.",
+ w:"Four are anchored to bone and four are not, which is what lets it change shape so freely. It keeps working during sleep to hold your airway open."},
+
+{id:"swallowing-airway",art:"swallow",c:"throat",t:"Every swallow shuts your airway for about a second.",
+ w:"A flap folds over your windpipe while the food passes. Talking or laughing while swallowing interrupts the timing, which is what going down the wrong way means."},
+
+{id:"appendix-function",c:"gut",t:"The appendix may be a safe house for gut bacteria.",
+ w:"It is a dead end pocket off the large intestine. One theory with reasonable support is that it lets helpful bacteria repopulate the gut after an illness clears it out."},
+
+{id:"gallbladder-bile",c:"liver",t:"Your gallbladder stores bile. Your liver makes it.",
+ w:"Bile breaks fat into droplets small enough to be absorbed. Remove the gallbladder and bile just drips in continuously instead of arriving in a burst."},
+
+{id:"pancreas-two-jobs",c:"pancreas",t:"Your pancreas does two unrelated jobs in one organ.",
+ w:"Most of it makes digestive enzymes that go into your gut. A tiny fraction makes insulin and glucagon that go into your blood to set blood sugar."},
+
+{id:"thyroid-metabolism",c:"hormones",t:"A gland in your neck sets the speed of nearly every cell.",
+ w:"Thyroid hormone controls how fast you burn energy. Too little brings cold, tiredness and weight gain, too much brings heat, tremor and a racing heart.",
+ a:["Both directions are common and both are diagnosed by one blood test.",
+    "Persistent tiredness with feeling cold and dry skin is worth testing rather than pushing through."]},
+
+{id:"adrenaline-response",c:"hormones",t:"Adrenaline hits in seconds. The stress hormone behind it takes minutes.",
+ w:"Adrenaline speeds the heart and widens airways almost instantly. Cortisol follows over several minutes and keeps blood sugar available for longer."},
+
+{id:"cortisol-rhythm",c:"hormones",t:"Your cortisol peaks about 30 minutes after you wake up.",
+ w:"That rise is normal and helps you get going. It falls through the day and bottoms out around midnight, which is part of what sets your energy pattern."},
+
+{id:"insulin-basics",art:"insulin",c:"blood sugar",t:"Insulin is the key that lets sugar out of your blood and into cells.",
+ w:"Without it, sugar stays in the bloodstream no matter how much is there. Type 1 means the key is not made. Type 2 means the lock has stopped responding well."},
+
+{id:"melatonin-darkness",c:"sleep",t:"Melatonin is a darkness signal, not a sleeping pill.",
+ w:"Your brain releases it when light drops, telling the body night has started. It shifts timing more than it forces sleep.",
+ a:["If you use it for jet lag, timing matters more than dose. Small doses in the local evening shift the clock.",
+    "Dimming lights an hour before bed does the same job without a tablet."]},
+
+{id:"immune-memory-cells",c:"immunity",t:"Your immune system keeps a written record of every infection you survive.",
+ w:"Memory cells sit in your lymph nodes for years, so the second meeting with the same germ is fought off before you notice it. Vaccines create that record without the illness."}
+];
+
+/* Batch 2: sleep, food and drink, movement, heart and blood. */
+const FACTS_2 = [
+{id:"sleep-regularity",c:"sleep",t:"When you sleep matters about as much as how long.",
+ w:"Your body clock only shifts about an hour a day. A two hour lie in on Saturday feels to your body like flying two time zones out and back by Monday.",
+ a:["Anchor your wake time, not your bedtime. Same alarm seven days, Sunday included.",
+    "Get outside within an hour of waking. Outdoors is 10,000 lux, your living room is 100.",
+    "Need to shift your schedule? Move it 20 minutes every two days."]},
+
+{id:"caffeine-half-life",c:"caffeine",t:"Half of a 3pm coffee is still in you at 8pm.",art:"coffee",
+ w:"Caffeine takes about 5 hours to drop by half. It blocks the molecule that makes you feel sleepy, so the pressure to sleep keeps stacking up. You just cannot feel it.",
+ a:["Stop 8 hours before bed. Bed at 11pm means nothing after 3pm.",
+    "In one trial, coffee 6 hours before bed cost people an hour of sleep and nobody noticed.",
+    "The sneaky ones: strong tea 50mg, cola 35mg, pre workout mixes 200mg or more."]},
+
+{id:"alcohol-rem",c:"alcohol",t:"Alcohol gets you to sleep faster and then ruins the second half.",
+ w:"It suppresses dreaming sleep early on, and as your body clears it the rebound breaks up the later hours. Eight hours in bed can still leave you wrecked.",
+ a:["Finish drinking three hours before bed and the damage to the second half drops sharply.",
+    "A glass of water per drink helps the hangover, not the sleep."]},
+
+{id:"sleep-memory",c:"sleep",t:"Your brain files the day's memories while you sleep.",
+ w:"The part that holds recent events replays them to long term storage overnight. People who sleep after learning recall clearly more than people awake the same hours.",
+ a:["Read the difficult thing last, right before bed, rather than first thing in a long session."]},
+
+{id:"morning-light",c:"light",t:"Your living room is a hundred times dimmer than an overcast street.",
+ w:"About 100 lux inside against 10,000 outside under cloud. Only outdoor strength light sets your body clock firmly.",
+ a:["Ten minutes outside within an hour of waking does more for your sleep than anything you do at bedtime.",
+    "Through a window does not count. Glass and distance cut the intensity hard."]},
+
+{id:"nap-20-minutes",c:"sleep",t:"A nap of 20 minutes helps. Forty leaves you worse.",
+ w:"Past roughly half an hour you fall into deep sleep, and waking out of that brings 15 to 30 minutes of fog before you are useful.",
+ a:["Set the alarm for 25 minutes to allow for dropping off.",
+    "Nap before 3pm. Later ones eat into the sleep pressure you need that night."]},
+
+{id:"jet-lag-rate",c:"travel",t:"Jet lag clears at about one time zone a day.",
+ w:"Flying east is harder because your natural rhythm runs slightly longer than 24 hours, so delaying is easier than advancing.",
+ a:["Flying east: get bright morning light at the destination and avoid it in the evening.",
+    "Flying west: seek evening light instead. Same trick, opposite end of the day."]},
+
+{id:"sleep-apnea-snoring",c:"sleep",t:"Loud snoring with pauses is a medical problem, not a joke.",
+ w:"The airway collapses repeatedly, oxygen drops and the brain wakes just enough to reopen it, sometimes hundreds of times a night. It raises blood pressure and stroke risk.",
+ a:["If a partner has seen you stop breathing, or you wake unrefreshed after 8 hours, ask for a sleep test.",
+    "Sleeping on your side rather than your back reduces it in many people."]},
+
+{id:"blue-light-vs-late",c:"sleep",t:"Your phone at night is mostly a problem for what you do on it.",
+ w:"Screen light does suppress the darkness hormone, but at typical phone brightness the effect is modest. Staying engaged for another hour costs you far more sleep than the colour of the light."},
+
+{id:"bedroom-temperature",c:"sleep",t:"Your body has to drop about a degree to fall asleep.",
+ w:"That is why a cool room helps and a hot one does not. Around 18 degrees suits most people.",
+ a:["A warm bath an hour before bed works by the opposite logic: blood moves to the skin, then you cool faster afterwards."]},
+
+{id:"salt-in-food",c:"salt",t:"70% of your salt was in the food before you bought it.",
+ w:"Bread, ham, cheese, sauces and takeaways carry most of it. The shaker is a small slice, which is why putting it away barely moves your total.",
+ a:["Read labels per 100g, not per portion. Over 1.5g is high, under 0.3g is low.",
+    "Two swaps in the high column beat any amount of care at the table. Usually bread and a sauce.",
+    "Give it two weeks. Your taste for salt drops once you stop topping it up."]},
+
+{id:"potassium-blood-pressure",c:"nutrition",t:"Potassium partly cancels salt's effect on blood pressure.",
+ w:"The target is around 3,500mg a day and most people fall well short.",
+ a:["A baked potato has about 900mg, a cup of beans 750mg, a banana 420mg.",
+    "If you have kidney disease this is different. Ask before increasing potassium."]},
+
+{id:"fibre-gap",c:"nutrition",t:"Most adults eat about two thirds of the fibre they need.",
+ w:"Roughly 17g against a 27g target. Gut bacteria ferment fibre into the fatty acids that feed the cells lining your colon, so those cells are fed by bacteria rather than by your blood.",
+ a:["Add it slowly over two weeks. A sudden jump causes exactly the bloating that makes people quit.",
+    "Beans, oats and leaving skins on do more than any supplement."]},
+
+{id:"water-eight-glasses",c:"water",t:"The eight glasses rule was never based on evidence.",
+ w:"It appears to come from a 1945 recommendation that counted water in food, which got dropped in the retelling. Around a quarter of your fluid arrives in what you eat.",
+ a:["Pale straw urine means you are fine. Dark yellow means drink. That beats counting."]},
+
+{id:"fullness-20-minutes",art:"fullness",c:"eating",t:"Your fullness signal arrives about 20 minutes late.",
+ w:"Hormones from the stomach and intestine have to travel through the bloodstream to your brain. Eat faster than that and you can pass comfortable without noticing."},
+
+{id:"vitamin-c-humans",c:"vitamins",t:"Humans are one of the few animals that cannot make vitamin C.",
+ w:"The gene for the last step is broken in all of us. Most mammals build their own in the liver. About 10mg a day prevents scurvy, and guidelines set 85mg for everything else."},
+
+{id:"b12-sources",c:"vitamins",t:"Vitamin B12 is made by bacteria, not by plants or animals.",
+ w:"Animals accumulate it, which is why it reaches you through meat, eggs, dairy or fortified food. Your liver holds years of stores, so a shortfall can hide for a long time then show up as nerve damage.",
+ a:["Eating no animal products means a supplement or fortified food, not a maybe.",
+    "Metformin and long term acid reducers both lower absorption. Worth a blood test if you take either."]},
+
+{id:"fat-soluble-vitamins",c:"vitamins",t:"Four vitamins build up in you. The rest wash out.",
+ w:"A, D, E and K dissolve in fat and are stored in your liver and fat tissue, so big doses can accumulate to harmful levels. B and C dissolve in water and leave in urine the same day."},
+
+{id:"vitamin-d-latitude",c:"vitamins",t:"Above about 37 degrees latitude, winter sun cannot make vitamin D.",
+ w:"The angle is too low for the right wavelength to get through the atmosphere. Stockholm, London and most of northern Europe get nothing usable from October to March.",
+ a:["Northern winters are the clearest case for a supplement. 10 micrograms a day is the usual public advice.",
+    "Darker skin needs longer exposure for the same amount, so shortfall is more common."]},
+
+{id:"iron-absorption-vitamin-c",c:"nutrition",t:"Vitamin C can triple the iron you absorb from a plant meal.",
+ w:"Iron from plants is in a form your gut takes up poorly. Vitamin C converts it to a form that crosses much more easily.",
+ a:["Squeeze lemon on beans or spinach, or have fruit with the meal rather than after it.",
+    "Tea and coffee with a meal cut iron absorption. Move them an hour either side."]},
+
+{id:"calcium-and-bone",c:"bones",t:"Calcium alone does not build strong bone. Load does.",
+ w:"Calcium is the raw material, but bone only lays it down where it is being stressed. That is why an astronaut with a perfect diet still loses bone in orbit.",
+ a:["Anything where your feet hit the ground counts: walking, stairs, dancing, skipping.",
+    "Swimming and cycling are good for you and near useless for bone."]},
+
+{id:"protein-spread",c:"nutrition",t:"Your body cannot store spare protein for later.",
+ w:"Excess above what is needed at that moment gets burned or converted, so a huge dinner does not make up for a day without any.",
+ a:["Spreading protein across meals is more useful than piling it into one, especially over 60."]},
+
+{id:"wholegrain-vs-refined",c:"nutrition",t:"Refining grain removes the two parts that carried the nutrients.",
+ w:"The bran and the germ hold the fibre, most vitamins and the oils. White flour keeps the starchy middle, which is why it is often fortified afterwards to put some back."},
+
+{id:"ultra-processed",c:"nutrition",t:"In a controlled trial, people ate 500 calories a day more on ultra processed food.",
+ w:"Same calories and nutrients offered, free to eat as much as they wanted. They ate faster and consumed more without reporting feeling any fuller.",
+ a:["Speed is the lever you can actually pull. Food that needs chewing slows you down on its own."]},
+
+{id:"breakfast-not-required",c:"eating",t:"Skipping breakfast is not inherently bad for you.",
+ w:"The old claim came largely from studies where breakfast skippers differed in many other ways. Trials moving breakfast around show small effects. What you eat across the day matters more than when it starts."},
+
+{id:"chewing-and-digestion",c:"eating",t:"Digestion starts in your mouth, not your stomach.",
+ w:"Chewing breaks food into pieces enzymes can reach, and saliva starts on the starch. Swallowing large pieces just moves the work downstream."},
+
+{id:"coffee-and-liver",c:"caffeine",t:"Coffee drinkers show lower rates of liver disease, repeatedly.",
+ w:"The link holds in large studies including decaf drinkers, which suggests something other than caffeine. It is observational, so it shows an association rather than proof."},
+
+{id:"tea-and-iron",c:"nutrition",t:"Tea with a meal can halve the iron you absorb from it.",
+ w:"Tannins in tea bind iron in the gut. It matters most for people who are already low, and for plant based diets.",
+ a:["Move tea and coffee an hour away from meals if your iron is low."]},
+
+{id:"alcohol-units-liver",c:"alcohol",t:"Your liver clears about one unit of alcohol an hour, and that cannot be sped up.",
+ w:"Coffee, cold showers and fresh air change how awake you feel, not how much alcohol is in your blood. Nothing on sale changes the rate."},
+
+{id:"sugar-in-drinks",c:"nutrition",t:"Liquid sugar does not register as food.",
+ w:"Drinks pass the stomach fast and produce far less fullness than the same sugar eaten, so the calories add rather than replace.",
+ a:["Swapping one daily sugary drink for water or a diet version is the single largest easy cut for most people."]},
+
+{id:"artificial-sweeteners",c:"nutrition",t:"Sweeteners are safe at normal intakes and not obviously helpful.",
+ w:"Decades of testing show no credible link to cancer at real world doses. Whether they help weight is genuinely unsettled, with trials leaning slightly positive and observational data leaning the other way."},
+
+{id:"cooking-oil-smoke-point",c:"cooking",t:"When oil smokes, it has started breaking down.",
+ w:"Past that point it produces irritants and off flavours. Extra virgin olive oil smokes around 190 degrees, refined oils higher.",
+ a:["If a pan smokes before the food goes in, take it off the heat and start again rather than pushing through."]},
+
+{id:"microwave-nutrients",c:"cooking",t:"Microwaving keeps more nutrients than boiling.",
+ w:"Vitamins are lost to heat and to water. Microwaving uses less of both, so boiled broccoli loses more vitamin C than microwaved."},
+
+{id:"frozen-vegetables",c:"food",t:"Frozen vegetables often beat fresh on nutrients.",
+ w:"They are frozen within hours of picking, while fresh produce can spend a week in transport and storage losing vitamin C the whole way."},
+
+{id:"food-poisoning-danger-zone",c:"food safety",t:"Bacteria multiply fastest between 5 and 60 degrees.",
+ w:"In that range a single bacterium can become millions in a few hours. Cooked food left out is the classic route.",
+ a:["Two hours out is the working limit, one hour if it is hot weather.",
+    "Cool leftovers fast in a shallow dish rather than a deep pot, then refrigerate."]},
+
+{id:"rice-bacillus",c:"food safety",t:"Reheating does not fix rice that sat out.",
+ w:"Spores survive cooking and produce a toxin at room temperature. The toxin is not destroyed by heat, so reheating harder does nothing.",
+ a:["Cool rice within an hour and refrigerate. Use within a day."]},
+
+{id:"honey-infants",c:"food safety",t:"No honey before a baby's first birthday.",
+ w:"It can carry dormant botulism spores. An adult gut suppresses them easily. An infant gut has not yet built the bacteria that do that, and the illness is severe."},
+
+{id:"chicken-washing",c:"food safety",t:"Washing raw chicken spreads bacteria around your kitchen.",
+ w:"Water droplets carry campylobacter up to half a metre onto surfaces and clothes. Cooking kills what is on the meat anyway.",
+ a:["Do not rinse it. Pat dry with kitchen paper if you need to, and bin the paper."]},
+
+{id:"cutting-board-cross-contamination",c:"food safety",t:"The board is a more common cause of illness than the meat.",
+ w:"Raw juices left on a surface transfer to whatever is chopped next, usually salad that will not be cooked.",
+ a:["Cut salad and bread before raw meat, not after, if you only have one board."]},
+
+{id:"leftovers-cooling",c:"food safety",t:"Hot food in the fridge warms everything around it.",
+ w:"A deep pot of stew can sit in the risky temperature range for hours even inside a cold fridge.",
+ a:["Split it into shallow containers first. Surface area is what makes it cool fast."]},
+
+{id:"exercise-first-hour",c:"exercise",t:"The first hour of exercise each week buys the most.",
+ w:"Guidelines say 150 to 300 minutes a week, but the risk curve is steepest right at the start. Going from nothing to a little is the biggest single step you will ever take.",
+ a:["If you do nothing now, aim at 15 minutes three times a week rather than a programme you will abandon."]},
+
+{id:"steps-10000-myth",c:"walking",t:"The 10,000 step target came from a 1965 pedometer's name.",
+ w:"It was sold in Japan as the ten thousand step meter. In large studies the drop in death rates flattens somewhere around 7,500 to 9,000, and most of the gain arrives well before that."},
+
+{id:"grip-strength",c:"strength",t:"Your grip predicts your lifespan better than your blood pressure.",
+ w:"In a study of 140,000 people, every 5kg of lost grip came with a 16% higher chance of dying during it. Your hands are not the point. Grip stands in for how much muscle you have left.",
+ a:["Hang off a bar until you have to let go. Twice a week. 30 seconds is a fine start.",
+    "Carry something heavy in each hand for 40 metres without setting it down. Shopping counts.",
+    "Stand up from a chair ten times without using your hands."]},
+
+{id:"muscle-loss-decades",c:"muscle",t:"You lose 3 to 8% of your muscle each decade after 30.",
+ w:"It speeds up after 60. Resistance training rebuilds part of it at any age, including in people in their nineties, because muscle responds to load rather than to youth."},
+
+{id:"doms-not-lactic",c:"exercise",t:"The ache two days after training is not lactic acid.",
+ w:"Lactate clears from your blood within an hour. Soreness peaking at 24 to 72 hours is small tears in the fibres and the repair work around them.",
+ a:["Light movement the next day reduces it. Complete rest usually makes it feel worse."]},
+
+{id:"warm-up-vs-stretch",c:"exercise",t:"Stretching before exercise barely prevents injury. Warming up does.",
+ w:"Holding a stretch cold has little effect on injury rates in trials. Raising muscle temperature and rehearsing the actual movement is what prepares tissue for load.",
+ a:["Five minutes of the thing you are about to do, slower and lighter, beats any stretch routine."]},
+
+{id:"resting-heart-rate",c:"heart",t:"A fitter heart does the same work with fewer beats.",
+ w:"Typical resting rates are 60 to 100, and trained endurance athletes often sit in the 40s. Their hearts push more blood per beat.",
+ a:["Measure it in bed before getting up, three mornings running. A rise of 7 or more beats over your normal often means you are unwell or underslept."]},
+
+{id:"vo2-max",c:"fitness",t:"How much oxygen you can use is one of the strongest predictors of lifespan.",
+ w:"Stronger than smoking status in some large studies. The biggest gain comes from moving off the bottom rung, not from reaching the top."},
+
+{id:"sitting-breaks",art:"legsugar",c:"sitting",t:"Three minutes of walking every half hour flattens the sugar spike after a meal.",
+ w:"Contracting leg muscles pull glucose out of your blood without needing extra insulin. Standing still does much less than walking.",
+ a:["Take calls standing or walking. It is the easiest swap in an office day."]},
+
+{id:"sauna-observational",c:"heat",t:"Frequent sauna users have lower heart death rates, though it may not be the sauna.",
+ w:"Over 20 years, Finnish men using one 4 to 7 times a week did far better than once a week users. It is observational, so frequent users may simply be healthier or less pressed for time to begin with."},
+
+{id:"breathing-exhale",art:"exhale",c:"breathing",t:"Breathing out longer than you breathe in slows your heart in seconds.",
+ w:"A nerve running from brainstem to gut brakes the heart during the out breath and releases it during the in breath. A longer exhale gives the brake more time.",
+ a:["In for 4, out for 6, five times. That is the whole technique.",
+    "It works standing in a queue. No app needed."]},
+
+{id:"cold-water-face",c:"reflexes",t:"Cold water on your face slows your heart. Cold on your hand does not.",
+ w:"Receptors around the nose and eyes trigger a reflex shared with diving mammals: the heart slows and blood moves towards the brain.",
+ a:["Cold water on the face for 30 seconds is a fast way to interrupt a panic spike."]},
+
+{id:"blood-pressure-silent",c:"blood pressure",t:"High blood pressure has no symptoms until it has done damage.",
+ w:"About a third of people who have it do not know. It is two numbers: pressure while the heart pushes, over pressure between beats.",
+ a:["Get it measured once a year from 40, or now if it has been longer than that.",
+    "Home monitors: sit for 5 minutes, arm at heart height, take two readings a minute apart."]},
+
+{id:"cholesterol-types",c:"heart",t:"Cholesterol is not one number and not simply bad.",
+ w:"Your body makes it and needs it for cell walls and hormones. What matters is how it travels: the LDL carrier deposits it in artery walls, the HDL carrier takes it away."},
+
+{id:"statins-basics",c:"medicine",t:"Statins work by slowing the liver's own cholesterol production.",
+ w:"Most cholesterol in your blood is made by you rather than eaten, which is why diet alone shifts it less than people expect.",
+ a:["Muscle aches are the common complaint. Trials where neither side knew who got the drug found similar rates on placebo, so switching statins is often worth trying before stopping."]},
+
+{id:"heart-attack-women",c:"emergency",t:"A heart attack in a woman often looks nothing like the films.",
+ w:"Nausea, breathlessness, or jaw and back pain are more common than crushing chest pain. The classic description came mostly from studies of men, and women get diagnosed later because of it.",
+ a:["Call an ambulance for unexplained crushing pressure, breathlessness, or nausea with cold sweat.",
+    "Do not drive yourself or wait to see if it passes."]},
+
+{id:"afib-pulse-check",c:"heart",t:"An irregular pulse is worth 30 seconds of your attention.",
+ w:"Atrial fibrillation makes the heartbeat irregular, often without symptoms, and multiplies stroke risk about fivefold. It is treatable once found.",
+ a:["Feel your pulse at the wrist for 30 seconds occasionally. Irregular with no pattern is the thing to report.",
+    "Most smartwatches check this automatically. Worth turning on if you have one."]},
+
+{id:"stroke-timing",c:"emergency",t:"With a stroke, the minute it started is part of the treatment.",
+ w:"Clot busting drugs work best inside 4.5 hours of the first symptom, and doctors cannot give them without knowing when that was. Someone who woke up with it often misses out.",
+ a:["Ask them to smile, raise both arms, repeat a sentence. Watch for one side failing.",
+    "Call an ambulance and say the word stroke. It changes which hospital they go to.",
+    "Write down the time it started and tell the crew that first.",
+    "No aspirin, no food, no lying down to see how it goes."]},
+
+{id:"cpr-rate",c:"emergency",t:"Chest compressions run at 100 to 120 a minute, about two a second.",
+ w:"Push 5 to 6cm deep in the centre of the chest. Most untrained rescuers go too slow and too shallow, and doing it imperfectly beats not doing it.",
+ a:["Call for help and start pushing. Mouth to mouth is optional for untrained rescuers.",
+    "Let the chest come all the way back up between pushes. That is when the heart refills."]},
+
+{id:"defibrillator-access",c:"emergency",t:"A defibrillator will not shock someone who does not need it.",
+ w:"It reads the heart rhythm first and refuses if a shock would not help, so you cannot hurt someone by attaching one. Survival roughly doubles when one is used early.",
+ a:["Look up where the nearest one is now, before you need it. Most countries have a public map.",
+    "It talks you through every step out loud. No training required."]}
+];
+
+/* Batch 3: myths, skin and teeth, medicines, mind and mood, safety. */
+const FACTS_3 = [
+{id:"sugar-hyperactivity",c:"myths",t:"Sugar does not make children hyperactive.",
+ w:"Controlled trials found no behavioural effect. In one, parents told their child had just had sugar rated the same behaviour as more hyperactive. The effect was in the observer."},
+
+{id:"ten-percent-brain",c:"myths",t:"You do not use 10% of your brain.",
+ w:"Scans show activity across the whole organ, and damage almost anywhere causes a measurable loss. The myth may come from an early estimate that only 10% of brain cells are neurons, which turned out not to mean what people assumed."},
+
+{id:"knuckle-cracking",c:"myths",t:"Cracking knuckles is a gas bubble collapsing, and it does not cause arthritis.",
+ w:"One doctor cracked the knuckles of one hand only for 60 years and compared his hands at the end. No difference. Larger studies agree."},
+
+{id:"shaving-thicker",c:"myths",t:"Shaving does not make hair grow back thicker.",
+ w:"A razor cuts the shaft flat instead of leaving the tapered tip it grew with, so regrowth feels coarse. The follicle underneath is unchanged."},
+
+{id:"dim-light-reading",c:"myths",t:"Reading in dim light tires your eyes. It does not damage them.",
+ w:"The strain is the focusing muscles working harder to hold a clear image, and it goes when you rest. No lasting change has been shown."},
+
+{id:"outdoor-time-myopia",c:"eyes",t:"Children who play outdoors are less likely to need glasses for distance.",
+ w:"Bright outdoor light seems to slow the eyeball growing too long front to back, which is what causes distance blur. Trials use about two hours a day.",
+ a:["Daylight matters more than limiting screens. Outdoor time is the part with trial evidence behind it."]},
+
+{id:"enamel-no-repair",c:"teeth",t:"Never brush straight after something acidic.",art:"tooth",
+ w:"Acid softens the surface for about 30 minutes. Tooth enamel has no living cells in it, so whatever you scrub off is gone permanently.",
+ a:["Rinse with water, wait 30 minutes, then brush.",
+    "Sipping beats drinking for damage. A can over an hour keeps your teeth soft the whole hour.",
+    "Fluoride 1350ppm or higher, printed on the tube. Spit after brushing, do not rinse."]},
+
+{id:"gum-disease-heart",c:"teeth",t:"Gum disease keeps turning up alongside heart disease.",
+ w:"Bacteria from inflamed gums enter the bloodstream, and the same inflammatory process affects arteries. Whether one causes the other is still unsettled.",
+ a:["Gums that bleed when you brush are not normal. That is the sign to act on."]},
+
+{id:"flossing-evidence",c:"teeth",t:"Flossing has weak evidence for cavities and decent evidence for gums.",
+ w:"Trials are short and small, which is why headlines periodically declare it useless. Cleaning between teeth clearly reduces gum inflammation.",
+ a:["Interdental brushes beat floss where the gaps are big enough to take one.",
+    "Once a day is the target. Doing it badly every day beats doing it perfectly on Sundays."]},
+
+{id:"mouthwash-timing",c:"teeth",t:"Mouthwash straight after brushing washes the fluoride away.",
+ w:"Toothpaste leaves a fluoride layer on the teeth. Rinsing with anything, including water, removes most of it.",
+ a:["Use mouthwash at a different time of day from brushing, or not at all."]},
+
+{id:"toothbrush-pressure",c:"teeth",t:"Brushing harder wears away gum, not plaque.",
+ w:"Plaque is soft and comes off with light contact. Pressure and stiff bristles cause receding gums and sensitive necks of teeth.",
+ a:["Hold the brush in your fingertips rather than your fist. Soft bristles, 2 minutes, small circles."]},
+
+{id:"sunscreen-spf-numbers",art:"sunscreen",c:"sun",t:"SPF 30 blocks 97% and SPF 50 blocks 98%.",
+ w:"The gap between the numbers is small. The gap between the label and what you get is not, because most people apply a quarter to half the amount used in testing.",
+ a:["A teaspoon for your face and neck, a shot glass for your body. Most people use far less.",
+    "Reapply every two hours outdoors. Water resistant means 40 minutes swimming, not all day."]},
+
+{id:"uva-through-glass",c:"sun",t:"One kind of sunlight comes straight through your window.",
+ w:"The burning wavelength is mostly stopped by glass. The ageing one passes through, which is why drivers in some countries show more sun damage on the window side of their face."},
+
+{id:"mole-abcde",c:"skin",t:"With a mole, change is the signal that matters most.",
+ w:"The checklist is asymmetry, an irregular border, uneven colour, over 6mm across, and evolving. The last one carries the most weight.",
+ a:["Photograph anything you are unsure about next to a ruler, then compare in a month.",
+    "A mole that itches, bleeds or looks different from all your others is worth showing someone."]},
+
+{id:"sunglasses-uv",c:"eyes",t:"Dark sunglasses without UV protection are worse than none.",
+ w:"Darkness makes your pupil open wider. If the lens does not block ultraviolet, more of it reaches the inside of your eye than in bright squinting light.",
+ a:["Look for UV400 or 100% UV. Price and darkness tell you nothing about it."]},
+
+{id:"vitamin-d-vs-burn",c:"sun",t:"You make your day's vitamin D long before you burn.",
+ w:"Short exposure on bare arms is enough for most skin in summer. Staying out until you go pink adds damage without adding vitamin D, because production plateaus."},
+
+{id:"tattoo-ink-lymph",c:"skin",t:"Tattoo ink does not all stay in your skin.",
+ w:"Immune cells engulf the pigment, and some carry it to nearby lymph nodes, which can be visibly coloured in tattooed people. Long term effects of that are not well established."},
+
+{id:"dandruff-fungus",c:"skin",t:"Dandruff is usually a yeast, not dryness.",
+ w:"A yeast that lives on everyone's skin overgrows and irritates the scalp in some people. That is why moisturising shampoo does nothing and antifungal shampoo works.",
+ a:["Look for ketoconazole, selenium sulfide or zinc pyrithione, and leave it on 5 minutes before rinsing."]},
+
+{id:"acne-not-chocolate",c:"skin",t:"Chocolate and greasy food do not cause spots.",
+ w:"Acne is oil, dead cells and bacteria blocking follicles, driven mostly by hormones. Diet effects are small and mainly linked to high sugar loads and possibly skimmed milk.",
+ a:["Scrubbing harder makes it worse by inflaming the skin further.",
+    "Anything still bad after 3 months of over the counter treatment is worth a prescription rather than more products."]},
+
+{id:"eczema-barrier",c:"skin",t:"Eczema is a leaky skin barrier, not just an itch.",
+ w:"The skin loses water and lets irritants in, which triggers the inflammation. That is why moisturiser is treatment rather than comfort.",
+ a:["Apply moisturiser within 3 minutes of getting out of the bath, on damp skin.",
+    "Use it every day, including when the skin looks fine. That is what prevents flares."]},
+
+{id:"hand-cream-timing",c:"skin",t:"Moisturiser works by trapping water, so damp skin first.",
+ w:"Most of what it does is slow evaporation. On bone dry skin there is much less to hold in."},
+
+{id:"antibiotics-viruses",c:"medicine",t:"Antibiotics do nothing to a cold, because colds are viruses.",
+ w:"Antibiotics attack structures only bacteria have, such as their cell wall. Viruses have none of them. Taking them anyway gives you the side effects and helps resistant bacteria spread."},
+
+{id:"antibiotic-course-length",c:"medicine",t:"Finish the course is being reconsidered, but not by you at home.",
+ w:"For some infections shorter courses now work as well, and the advice varies by condition. What has not changed is that the length should be decided by the prescriber rather than by how you feel on day three.",
+ a:["Ask at the time how long it should be and why. That is a reasonable question."]},
+
+{id:"paracetamol-limit",c:"medicine",t:"Paracetamol has a narrow gap between the normal dose and liver damage.",
+ w:"The adult maximum is about 4g a day and harm can begin not far above it. It also hides inside cold and flu sachets and combination painkillers.",
+ a:["Check every other medicine in the cupboard for paracetamol before adding a dose.",
+    "Overdose has almost no symptoms on day one and is treatable early. Never wait to see."]},
+
+{id:"ibuprofen-stomach",c:"medicine",t:"Ibuprofen blocks the chemical that protects your stomach lining.",
+ w:"The same action that reduces pain and swelling slows the lining's constant rebuild, which is why long use causes ulcers and bleeding.",
+ a:["Take it with food, use the lowest dose that works, and avoid it for more than a few days without advice.",
+    "Avoid it entirely if you have kidney disease, heart failure, or are dehydrated."]},
+
+{id:"grapefruit-interaction",c:"medicine",t:"Grapefruit can turn one tablet into three.",
+ w:"It blocks a gut enzyme that normally destroys part of a dose before it reaches your blood, and the block lasts more than a day. Dozens of drugs are affected, including some statins and blood pressure medicines.",
+ a:["Spacing them apart does not help. If your leaflet mentions grapefruit, avoid it entirely."]},
+
+{id:"expiry-dates-medicines",c:"medicine",t:"Most tablets lose potency after expiry rather than turning dangerous.",
+ w:"Testing of old stockpiles found many still fully potent years later. The exceptions matter though: liquid antibiotics, insulin, nitrate sprays and anything stored hot or damp.",
+ a:["Never gamble on an out of date rescue medicine such as an inhaler or adrenaline pen."]},
+
+{id:"placebo-open-label",c:"mind",t:"A placebo can work even when you are told it is a placebo.",
+ w:"In trials for irritable bowel syndrome and back pain, patients given openly labelled sugar pills reported symptom scores dropping around 30%. Expectation and the ritual of treatment do real work."},
+
+{id:"nocebo-effect",c:"mind",t:"Reading side effects makes you more likely to get them.",
+ w:"In trials where nobody knew who got the real drug, people on the dummy pill still reported a large share of the listed side effects. It is a real experience, not imagination.",
+ a:["Worth knowing before you stop a medicine that is helping. Ask whether a rechallenge is sensible."]},
+
+{id:"vaccine-soreness",c:"immunity",t:"A sore arm after a vaccine is the response being built.",
+ w:"Immune cells arriving at the injection site cause the ache and the tiredness. It is not a mild version of the disease, and no reaction does not mean it failed."},
+
+{id:"flu-vaccine-timing",c:"immunity",t:"Flu protection peaks about two weeks after the jab and fades over months.",
+ w:"That is why timing is a compromise between covering the season and still working at the end of it.",
+ a:["Autumn is the usual sweet spot in the northern hemisphere. Later is still better than not at all."]},
+
+{id:"handwashing-soap",c:"hygiene",t:"Soap does not poison germs. It rips their coat apart.",
+ w:"Many viruses are wrapped in a fatty envelope. One end of a soap molecule grabs fat, the other grabs water, so the envelope is prised open and rinsed away. That takes contact time, which is where 20 seconds comes from."},
+
+{id:"cold-air-nose",c:"colds",t:"Cold air does not give you a cold. It does weaken your nose.",
+ w:"A 2022 study found that dropping the temperature inside the nose by about 5 degrees cut the antiviral response of nose lining cells by nearly half. The virus still has to arrive."},
+
+{id:"sneeze-distance",art:"sneeze",c:"hygiene",t:"A sneeze throws droplets several metres in a fraction of a second.",
+ w:"High speed imaging shows a cloud that carries much further than the old one metre guidance assumed.",
+ a:["Into your elbow, not your hand, and not into open air."]},
+
+{id:"humidity-and-viruses",c:"colds",t:"Dry indoor air helps respiratory viruses in two ways.",
+ w:"Droplets shrink and stay airborne longer, and the mucus lining your airway works less well when dry. Winter heating is the usual cause."},
+
+{id:"loneliness-risk",c:"social",t:"Weak social connection carries a death risk on the scale of major physical risks.",
+ w:"Across studies of more than 300,000 people, weak ties came with a 26 to 32% higher chance of dying during the study period, after adjusting for age and starting health.",
+ a:["Regularity beats intensity. A standing weekly thing does more than occasional big efforts.",
+    "Doing something alongside someone tends to work better than meeting to talk."]},
+
+{id:"nature-120-minutes",c:"outdoors",t:"Two hours a week in green space tracks with better wellbeing.",
+ w:"In a study of nearly 20,000 people, 120 minutes a week was where the association appeared, and it made no difference whether that came in one visit or several."},
+
+{id:"exercise-and-mood",c:"mind",t:"Exercise compares well with antidepressants for mild to moderate depression.",
+ w:"Trials find similar effect sizes, though the studies are harder to blind and dropout is higher. It works best as an addition rather than a replacement for treatment someone is already on.",
+ a:["Anything that raises your breathing counts. Group or outdoor activity performs slightly better in trials."]},
+
+{id:"breathing-anxiety",c:"mind",t:"Slow breathing calms you through your nerves, not your thoughts.",
+ w:"A long out breath activates the system that brakes the heart, so the physical part of the panic settles even when the worry does not.",
+ a:["In for 4, out for 6, for two minutes. Longer out breath is the whole mechanism."]},
+
+{id:"rumination-vs-reflection",c:"mind",t:"Going over a problem helps only if the question changes.",
+ w:"Asking why did this happen to me tends to loop. Asking what will I do next tends to resolve. The difference shows up in studies as rumination against reflection.",
+ a:["If you have thought the same sentence twice, write down one next action instead of thinking it a third time."]},
+
+{id:"hearing-loss-and-dementia",c:"hearing",t:"Untreated hearing loss is one of the largest changeable dementia risks.",
+ w:"The link is consistent in large studies, and a 2023 trial found hearing aids slowed cognitive decline in people already at high risk. Cause is not fully settled.",
+ a:["Struggling in restaurants is the early sign, long before quiet conversation gets hard.",
+    "Free hearing tests are widely available. Average delay before people act is around 10 years."]},
+
+{id:"smoking-quit-timeline",c:"smoking",t:"Your body starts repairing 20 minutes after the last cigarette.",
+ w:"Heart rate and blood pressure fall almost immediately. After a year the extra risk of coronary heart disease is roughly halved, and after 15 years it approaches that of someone who never smoked."},
+
+{id:"vaping-unknowns",c:"smoking",t:"Vaping is clearly less harmful than smoking and not established as safe.",
+ w:"It avoids the tar and most combustion products, and it helps some people quit. Long term effects are unknown because it has not existed long enough to measure them."},
+
+{id:"alcohol-and-cancer-risk",c:"alcohol",t:"Alcohol is a group 1 carcinogen, in the same category as tobacco and asbestos.",
+ w:"That category describes certainty that it causes cancer, not how much. The clearest links are breast, mouth, throat, liver and bowel, and risk rises from low intakes rather than starting at heavy drinking."},
+
+{id:"seatbelt-physics",c:"safety",t:"At 50km/h an unbelted passenger hits the windscreen with about 3.5 tonnes of force.",
+ w:"Your body keeps the car's speed after the car stops. A belt spreads that over the strongest parts of your skeleton and stretches the stop over more time.",
+ a:["Rear seat belts matter for the people in front too. An unbelted rear passenger can kill the driver."]},
+
+{id:"helmet-evidence",c:"safety",t:"Cycle helmets cut serious head injury by roughly two thirds in crashes.",
+ w:"The foam crushes and slows your head over a few extra milliseconds. That is the whole mechanism, and it is why a helmet that has taken one impact is finished.",
+ a:["Replace after any crash, even if it looks fine. The crushed foam does not spring back."]},
+
+{id:"choking-back-blows",c:"emergency",t:"For choking, start with hard back blows, not the abdominal thrust.",
+ w:"Current guidance is five sharp blows between the shoulder blades with the person leaning forward, then five abdominal thrusts, alternating.",
+ a:["If they can cough or speak, let them cough. Intervene when the cough goes silent.",
+    "Anyone who has had abdominal thrusts should be checked afterwards for internal injury."]},
+
+{id:"burns-cool-water",art:"burn",c:"emergency",t:"A burn needs 20 minutes of cool running water, not ice.",
+ w:"Cooling limits how deep the damage goes, and it still helps up to three hours later. Ice damages tissue further and can worsen the burn.",
+ a:["Remove rings and watches before swelling starts.",
+    "Cover loosely with cling film afterwards. No butter, no toothpaste, no creams."]},
+
+{id:"nosebleed-position",art:"nosebleed",c:"emergency",t:"For a nosebleed, lean forward. Tipping the head back sends blood down your throat.",
+ w:"Most bleeds come from the soft front part of the septum, which you can press on directly.",
+ a:["Pinch the soft part just below the bony bridge for 10 minutes without checking.",
+    "Over 20 minutes, or after a head injury, needs medical help."]},
+
+{id:"sprain-price-protocol",c:"injury",t:"Ice for a sprain is now advised only briefly, and never as the whole plan.",
+ w:"Guidance has moved from rest and ice towards protection then early gentle movement, because the inflammation that ice suppresses is part of how tissue repairs.",
+ a:["First 48 hours: protect it, avoid anti inflammatory painkillers if you can, keep it moving gently.",
+    "Cannot bear weight on it at all? That needs an x ray to rule out a fracture."]},
+
+{id:"concussion-red-flags",c:"injury",t:"After a head knock, the danger signs appear over hours, not instantly.",
+ w:"A bleed inside the skull can take time to build pressure, which is why someone can seem fine and then deteriorate.",
+ a:["Emergency signs: repeated vomiting, worsening headache, confusion, one pupil larger, a fit, or getting drowsy.",
+    "No return to sport the same day, even if they insist they feel fine."]},
+
+{id:"anaphylaxis-adrenaline",c:"emergency",t:"In a severe allergic reaction, adrenaline goes in the thigh and it goes in early.",
+ w:"Antihistamines are far too slow for a reaction that closes the airway. Delay in giving adrenaline is the main factor in deaths.",
+ a:["Give it, then call an ambulance, then lie the person flat with legs raised.",
+    "Do not let them stand up, even if they improve. Standing suddenly has caused deaths.",
+    "A second pen may be needed after 5 minutes."]},
+
+{id:"sepsis-signs",c:"emergency",t:"Sepsis is the body's response to infection turning on the body itself.",
+ w:"It kills more people than many cancers and is treatable with antibiotics if caught early. The signs are non specific, which is why it gets missed.",
+ a:["Say the word sepsis when you seek help. It changes the speed of assessment.",
+    "Warning signs: slurred speech, extreme shivering or muscle pain, passing no urine all day, severe breathlessness, mottled skin."]},
+
+{id:"carbon-monoxide-alarm",c:"safety",t:"Carbon monoxide has no smell and the early symptoms look like flu.",
+ w:"It binds to your blood 200 times more readily than oxygen does. Headache and nausea that improve when you leave the house are the pattern to notice.",
+ a:["An alarm costs less than a takeaway. Put one near any gas appliance or solid fuel burner.",
+    "If it sounds, open doors, get everyone out, and call the emergency gas number."]},
+
+{id:"drowning-looks-quiet",c:"safety",t:"Drowning is almost silent. There is no shouting or waving.",
+ w:"The airway is at water level, so there is only enough breath to breathe, not to call out. People stay upright with head tilted back and arms pressing down, usually for 20 to 60 seconds.",
+ a:["Watch for a head low in the water with a blank face, and legs that are not kicking.",
+    "Ask them a question. Anyone who cannot answer needs help immediately."]},
+
+{id:"heat-exhaustion-vs-stroke",c:"safety",t:"Heat exhaustion sweats. Heatstroke often stops sweating, and that is the emergency.",
+ w:"Once the body's cooling fails, temperature climbs fast and confusion sets in. Heatstroke damages organs within minutes.",
+ a:["Confusion, no sweating, hot dry skin: call an ambulance and cool them aggressively while waiting.",
+    "For heat exhaustion: shade, fluids, cool the neck and armpits, lie down with legs raised."]},
+
+{id:"hypothermia-shivering-stops",c:"safety",t:"When someone stops shivering in the cold, they are getting worse, not better.",
+ w:"Shivering is the body still fighting. It stops when core temperature has dropped too far for the muscles to keep it up.",
+ a:["Handle them gently, get them out of wet clothes, insulate from the ground, and warm the core rather than rubbing limbs.",
+    "No alcohol. It feels warming and moves heat to the skin, where it is lost."]},
+
+{id:"dehydration-urine-colour",c:"water",t:"Urine colour is a better hydration check than any number of glasses.",
+ w:"Pale straw is fine, dark yellow means concentrate. B vitamins turn it bright yellow harmlessly, and some medicines colour it too."},
+
+{id:"first-aid-recovery-position",art:"recovery",c:"emergency",t:"An unconscious person breathing on their own goes on their side.",
+ w:"On their back, the tongue and any vomit can block the airway. On their side, both drain.",
+ a:["Roll them towards you, top knee bent to stop them rolling further, head tilted slightly back.",
+    "Not breathing normally means start compressions instead and call for help."]}
+];
+
+/* ── pool ─────────────────────────────────────────────── */
+const FACTS = [...FACTS_1, ...FACTS_2, ...FACTS_3];
+const BY_ID = {};
+FACTS.forEach(f => {
+  if (BY_ID[f.id]) console.warn("duplicate id", f.id);
+  BY_ID[f.id] = f;
+  f.sub = f.c;                                  /* narrow tag, picks the character */
+  f.cat = CAT_OF[f.c] || "curious";             /* broad category, shown to the reader */
+  if (!CAT_OF[f.c]) console.warn("unmapped category", f.c, f.id);
+});
+
+/* Stable order from the id itself, so adding facts never renumbers the old ones. */
+function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+const ORDER = FACTS.slice().sort((a,b)=>hash(a.id)-hash(b.id));
+
+/* ── storage: Claude artifact storage when present, browser storage otherwise ── */
+const KEY="vitals:v2";
+const store={
+  async get(){ try{
+    if(window.storage&&window.storage.get){ const r=await window.storage.get(KEY); return r&&r.value; }
+    return localStorage.getItem(KEY);
+  }catch(e){ return null; } },
+  async set(v){ try{
+    if(window.storage&&window.storage.set){ await window.storage.set(KEY,v); return; }
+    localStorage.setItem(KEY,v);
+  }catch(e){} }
+};
+
+let state={ saved:[], assigned:{}, seen:[], cycle:1, streak:0, lastOpen:null };
+const el=id=>document.getElementById(id);
+const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+
+async function loadState(){
+  const raw=await store.get();
+  if(raw){ try{ Object.assign(state, JSON.parse(raw)); }catch(e){} }
+  for(const k of ["saved","seen"]) if(!Array.isArray(state[k])) state[k]=[];
+  if(typeof state.assigned!=="object"||!state.assigned) state.assigned={};
+  if(!state.cycle) state.cycle=1;
+  /* drop saves and assignments pointing at facts that no longer exist */
+  state.saved=state.saved.filter(id=>BY_ID[id]);
+  state.seen=state.seen.filter(id=>BY_ID[id]);
+  for(const d of Object.keys(state.assigned)) if(!BY_ID[state.assigned[d]]) delete state.assigned[d];
+}
+const persist=()=>store.set(JSON.stringify(state));
+
+/* Today's fact is chosen once and written down. Adding facts later cannot move it. */
+function factForToday(){
+  const k=dayKey(new Date());
+  if(state.assigned[k]) return BY_ID[state.assigned[k]];
+
+  let pool=ORDER.filter(f=>!state.seen.includes(f.id));
+  if(!pool.length){ state.cycle++; state.seen=[]; pool=ORDER.slice(); }   /* pool exhausted: start a review pass */
+
+  /* rotate the starting point each cycle so a second pass is not the same order */
+  const pick=pool[ hash("cycle"+state.cycle) % pool.length ];
+  state.assigned[k]=pick.id;
+  state.seen.push(pick.id);
+
+  const keep=Object.keys(state.assigned).sort().slice(-120);   /* keep four months of history */
+  const trimmed={}; keep.forEach(d=>trimmed[d]=state.assigned[d]);
+  state.assigned=trimmed;
+  persist();
+  return pick;
+}
+
+function updateStreak(){
+  const now=new Date(), k=dayKey(now);
+  if(state.lastOpen===k) return;
+  const y=new Date(now); y.setDate(y.getDate()-1);
+  state.streak=(state.lastOpen===dayKey(y))?(state.streak||0)+1:1;
+  state.lastOpen=k; persist();
+}
+
+/* Explanatory doodle where one exists, otherwise the subject's character. */
+function artFor(f){
+  if(f.art && ART[f.art])
+    return '<figure class="doodle">'+ART[f.art].svg+'<figcaption>'+ART[f.art].cap+'</figcaption></figure>';
+  const char=MASCOT_FOR[f.sub]||"body";
+  const sp=SCENES[f.id];
+  if(sp){
+    const svg=scene(sp,CATS[f.cat].color,char);
+    if(svg) return '<figure class="doodle">'+svg+'</figure>';
+  }
+  const m=MASCOT[char];
+  return m?'<figure class="doodle mascot">'+m+'</figure>':'';
+}
+
+/* ── rendering ────────────────────────────────────────── */
+let viewing=null, isToday=true, todayFact=null;
+
+function render(){
+  const f=viewing, now=new Date();
+  el("period").textContent=MONTHS[now.getMonth()]+" "+now.getFullYear();
+  el("num").textContent=now.getDate();
+  el("num").classList.toggle("sun",now.getDay()===0);
+  el("dow").textContent=DAYS[now.getDay()];
+  const cat=CATS[f.cat];
+  el("chipLabel").textContent=cat.label;
+  el("chip").style.color=cat.color;
+  el("chip").style.background=tint(cat.color,.10);
+  el("chipDot").style.background=cat.color;
+  el("fact").textContent=f.t;
+  el("art").innerHTML=artFor(f);
+  el("why").textContent=f.w;
+  el("openLabel").textContent=f.a?"Why? And what to do":"Why?";
+  el("doWrap").hidden=!f.a;
+  el("doList").innerHTML=(f.a||[]).map((s,n)=>'<li><b>'+(n+1)+'</b><span>'+s+'</span></li>').join("");
+  el("panel").classList.remove("open");
+  el("openBtn").setAttribute("aria-expanded","false");
+
+  const on=state.saved.includes(f.id);
+  el("save").classList.toggle("on",on);
+  el("saveLabel").textContent=on?"Saved":"Save";
+  el("savedCount").textContent=state.saved.length;
+  el("streak").textContent=state.streak>1?state.streak+" days in a row":"Day one";
+
+  renderSheet();
+}
+function renderSheet(){
+  const b=el("sheetBody");
+  if(!state.saved.length){ b.innerHTML='<p class="empty">Nothing saved yet.</p>'; return; }
+  const groups={};
+  state.saved.forEach(id=>{ const f=BY_ID[id]; if(f) (groups[f.cat]=groups[f.cat]||[]).push(f); });
+  const keys=Object.keys(CATS).filter(k=>groups[k]);
+  b.innerHTML=keys.map(k=>{
+    const c=CATS[k].color;
+    return '<div class="grp">'+
+      '<span class="ghead" style="color:'+c+';background:'+tint(c,.10)+'">'+
+        '<s style="background:'+c+'"></s>'+CATS[k].label+'<b>'+groups[k].length+'</b></span>'+
+      '<ul style="border-color:'+tint(c,.28)+'">'+groups[k].map(f=>'<li>'+f.t+'</li>').join("")+'</ul>'+
+    '</div>';
+  }).join("");
+}
+function show(f,today){
+  const p=el("page"); p.classList.add("tearing");
+  setTimeout(()=>{ p.classList.remove("tearing"); viewing=f; isToday=!!today; render(); window.scrollTo({top:0}); },450);
+}
+
+el("openBtn").onclick=()=>{
+  const o=el("panel").classList.toggle("open");
+  el("openBtn").setAttribute("aria-expanded",o?"true":"false");
+};
+el("save").onclick=()=>{
+  const id=viewing.id, i=state.saved.indexOf(id);
+  if(i>=0) state.saved.splice(i,1); else state.saved.push(id);
+  persist(); render();
+};
+el("savedPill").onclick=()=>{ el("sheet").hidden=!el("sheet").hidden; };
+
+if("serviceWorker" in navigator && location.protocol==="https:"){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+
+(async()=>{
+  await loadState();
+  updateStreak();
+  todayFact=factForToday();
+  viewing=todayFact; isToday=true;
+  render();
+})();
+
+
+</script>

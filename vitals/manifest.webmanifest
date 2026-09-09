@@ -1,0 +1,16 @@
+{
+  "name": "Vitals",
+  "short_name": "Vitals",
+  "description": "One health fact a day, with the reason behind it and something to do about it.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#16213A",
+  "theme_color": "#16213A",
+  "icons": [
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
