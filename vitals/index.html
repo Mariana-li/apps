@@ -37,6 +37,7 @@
   --sans:"Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0}
 body{
   min-height:100vh;
@@ -55,7 +56,8 @@ body{
 
 .board{background:linear-gradient(#2E4269,#26375A);border-radius:20px 20px 5px 5px;padding:13px 18px;
   display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 30px rgba(0,0,0,.40)}
-.brand{display:flex;align-items:center;gap:9px;color:#F3F0EA;font-size:18px;font-weight:500;font-family:var(--disp)}
+.brand{display:flex;align-items:center;gap:9px;color:#F3F0EA;font-size:18px;font-weight:500;font-family:var(--disp);
+  border:0;background:transparent;padding:0;cursor:pointer}
 .period{color:#A3B4CC;font-size:12.5px}
 
 .stack{position:relative}
@@ -157,20 +159,78 @@ body{
  30%{transform:rotate(2deg) translateY(5px)}100%{transform:rotate(-7deg) translateY(460px);opacity:0}}
 .tearing{animation:tear .48s cubic-bezier(.42,.1,.72,1) forwards}
 @media (prefers-reduced-motion:reduce){.tearing{animation:none;opacity:0}.panel{transition:none}}
+/* intro, first open only */
+.intro{padding:26px 22px 24px}
+.introMark{display:flex;justify-content:center;margin:6px 0 2px}
+.introMark svg{width:74px;height:74px}
+.introTitle{font-family:var(--disp);font-size:34px;font-weight:600;letter-spacing:-.02em;
+  color:var(--kon);margin:12px 0 0;text-align:center}
+.introSub{font-family:var(--disp);font-size:16.5px;font-weight:400;line-height:1.42;
+  color:var(--ai);margin:8px 0 0;text-align:center}
+.introList{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.introList li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:#3E4653}
+.introList .ico{flex:0 0 auto;width:34px;height:34px;border-radius:12px;background:var(--shu-tint);
+  display:grid;place-items:center;margin-top:1px}
+.introList .ico svg{width:18px;height:18px;fill:none;stroke:var(--shu);stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.introList b{display:block;font-family:var(--disp);font-size:14.5px;font-weight:500;color:var(--kon);margin-bottom:2px}
+.start-btn{position:relative;width:100%;margin-top:24px;border:0;cursor:pointer;font-family:var(--disp);
+  background:var(--shu);color:#fff;border-radius:20px;padding:16px 52px;
+  display:flex;align-items:center;justify-content:center;font-size:17.5px;font-weight:500;
+  box-shadow:0 6px 16px rgba(198,74,49,.26)}
+.start-btn:active{transform:translateY(1px)}
+.start-btn .ic{position:absolute;right:15px;top:50%;width:27px;height:27px;border-radius:50%;
+  background:rgba(255,255,255,.22);display:grid;place-items:center;transform:translateY(-50%)}
+.start-btn .ic svg{width:12px;height:12px;stroke:#fff;stroke-width:2.6;fill:none;stroke-linecap:round}
+.introFine{font-size:12px;line-height:1.5;color:var(--ai-soft);text-align:center;margin:14px 4px 0}
+
 button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
 </style>
 
 
 <div class="wrap">
   <div class="board">
-    <span class="brand">
+    <button class="brand" id="brandBtn" type="button" aria-label="What Vitals is">
       <svg width="19" height="19" viewBox="0 0 18 18"><rect x="1" y="2.5" width="16" height="13.5" rx="4.5" fill="#F0EDE6"/><rect x="1" y="2.5" width="16" height="4.5" rx="2.2" fill="#8D9DB6"/><path d="M4.2 11.8c2.6-1.6 7.3-2 10-.8-2.8.2-7.2.9-10 .8z" fill="#C64A31"/></svg>
       Vitals
-    </span>
+    </button>
     <span class="period" id="period"></span>
   </div>
 
-  <div class="stack">
+  <div class="stack" id="introStack" hidden>
+    <div class="page intro" id="intro">
+      <div class="introMark">
+        <svg viewBox="0 0 74 74" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="5" y="9" width="64" height="56" rx="14" fill="#FAF8F3" stroke="#22355C" stroke-width="2.4"/>
+          <rect x="5" y="9" width="64" height="15" rx="7" fill="#8D9DB6"/>
+          <circle cx="22" cy="16.5" r="2.4" fill="#F0EDE6"/><circle cx="52" cy="16.5" r="2.4" fill="#F0EDE6"/>
+          <path d="M14 46c5-.2 7-9 10.5-9s4 13 8 13 4.5-11 8-11 4 7 9.5 7" fill="none" stroke="#C64A31" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="introTitle">Vitals</h1>
+      <p class="introSub">One health fact a day, with the reason behind it.</p>
+      <ul class="introList">
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3.5"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/></svg></span>
+          <span><b>A new fact each morning</b>Tear off the page to see the day before, or any day you missed.</span>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a6 6 0 00-3.5 10.9V17h7v-2.6A6 6 0 0012 3.5zM9.5 20h5"/></svg></span>
+          <span><b>The reason, then the action</b>Every fact says why it happens. Where there is something to do, the steps are specific enough to do today.</span>
+        </li>
+        <li>
+          <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11V8a7 7 0 0114 0v3"/><rect x="3.5" y="11" width="17" height="9.5" rx="3"/></svg></span>
+          <span><b>Yours, on this phone</b>No account, no sign-up, and nothing leaves the device. Works with no signal.</span>
+        </li>
+      </ul>
+      <button class="start-btn" id="startBtn" type="button">Start
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
+      </button>
+      <p class="introFine">General information, not medical advice.</p>
+    </div>
+  </div>
+
+  <div class="stack" id="dayStack">
     <div class="page" id="page">
       <div class="head">
         <div class="date"><span class="num" id="num">3</span><span class="dow" id="dow"></span></div>
@@ -201,13 +261,13 @@ button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
   </div>
 </div>
 
-<div class="bar">
+<div class="bar" id="bar">
   <button class="pill" id="savedPill">Saved<span class="badge" id="savedCount">0</span></button>
   <span class="pill plain"><span class="dot"></span><span id="streak"></span></span>
 </div>
 
 <div class="sheet" id="sheet" hidden><h2>Saved</h2><div id="sheetBody"></div></div>
-<div class="fine">General information, not medical advice.</div>
+<div class="fine" id="fine">General information, not medical advice.</div>
 
 
 <script>
@@ -2218,6 +2278,29 @@ el("save").onclick=()=>{
 };
 el("savedPill").onclick=()=>{ el("sheet").hidden=!el("sheet").hidden; };
 
+/* ── intro, shown on first open only ───────────────────── */
+function openIntro(){
+  el("dayStack").hidden=true;
+  el("bar").hidden=true; el("fine").hidden=true; el("sheet").hidden=true;
+  el("introStack").hidden=false;
+  el("period").textContent="Welcome";
+  window.scrollTo({top:0});
+}
+function closeIntro(){
+  el("introStack").hidden=true;
+  el("dayStack").hidden=false;
+  el("bar").hidden=false; el("fine").hidden=false;
+  render();
+  window.scrollTo({top:0});
+}
+el("startBtn").onclick=()=>{
+  if(!state.introSeen){ state.introSeen=true; persist(); }
+  const p=el("intro"); p.classList.add("tearing");
+  setTimeout(()=>{ p.classList.remove("tearing"); closeIntro(); },450);
+};
+el("brandBtn").onclick=()=>{ el("introStack").hidden?openIntro():closeIntro(); };
+
+
 if("serviceWorker" in navigator && location.protocol==="https:"){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
@@ -2228,6 +2311,7 @@ if("serviceWorker" in navigator && location.protocol==="https:"){
   todayFact=factForToday();
   viewing=todayFact; isToday=true;
   render();
+  if(!state.introSeen) openIntro();
 })();
 
 
