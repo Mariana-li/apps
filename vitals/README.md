@@ -1,12 +1,12 @@
 # Vitals
 
-One health fact a day. 179 facts, each with the reason behind it and, where there is one, something specific to do. One page per day, chosen once and recorded, so it cannot be reshuffled by later changes.
+One health fact a day. 127 facts, each with the reason behind it and, where there is one, something specific to do. One page per day, chosen once and recorded, so it cannot be reshuffled by later changes.
 
 ## What is in here
 
 | File | What it does |
 |---|---|
-| `index.html` | The whole app. Markup, styles, illustrations and 179 facts in one file. |
+| `index.html` | The whole app. Markup, styles, illustrations and 127 facts in one file. |
 | `manifest.webmanifest` | Tells a phone the app's name, icon, colours, and that it opens full screen. |
 | `sw.js` | Service worker: keeps a copy of every file so the app opens with no signal. |
 | `icon-180.png` | Home screen icon on iOS. |
@@ -18,7 +18,9 @@ No build step, no dependencies, no server code. Total size about 320KB.
 
 ## Data and privacy
 
-Saved facts, the streak and the record of which fact each day showed are kept in the browser's own `localStorage` on the device. Nothing is sent anywhere. There is no account, no analytics and no network request after the first load.
+Saved facts, the streak and the record of which fact each day showed are kept in the browser's own `localStorage` on the device. There is no account and nothing personal is sent anywhere.
+
+The one outbound request is a visitor counter, Cloudflare Web Analytics. It sets no cookies, stores no personal data and cannot identify a person; it counts page views and whether visits repeat. To switch it on, replace `CF_TOKEN_HERE` in `index.html` with the token from your Cloudflare dashboard (free account, Web Analytics, Add a site). To run with no counting at all, delete that one `<script>` tag.
 
 ---
 

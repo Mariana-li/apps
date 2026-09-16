@@ -1,7 +1,7 @@
 /* Bump CACHE whenever any file below changes, or installed copies keep the old one.
    PREFIX keeps clean-up inside this app: several apps on one github.io domain share
    one cache store, and deleting every cache but ours would wipe the neighbours. */
-const CACHE = "vitals-v4";
+const CACHE = "vitals-v9";
 const PREFIX = "vitals-";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",
@@ -25,6 +25,7 @@ self.addEventListener("activate", e => {
 });
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  if (new URL(e.request.url).origin !== self.location.origin) return;   /* analytics beacon, not ours to cache */
   e.respondWith(
     caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
       const copy = res.clone();

@@ -1,7 +1,7 @@
 # Vitals
 
 A static web app that shows one health fact a day. Installable to a phone home screen,
-works offline, stores everything on the device. No server, no accounts, no analytics.
+works offline, stores everything on the device. No server, no accounts. One cookieless visitor counter (Cloudflare Web Analytics), nothing else leaves the device.
 
 Lives at `vitals/` inside this repo. Published with GitHub Pages from `main`, root folder,
 so the address is `https://Mariana-li.github.io/apps/vitals/`. Other apps may be added as
@@ -9,8 +9,8 @@ sibling folders later.
 
 ## Structure
 
-Everything is in `vitals/index.html`: markup, CSS, illustrations and all 179 facts, about
-155KB. No build step, no dependencies, no framework. Alongside it:
+Everything is in `vitals/index.html`: markup, CSS, illustrations and all 127 facts, about
+160KB. No build step, no dependencies, no framework. Alongside it:
 
 - `sw.js` service worker, caches every file for offline use
 - `manifest.webmanifest` name, icons, colours, standalone display
@@ -40,8 +40,10 @@ Facts live in three arrays: `FACTS_1`, `FACTS_2`, `FACTS_3`.
 - `c` is the narrow tag. It picks the character and maps to a broad display category via
   `CAT_OF`. A tag missing from `CAT_OF` falls back to "curious body", and the code warns to
   the console at load, so check the console after adding facts.
-- `t` headline, `w` the reason, `a` optional steps. `a` is genuinely optional: many facts
-  are curiosities and inventing advice for them is padding.
+- `t` headline, `w` the reason, `a` the steps. **Every fact must have `a`.** A fact with nothing
+  to do about it does not belong in the pool; 52 trivia facts were removed for exactly this reason.
+
+Each day's fact avoids yesterday's category whenever any other choice remains.
 
 Adding facts is safe at any time. Each day's fact is chosen once and written to storage, so
 existing readers keep their history and new facts join the unseen pool. When the unseen pool
@@ -56,9 +58,16 @@ empties, a second pass starts in a different order.
    to right, `cmp` two states either side of a divider with a tick or cross, `many` counting
    objects to show proportion, `lanes` two competing routes stacked. Older `flow`, `vs` and
    `parts` layouts use text cards and are being replaced.
-3. `MASCOT[...]` the subject's character, decorative only.
+3. Nothing. Every fact currently has a picture; if one is ever added without, the page shows
+   no figure rather than a generic character. The `MASCOT` library is unused.
 
-Pictures are built from `PROPS`, about 58 small cute objects drawn around their own centre.
+Pictures are built from `PROPS`, about 95 objects drawn around their own centre. Every prop has been
+drawn with real detail (an alarm clock has feet, a bell and tick marks; a bean has a seam and a
+highlight), and layouts draw everything large: a single object in a comparison is 1.5 times
+its base size. The test for any prop: could it be swapped for a different object without
+changing the meaning? If yes, it is a generic shape and needs redrawing. Sparkle `flags`,
+a red `cross` and `scale` are overlays any prop can carry, for good stuff, not this, and more
+or less.
 All line art runs through a wobble filter so it looks hand drawn. **No lettering inside
 illustrations.** Meaning comes from shape, colour, count, size and the badge. Captions sit
 underneath, outside the drawing.
@@ -109,8 +118,8 @@ There is no test suite, so check by hand:
 
 ## Constraints
 
-- Do not add analytics, tracking, or any network request after first load. Nothing leaves
-  the device, and the README says so.
+- The only outbound request is the Cloudflare beacon. Do not add anything that identifies a
+  person or sets a cookie. The README describes exactly what leaves the device; keep it true.
 - Do not add a build step or a dependency. One file that opens in a browser is the point.
 - Do not rewrite git history or force push.
 - The service worker only deletes caches beginning `vitals-`, so it cannot wipe a sibling
@@ -118,12 +127,23 @@ There is no test suite, so check by hand:
 - `localStorage` is shared across every app on `Mariana-li.github.io`. Vitals uses keys
   beginning `vitals:`. Give any new app its own prefix.
 
+## Categories
+
+Nine broad ones, in `CATS`: heart & blood, brain & senses, body basics, food & drink, sleep,
+movement, skin hair & teeth, germs & medicines, safety & first aid. Do not add narrow ones.
+
+## Sharing
+
+The Share button draws the current page onto a 1080 by 1350 canvas (headline, category,
+illustration, address) and hands the PNG to the phone's share sheet through the Web Share API,
+falling back to a download. The image is prepared in the background after each render so the
+share sheet opens inside the tap gesture, which iOS requires.
+
 ## Known work outstanding
 
-- 56 pages still use the text-card scene layouts and should move to wordless pictures.
-- 36 pages still show only a character and need a picture spec.
-- The 21 bespoke drawings still contain internal labels, against the no-lettering rule.
-  Undecided whether to redraw them or move the labels into captions.
-- 179 facts is about six months before anything repeats. Target is 365.
+- The 16 bespoke drawings still contain small internal labels.
+- 127 facts is about four months before anything repeats. Every new fact needs an action.
+- The text-card layouts (`flow`, `vs`, `parts`) are retired and return nothing; their specs can
+  be deleted from `SCENES` in a clean-up pass.
 - No daily reminder. This is the main gap in the home screen version and the thing that
   would make an App Store submission defensible under guideline 4.2.
