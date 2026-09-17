@@ -54,6 +54,10 @@ body{
   display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 30px rgba(0,0,0,.40)}
 .brand{display:flex;align-items:center;gap:9px;color:#F3F0EA;font-size:18px;font-weight:500;font-family:var(--disp)}
 .period{color:#A3B4CC;font-size:12.5px}
+.board-r{display:flex;align-items:center;gap:10px}
+.lang{font-family:var(--disp);font-size:12px;line-height:1;padding:6px 11px;border-radius:999px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#E3EAF5;cursor:pointer}
+.lang:active{background:rgba(255,255,255,.20)}
 
 .stack{position:relative}
 .stack::before,.stack::after{content:'';position:absolute;left:7px;right:7px;top:3px;bottom:-5px;
@@ -166,6 +170,7 @@ body{
 .tearing{animation:tear .48s cubic-bezier(.42,.1,.72,1) forwards}
 @media (prefers-reduced-motion:reduce){.tearing{animation:none;opacity:0}.panel{transition:none}}
 button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
+[hidden]{display:none!important}   /* .pill sets display:flex, which outranks the browser default for [hidden] */
 </style>
 
 
@@ -175,7 +180,10 @@ button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
       <svg width="19" height="19" viewBox="0 0 18 18"><rect x="1" y="2.5" width="16" height="13.5" rx="4.5" fill="#F0EDE6"/><rect x="1" y="2.5" width="16" height="4.5" rx="2.2" fill="#8D9DB6"/><path d="M4.2 11.8c2.6-1.6 7.3-2 10-.8-2.8.2-7.2.9-10 .8z" fill="#C64A31"/></svg>
       Vitals
     </span>
-    <span class="period" id="period"></span>
+    <span class="board-r">
+      <span class="period" id="period"></span>
+      <button class="lang" id="langBtn" type="button"><span id="langLabel"></span></button>
+    </span>
   </div>
 
   <div class="stack">
@@ -193,10 +201,10 @@ button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
         <span class="ic"><svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></svg></span>
       </button>
       <div class="panel" id="panel"><div class="panel-in">
-        <span class="lbl">Why</span>
+        <span class="lbl" id="whyLbl">Why</span>
         <p class="why" id="why"></p>
         <div class="do" id="doWrap">
-          <span class="lbl">Do this</span>
+          <span class="lbl" id="doLbl">Do this</span>
           <ul id="doList"></ul>
         </div>
       </div></div>
@@ -216,13 +224,13 @@ button:focus-visible{outline:2.5px solid var(--shu);outline-offset:3px}
 </div>
 
 <div class="bar">
-  <button class="pill" id="savedPill">Saved<span class="badge" id="savedCount">0</span></button>
+  <button class="pill" id="savedPill"><span id="savedPillLabel">Saved</span><span class="badge" id="savedCount">0</span></button>
   <span class="pill plain"><span class="dot"></span><span id="streak"></span></span>
   <button class="pill today" id="backToday" hidden>Back to today</button>
 </div>
 
-<div class="sheet" id="sheet" hidden><h2>Saved</h2><div id="sheetBody"></div></div>
-<div class="fine">General information, not medical advice.</div>
+<div class="sheet" id="sheet" hidden><h2 id="sheetTitle">Saved</h2><div id="sheetBody"></div></div>
+<div class="fine" id="fine">General information, not medical advice.</div>
 
 
 <!-- Visitor counting. Cloudflare Web Analytics: no cookies, no personal data, counts page views and
@@ -2666,10 +2674,51 @@ const store={
   }catch(e){} }
 };
 
-let state={ saved:[], assigned:{}, seen:[], cycle:1, streak:0, lastOpen:null };
+let state={ saved:[], assigned:{}, seen:[], cycle:1, streak:0, lastOpen:null, lang:"en" };
 const el=id=>document.getElementById(id);
 const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+/* ── languages ─────────────────────────────────────────────
+   UI text only. The facts themselves are still English in both
+   modes; TR.zh.facts is where their translations will go. */
+const TR={
+  en:{
+    toggle:"\u4e2d\u6587",
+    why:"Why", whyQ:"Why?", whyDo:"Why? And what to do", doThis:"Do this",
+    save:"Save", saved:"Saved", share:"Share", preparing:"Preparing",
+    savedTitle:"Saved", nothingSaved:"Nothing saved yet.", backToday:"Back to today",
+    dayOne:"Day one", streak:n=>n+" days in a row",
+    tagline:"One health fact a day", fine:"General information, not medical advice.",
+    days:DAYS, dow:d=>DAYS[d],
+    period:(m,y)=>MONTHS[m]+" "+y,
+    cardDate:(d,m,y)=>d+" "+MONTHS[m]+" "+y,
+    cats:{heart:"heart & blood",brain:"brain & senses",body:"body basics",food:"food & drink",
+          sleep:"sleep",movement:"movement",skin:"skin, hair & teeth",germs:"germs & medicines",
+          safety:"safety & first aid"}
+  },
+  zh:{
+    toggle:"EN",
+    why:"\u4e3a\u4ec0\u4e48", whyQ:"\u4e3a\u4ec0\u4e48\uff1f",
+    whyDo:"\u4e3a\u4ec0\u4e48\uff1f\u8be5\u600e\u4e48\u505a", doThis:"\u8fd9\u6837\u505a",
+    save:"\u6536\u85cf", saved:"\u5df2\u6536\u85cf", share:"\u5206\u4eab", preparing:"\u6b63\u5728\u51c6\u5907",
+    savedTitle:"\u6536\u85cf", nothingSaved:"\u8fd8\u6ca1\u6709\u6536\u85cf\u3002",
+    backToday:"\u56de\u5230\u4eca\u5929",
+    dayOne:"\u7b2c\u4e00\u5929", streak:n=>"\u8fde\u7eed "+n+" \u5929",
+    tagline:"\u6bcf\u5929\u4e00\u6761\u5065\u5eb7\u77e5\u8bc6",
+    fine:"\u4ec5\u4f9b\u4e00\u822c\u53c2\u8003\uff0c\u4e0d\u6784\u6210\u533b\u7597\u5efa\u8bae\u3002",
+    dow:d=>["\u661f\u671f\u65e5","\u661f\u671f\u4e00","\u661f\u671f\u4e8c","\u661f\u671f\u4e09","\u661f\u671f\u56db","\u661f\u671f\u4e94","\u661f\u671f\u516d"][d],
+    period:(m,y)=>y+"\u5e74"+(m+1)+"\u6708",
+    cardDate:(d,m,y)=>y+"\u5e74"+(m+1)+"\u6708"+d+"\u65e5",
+    cats:{heart:"\u5fc3\u810f\u4e0e\u8840\u6db2",brain:"\u5927\u8111\u4e0e\u611f\u5b98",
+          body:"\u8eab\u4f53\u57fa\u7840",food:"\u996e\u98df",sleep:"\u7761\u7720",
+          movement:"\u8fd0\u52a8",skin:"\u76ae\u80a4\u3001\u5934\u53d1\u4e0e\u7259\u9f7f",
+          germs:"\u75c5\u83cc\u4e0e\u836f\u7269",safety:"\u5b89\u5168\u4e0e\u6025\u6551"}
+  }
+};
+const LANGS=["en","zh"];
+const L=()=>TR[state.lang]||TR.en;
+const catLabel=k=>L().cats[k]||CATS[k].label;
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 
 async function loadState(){
@@ -2678,6 +2727,7 @@ async function loadState(){
   for(const k of ["saved","seen"]) if(!Array.isArray(state[k])) state[k]=[];
   if(typeof state.assigned!=="object"||!state.assigned) state.assigned={};
   if(!state.cycle) state.cycle=1;
+  if(LANGS.indexOf(state.lang)<0) state.lang="en";
   /* drop saves and assignments pointing at facts that no longer exist */
   state.saved=state.saved.filter(id=>BY_ID[id]);
   state.seen=state.seen.filter(id=>BY_ID[id]);
@@ -2736,10 +2786,23 @@ const SHARE_URL=(location.protocol==="https:")?location.href.split("#")[0].split
 let shareBlob=null, shareFor=null;
 
 function rr(x,px,py,w,h,r,fill){ x.beginPath(); x.roundRect(px,py,w,h,r); x.fillStyle=fill; x.fill(); }
+/* Greedy wrap that breaks on spaces for English and between characters for
+   Chinese, which has none. */
+const CJK=/[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFF60\u3000-\u303F]/;
 function wrapCanvas(x,text,maxW){
-  const words=text.split(" "), lines=[]; let cur="";
-  for(const w of words){ const t=(cur+" "+w).trim(); if(x.measureText(t).width>maxW && cur){ lines.push(cur); cur=w; } else cur=t; }
-  if(cur) lines.push(cur); return lines;
+  const lines=[]; let cur="";
+  for(let i=0;i<text.length;i++){
+    const ch=text[i], test=cur+ch;
+    if(cur && x.measureText(test).width>maxW){
+      if(ch===" "){ lines.push(cur); cur=""; continue; }
+      if(CJK.test(ch)||CJK.test(cur[cur.length-1])){ lines.push(cur); cur=ch; continue; }
+      const sp=cur.lastIndexOf(" ");
+      if(sp>0){ lines.push(cur.slice(0,sp)); cur=cur.slice(sp+1)+ch; }
+      else { lines.push(cur); cur=ch; }
+    } else cur=test;
+  }
+  if(cur.trim()) lines.push(cur.trim());
+  return lines;
 }
 function svgToImage(svgEl){
   return new Promise(res=>{
@@ -2755,34 +2818,92 @@ function svgToImage(svgEl){
     img.src=url;
   });
 }
+const FD='Fredoka, sans-serif';
+const NU='Nunito, sans-serif';
+
+/* The card carries the whole fact: headline, picture, why, and the steps.
+   Height is measured first and the canvas sized to fit, so nothing is cut off.
+   Buttons and the streak are page furniture and stay off it. */
 async function buildShareCard(f){
-  const W=1080,H=1350,pad=72;
+  const W=1080, pad=72, ix=pad+52, iw=W-pad*2-104, x0=L();
+  if(document.fonts&&document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
+
+  const m=document.createElement("canvas").getContext("2d");
+  m.font="500 66px "+FD;            const titleLines=wrapCanvas(m,f.t,iw);
+  m.font="400 37px "+NU;            const whyLines=wrapCanvas(m,f.w,iw);
+  m.font="400 35px "+NU;
+  const steps=(f.a||[]).map(t=>wrapCanvas(m,t,iw-72));
+  const art=await svgToImage(document.querySelector("#art svg"));
+
+  const TL=82, WL=52, SL=48;
+  let artH=0, artW=0;
+  if(art){ const sc=Math.min((iw-60)/art.w,520/art.h); artW=art.w*sc; artH=art.h*sc; }
+
+  let y=110+120+54;                       /* card top, header bar, gap */
+  const yChip=y;            y+=56+38;
+  const yTitle=y;           y+=titleLines.length*TL+(art?30:34);
+  const yArt=y;             if(art) y+=artH+40+34;
+  const yWhyLbl=y;          y+=34+16;
+  const yWhy=y;             y+=whyLines.length*WL;
+  let yDoLbl=0, yStep=0;
+  if(steps.length){ y+=34; yDoLbl=y; y+=34+18; yStep=y;
+    steps.forEach(ls=>{ y+=ls.length*SL+22; }); }
+  y+=36;
+  const yFoot=y;            y+=34+52;
+  const H=Math.round(y+110);
+
   const c=document.createElement("canvas"); c.width=W; c.height=H;
   const x=c.getContext("2d");
-  if(document.fonts&&document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
   x.fillStyle="#16213A"; x.fillRect(0,0,W,H);
   rr(x,pad,110,W-pad*2,H-220,44,"#F0EDE6");
   x.save(); x.beginPath(); x.roundRect(pad,110,W-pad*2,120,[44,44,0,0]); x.fillStyle="#2E4269"; x.fill(); x.restore();
-  x.fillStyle="#F3F0EA"; x.font="500 46px Fredoka, sans-serif"; x.textBaseline="middle"; x.fillText("Vitals",pad+52,170);
+
+  x.textBaseline="middle";
+  x.fillStyle="#F3F0EA"; x.font="500 46px "+FD; x.fillText("Vitals",ix,170);
   const now=new Date();
-  x.textAlign="right"; x.fillStyle="#A3B4CC"; x.font="600 30px Nunito, sans-serif";
-  x.fillText(now.getDate()+" "+MONTHS[now.getMonth()]+" "+now.getFullYear(),W-pad-52,170); x.textAlign="left";
-  const cat=CATS[f.cat]; x.font="600 30px Fredoka, sans-serif";
-  const cw=x.measureText(cat.label).width+64;
-  rr(x,pad+52,284,cw,56,28,tint(cat.color,.12)); x.fillStyle=cat.color; x.fillText(cat.label,pad+52+38,312);
-  x.beginPath(); x.arc(pad+52+22,312,6,0,7); x.fill();
-  x.fillStyle="#22355C"; x.font="500 66px Fredoka, sans-serif"; x.textBaseline="alphabetic";
-  const lines=wrapCanvas(x,f.t,W-pad*2-104); let y=420;
-  lines.forEach(ln=>{ x.fillText(ln,pad+52,y); y+=80; });
-  const art=await svgToImage(document.querySelector("#art svg"));
-  const boxW=W-pad*2-104, boxY=y+30, boxH=Math.min(H-boxY-260, 620);
-  rr(x,pad+52,boxY,boxW,boxH,36,"#FAF8F3");
-  if(art){ const s=Math.min((boxW-60)/art.w,(boxH-40)/art.h); const dw=art.w*s, dh=art.h*s;
-    x.drawImage(art.img,pad+52+(boxW-dw)/2,boxY+(boxH-dh)/2,dw,dh); }
-  x.fillStyle="#7788A3"; x.font="600 28px Nunito, sans-serif";
-  x.fillText("One health fact a day",pad+52,H-190);
-  x.fillStyle="#C64A31"; x.font="600 30px Fredoka, sans-serif";
-  x.fillText(SHARE_URL.replace(/^https?:\/\//,"").replace(/\/$/,""),pad+52,H-148);
+  x.textAlign="right"; x.fillStyle="#A3B4CC"; x.font="600 30px "+NU;
+  x.fillText(x0.cardDate(now.getDate(),now.getMonth(),now.getFullYear()),W-pad-52,170);
+  x.textAlign="left";
+
+  const cat=CATS[f.cat], label=catLabel(f.cat);
+  x.font="600 30px "+FD;
+  const cw=x.measureText(label).width+64;
+  rr(x,ix,yChip,cw,56,28,tint(cat.color,.12));
+  x.fillStyle=cat.color; x.fillText(label,ix+38,yChip+28);
+  x.beginPath(); x.arc(ix+22,yChip+28,6,0,7); x.fill();
+
+  x.textBaseline="top";
+  x.fillStyle="#22355C"; x.font="500 66px "+FD;
+  titleLines.forEach((ln,i)=>x.fillText(ln,ix,yTitle+i*TL));
+
+  if(art){
+    rr(x,ix,yArt,iw,artH+40,36,"#FAF8F3");
+    x.drawImage(art.img,ix+(iw-artW)/2,yArt+20,artW,artH);
+  }
+
+  x.fillStyle="#C64A31"; x.font="600 26px "+FD;
+  x.fillText(x0.why.toUpperCase(),ix,yWhyLbl);
+  x.fillStyle="#3C5B86"; x.font="400 37px "+NU;
+  whyLines.forEach((ln,i)=>x.fillText(ln,ix,yWhy+i*WL));
+
+  if(steps.length){
+    x.fillStyle="#C64A31"; x.font="600 26px "+FD;
+    x.fillText(x0.doThis.toUpperCase(),ix,yDoLbl);
+    let sy=yStep;
+    steps.forEach((ls,n)=>{
+      x.fillStyle=tint(cat.color,.14); x.beginPath(); x.arc(ix+17,sy+18,17,0,7); x.fill();
+      x.fillStyle=cat.color; x.font="600 24px "+FD; x.textAlign="center";
+      x.fillText(String(n+1),ix+17,sy+7); x.textAlign="left";
+      x.fillStyle="#232833"; x.font="400 35px "+NU;
+      ls.forEach((ln,i)=>x.fillText(ln,ix+56,sy+i*SL));
+      sy+=ls.length*SL+22;
+    });
+  }
+
+  x.fillStyle="#7788A3"; x.font="600 28px "+NU;
+  x.fillText(x0.tagline,ix,yFoot);
+  x.fillStyle="#C64A31"; x.font="600 30px "+FD;
+  x.fillText(SHARE_URL.replace(/^https?:\/\//,"").replace(/\/$/,""),ix,yFoot+42);
   return new Promise(res=>c.toBlob(res,"image/png"));
 }
 async function prepareShare(){
@@ -2792,7 +2913,7 @@ async function prepareShare(){
 }
 async function shareNow(){
   const f=viewing, btn=el("share"), lab=el("shareLabel");
-  btn.disabled=true; lab.textContent="Preparing";
+  btn.disabled=true; lab.textContent=L().preparing;
   try{
     let blob=(shareFor===f.id&&shareBlob)?shareBlob:await buildShareCard(f);
     const file=new File([blob],"vitals-"+f.id+".png",{type:"image/png"});
@@ -2805,7 +2926,7 @@ async function shareNow(){
       setTimeout(()=>URL.revokeObjectURL(a.href),4000);
     }
   }catch(e){ /* user closed the share sheet, or not supported */ }
-  btn.disabled=false; lab.textContent="Share";
+  btn.disabled=false; lab.textContent=L().share;
 }
 el("share").onclick=shareNow;
 
@@ -2821,19 +2942,19 @@ let viewing=null, isToday=true, todayFact=null;
 
 function render(){
   const f=viewing, now=new Date();
-  el("period").textContent=MONTHS[now.getMonth()]+" "+now.getFullYear();
+  el("period").textContent=L().period(now.getMonth(),now.getFullYear());
   el("num").textContent=now.getDate();
   el("num").classList.toggle("sun",now.getDay()===0);
-  el("dow").textContent=DAYS[now.getDay()];
+  el("dow").textContent=L().dow(now.getDay());
   const cat=CATS[f.cat];
-  el("chipLabel").textContent=cat.label;
+  el("chipLabel").textContent=catLabel(f.cat);
   el("chip").style.color=cat.color;
   el("chip").style.background=tint(cat.color,.10);
   el("chipDot").style.background=cat.color;
   el("fact").textContent=f.t;
   el("art").innerHTML=artFor(f);
   el("why").textContent=f.w;
-  el("openLabel").textContent=f.a?"Why? And what to do":"Why?";
+  el("openLabel").textContent=f.a?L().whyDo:L().whyQ;
   el("doWrap").hidden=!f.a;
   el("doList").innerHTML=(f.a||[]).map((s,n)=>'<li><b>'+(n+1)+'</b><span>'+s+'</span></li>').join("");
   el("panel").classList.remove("open");
@@ -2841,18 +2962,39 @@ function render(){
 
   const on=state.saved.includes(f.id);
   el("save").classList.toggle("on",on);
-  el("saveLabel").textContent=on?"Saved":"Save";
+  el("saveLabel").textContent=on?L().saved:L().save;
   el("savedCount").textContent=state.saved.length;
-  el("streak").textContent=state.streak>1?state.streak+" days in a row":"Day one";
+  el("streak").textContent=state.streak>1?L().streak(state.streak):L().dayOne;
   el("backToday").hidden=isToday;
+  applyChrome();
   if(opt("counter")) opt("counter").textContent=(ORDER.indexOf(f)+1)+" / "+ORDER.length+"  ·  "+(ORDER.length-state.seen.length)+" unseen";
   prepareShare();
 
   renderSheet();
 }
+/* Text that does not depend on which fact is showing. */
+function applyChrome(){
+  const x=L();
+  document.documentElement.lang = (state.lang==="zh") ? "zh-CN" : "en";
+  el("langLabel").textContent=x.toggle;
+  el("whyLbl").textContent=x.why;
+  el("doLbl").textContent=x.doThis;
+  el("sheetTitle").textContent=x.savedTitle;
+  el("savedPillLabel").textContent=x.savedTitle;
+  el("backToday").textContent=x.backToday;
+  el("shareLabel").textContent=x.share;
+  el("fine").textContent=x.fine;
+}
+el("langBtn").onclick=()=>{
+  state.lang = state.lang==="zh" ? "en" : "zh";
+  persist();
+  shareFor=null; shareBlob=null;   /* card text is language specific, build it again */
+  render();
+};
+
 function renderSheet(){
   const b=el("sheetBody");
-  if(!state.saved.length){ b.innerHTML='<p class="empty">Nothing saved yet.</p>'; return; }
+  if(!state.saved.length){ b.innerHTML='<p class="empty">'+L().nothingSaved+'</p>'; return; }
   const groups={};
   state.saved.forEach(id=>{ const f=BY_ID[id]; if(f) (groups[f.cat]=groups[f.cat]||[]).push(f); });
   const keys=Object.keys(CATS).filter(k=>groups[k]);
@@ -2860,7 +3002,7 @@ function renderSheet(){
     const c=CATS[k].color;
     return '<div class="grp">'+
       '<span class="ghead" style="color:'+c+';background:'+tint(c,.10)+'">'+
-        '<s style="background:'+c+'"></s>'+CATS[k].label+'<b>'+groups[k].length+'</b></span>'+
+        '<s style="background:'+c+'"></s>'+catLabel(k)+'<b>'+groups[k].length+'</b></span>'+
       '<ul style="border-color:'+tint(c,.28)+'">'+
         groups[k].map(f=>'<li><button type="button" data-id="'+f.id+'">'+f.t+'</button></li>').join("")+
       '</ul></div>';
