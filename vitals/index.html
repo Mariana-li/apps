@@ -2684,7 +2684,7 @@ const MONTHS=["January","February","March","April","May","June","July","August",
    modes; TR.zh.facts is where their translations will go. */
 const TR={
   en:{
-    toggle:"\u4e2d\u6587",
+    toggle:"中文",
     why:"Why", whyQ:"Why?", whyDo:"Why? And what to do", doThis:"Do this",
     save:"Save", saved:"Saved", share:"Share", preparing:"Preparing",
     savedTitle:"Saved", nothingSaved:"Nothing saved yet.", backToday:"Back to today",
@@ -2699,26 +2699,109 @@ const TR={
   },
   zh:{
     toggle:"EN",
-    why:"\u4e3a\u4ec0\u4e48", whyQ:"\u4e3a\u4ec0\u4e48\uff1f",
-    whyDo:"\u4e3a\u4ec0\u4e48\uff1f\u8be5\u600e\u4e48\u505a", doThis:"\u8fd9\u6837\u505a",
-    save:"\u6536\u85cf", saved:"\u5df2\u6536\u85cf", share:"\u5206\u4eab", preparing:"\u6b63\u5728\u51c6\u5907",
-    savedTitle:"\u6536\u85cf", nothingSaved:"\u8fd8\u6ca1\u6709\u6536\u85cf\u3002",
-    backToday:"\u56de\u5230\u4eca\u5929",
-    dayOne:"\u7b2c\u4e00\u5929", streak:n=>"\u8fde\u7eed "+n+" \u5929",
-    tagline:"\u6bcf\u5929\u4e00\u6761\u5065\u5eb7\u77e5\u8bc6",
-    fine:"\u4ec5\u4f9b\u4e00\u822c\u53c2\u8003\uff0c\u4e0d\u6784\u6210\u533b\u7597\u5efa\u8bae\u3002",
-    dow:d=>["\u661f\u671f\u65e5","\u661f\u671f\u4e00","\u661f\u671f\u4e8c","\u661f\u671f\u4e09","\u661f\u671f\u56db","\u661f\u671f\u4e94","\u661f\u671f\u516d"][d],
-    period:(m,y)=>y+"\u5e74"+(m+1)+"\u6708",
-    cardDate:(d,m,y)=>y+"\u5e74"+(m+1)+"\u6708"+d+"\u65e5",
-    cats:{heart:"\u5fc3\u810f\u4e0e\u8840\u6db2",brain:"\u5927\u8111\u4e0e\u611f\u5b98",
-          body:"\u8eab\u4f53\u57fa\u7840",food:"\u996e\u98df",sleep:"\u7761\u7720",
-          movement:"\u8fd0\u52a8",skin:"\u76ae\u80a4\u3001\u5934\u53d1\u4e0e\u7259\u9f7f",
-          germs:"\u75c5\u83cc\u4e0e\u836f\u7269",safety:"\u5b89\u5168\u4e0e\u6025\u6551"}
+    why:"为什么", whyQ:"为什么？",
+    whyDo:"为什么？该怎么做", doThis:"这样做",
+    save:"收藏", saved:"已收藏", share:"分享", preparing:"正在准备",
+    savedTitle:"收藏", nothingSaved:"还没有收藏。",
+    backToday:"回到今天",
+    dayOne:"第一天", streak:n=>"连续 "+n+" 天",
+    tagline:"每天一条健康知识",
+    fine:"仅供一般参考，不构成医疗建议。",
+    dow:d=>["星期日","星期一","星期二","星期三","星期四","星期五","星期六"][d],
+    period:(m,y)=>y+"年"+(m+1)+"月",
+    cardDate:(d,m,y)=>y+"年"+(m+1)+"月"+d+"日",
+    cats:{heart:"心脏与血液",brain:"大脑与感官",
+          body:"身体基础",food:"饮食",sleep:"睡眠",
+          movement:"运动",skin:"皮肤、头发与牙齿",
+          germs:"病菌与药物",safety:"安全与急救"}
   }
 };
+/* Fact translations, keyed by the permanent fact id. Filled in batches.
+   A fact with no entry shows its English text. */
+TR.zh.facts={
+"lungs-air-bags":{t:"你的肺里有多达 5 亿个微小气囊。",
+ w:"把它们摊平，面积约 70 平方米。氧气穿过只有两个细胞厚的壁，没有任何力量推动它，它只是向含量更低的一侧扩散。",
+ a:["如果今年上楼梯变得更吃力，就用这句话告诉医生。肺功能检查只需 10 分钟。",
+    "在冷空气里用鼻子呼吸。鼻子比嘴更能把空气加温加湿。"]},
+
+"blink-rate-screens":{t:"看屏幕时，你的眨眼次数只有平时的一半。",
+ w:"平时每分钟眨眼 15 到 20 次。眨得少，眼球表面的泪膜蒸发后得不到补充，这就是大多数人所说的屏幕眼疲劳。",
+ a:["眼睛发涩时，用力而缓慢地眨十次。完全闭合才能把防止泪液蒸发的油层铺开。",
+    "在用眼药水之前，先把吹向脸部的风扇或出风口调小。"]},
+
+"eye-focus-distance":{t:"向远处看 20 秒，就能让眼睛休息。",
+ w:"看近处时，一圈肌肉会把晶状体挤得更厚。看远处才是它放松的状态，所以远眺是休息，而不是用力。",
+ a:["在座位上找一个 6 米以外能看到的东西，每次都看同一个。",
+    "把屏幕顶端放在与视线齐平或略低的位置。视线向下能减慢泪液蒸发。",
+    "到下午 4 点眼睛就发烫？用不含防腐剂的人工泪液，不要用去红血丝的眼药水。"]},
+
+"hair-cells-no-regrow":{t:"超过 85 分贝，你的耳朵就开始受损。",
+ w:"85dB 相当于车流繁忙的马路，听约 8 小时就是一天的量。100dB 的演出 15 分钟就达到同样的剂量。负责接收声音的微小毛细胞会被剪断，而人类无法让它们再生。",
+ a:["设置一次就好：iPhone，设置，声音与触感，耳机安全，85dB。",
+    "标称降噪 20dB 的泡棉耳塞，能让一场演出的安全性提高大约 100 倍。",
+    "耳鸣持续一天，或者一只耳朵变得听不清，这周就要去看医生。"]},
+
+"smell-one-step":{t:"嗅觉一步就到达记忆，其他感官都要绕路。",
+ w:"视觉、听觉和触觉都要先在一个中继站排队。嗅觉则直接抵达储存事件、并为其附上情绪的脑区旁边。",
+ a:["生病后失去嗅觉？闻四种气味浓烈的东西，每种 20 秒，每天两次，持续 12 周。",
+    "试验中采用的四种是玫瑰、桉树、柠檬和丁香。"]},
+
+"body-temp-36-6":{t:"正常体温并不是 37 度。",
+ w:"这个数字来自 1851 年的测量。现代的平均值更接近 36.6，而且你自己的体温一天内会波动约半度，清晨最低。",
+ a:["在几个身体正常的日子里量一下自己的体温，把数字记下来。发烧是相对你自己的基线升高，而不是相对 37。",
+    "每次在一天中的同一时间量。早上的读数比晚上大约低半度。"]},
+
+"fever-is-defence":{t:"发烧是身体在故意把温度调高。",
+ w:"大脑调高了自己的目标温度，所以你明明已经很热却还在发抖。温度升高两度左右，许多细菌和病毒的复制就会变差。",
+ a:["看人的感受来处理，而不是看数字。多喝水、休息，难受的话可以用对乙酰氨基酚。",
+    "不满 3 个月的婴儿只要发烧、任何人超过 39.5、或发烧持续超过 3 天，都要就医。",
+    "发烧同时出现脖子僵硬、用玻璃杯压住也不褪色的皮疹、或意识模糊，属于急症。"]},
+
+"bruise-colours":{t:"淤青会变色，是因为身体正在分解渗出的血。",
+ w:"血液中的红色色素先分解成绿色，再变成黄色，然后被清除。颜色大致告诉你这块淤青有多久了。",
+ a:["没有磕碰就出现的淤青，或反复出现在奇怪部位的淤青，需要做血液检查。",
+    "2 周后仍未消退，或还在变大的淤青，值得给医生看看。"]},
+
+"motion-sickness":{t:"晕车晕船，是你的耳朵和眼睛讲了两个不同的故事。",
+ w:"内耳报告了眼睛看不到的运动，大脑把这种不一致当成了警报。",
+ a:["看地平线，或坐到前排，让眼睛报告的运动和耳朵感觉到的一致。",
+    "在船上或长途车上，把头靠在头枕上保持不动，比盯着手机有用得多。"]},
+
+"standing-up-dip":{t:"猛地站起来，你的血压会下降几秒钟。",
+ w:"重力把血拉向双腿。颈部的感受器发现血压下降后会收紧血管，但这需要一点时间。眼前发黑就是这段空隙。",
+ a:["下床前先活动脚踝十次，然后在床边坐 20 秒。",
+    "经常发生？问问降压药的服用时间，这通常是可以调整的。",
+    "直接晕倒，或眼前发黑同时伴有胸痛，需要看医生。"]},
+
+"hair-shedding":{t:"每天掉 50 到 100 根头发是正常的。",
+ w:"每个毛囊都按自己的周期运转，不跟邻居同步，所以脱落是分散开的。头发每月长约 1 厘米。",
+ a:["数头发不是判断标准。斑秃、发缝变宽、或洗头后成把掉发持续 3 个月以上才是。",
+    "突然掉发常在生病、压力或饮食改变之后约 3 个月出现。要查的两项血液检查是铁和甲状腺。"]},
+
+"wound-moist-healing":{t:"伤口盖起来比晾干愈合得更快。",
+ w:"新生的皮肤细胞在湿润表面上迁移，比在硬痂下面钻行容易得多。",
+ a:["擦伤要用创可贴或薄薄一层药膏盖住，不要让它结痂。",
+    "第二天之后出现发红扩散、发热或流脓，说明是感染，不是在愈合。"]},
+
+"bladder-capacity":{t:"你在膀胱半满时就有尿意，而不是满了才有。",
+ w:"膀胱容量为 400 到 600 毫升，而牵张感受器在约 250 毫升时就开始报告。这种感觉是提醒，不是紧急情况。",
+ a:["不要为了以防万一而去厕所。一有尿意就去，会让膀胱越来越早发出信号。",
+    "如果一天超过 8 次，接下来两周每次都多忍 5 分钟，这能重新训练膀胱。"]}
+};
+
 const LANGS=["en","zh"];
 const L=()=>TR[state.lang]||TR.en;
 const catLabel=k=>L().cats[k]||CATS[k].label;
+
+/* Display text for a fact in the current language, falling back per field.
+   A step list of a different length falls back whole, so the numbering can
+   never disagree with the English. */
+function txt(f){
+  const tr=(L().facts||{})[f.id];
+  if(!tr) return f;
+  const a=(tr.a && f.a && tr.a.length===f.a.length)?tr.a:f.a;
+  return {id:f.id,cat:f.cat,art:f.art,sub:f.sub,c:f.c,t:tr.t||f.t,w:tr.w||f.w,a:a};
+}
 const dayKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 
 async function loadState(){
@@ -2824,7 +2907,8 @@ const NU='Nunito, sans-serif';
 /* The card carries the whole fact: headline, picture, why, and the steps.
    Height is measured first and the canvas sized to fit, so nothing is cut off.
    Buttons and the streak are page furniture and stay off it. */
-async function buildShareCard(f){
+async function buildShareCard(f0){
+  const f=txt(f0);
   const W=1080, pad=72, ix=pad+52, iw=W-pad*2-104, x0=L();
   if(document.fonts&&document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
 
@@ -2946,17 +3030,18 @@ function render(){
   el("num").textContent=now.getDate();
   el("num").classList.toggle("sun",now.getDay()===0);
   el("dow").textContent=L().dow(now.getDay());
+  const d=txt(f);
   const cat=CATS[f.cat];
   el("chipLabel").textContent=catLabel(f.cat);
   el("chip").style.color=cat.color;
   el("chip").style.background=tint(cat.color,.10);
   el("chipDot").style.background=cat.color;
-  el("fact").textContent=f.t;
+  el("fact").textContent=d.t;
   el("art").innerHTML=artFor(f);
-  el("why").textContent=f.w;
-  el("openLabel").textContent=f.a?L().whyDo:L().whyQ;
-  el("doWrap").hidden=!f.a;
-  el("doList").innerHTML=(f.a||[]).map((s,n)=>'<li><b>'+(n+1)+'</b><span>'+s+'</span></li>').join("");
+  el("why").textContent=d.w;
+  el("openLabel").textContent=d.a?L().whyDo:L().whyQ;
+  el("doWrap").hidden=!d.a;
+  el("doList").innerHTML=(d.a||[]).map((s,n)=>'<li><b>'+(n+1)+'</b><span>'+s+'</span></li>').join("");
   el("panel").classList.remove("open");
   el("openBtn").setAttribute("aria-expanded","false");
 
@@ -3004,7 +3089,7 @@ function renderSheet(){
       '<span class="ghead" style="color:'+c+';background:'+tint(c,.10)+'">'+
         '<s style="background:'+c+'"></s>'+catLabel(k)+'<b>'+groups[k].length+'</b></span>'+
       '<ul style="border-color:'+tint(c,.28)+'">'+
-        groups[k].map(f=>'<li><button type="button" data-id="'+f.id+'">'+f.t+'</button></li>').join("")+
+        groups[k].map(f=>'<li><button type="button" data-id="'+f.id+'">'+txt(f).t+'</button></li>').join("")+
       '</ul></div>';
   }).join("");
 }
