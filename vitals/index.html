@@ -2695,6 +2695,11 @@ const TR={
     savedTitle:"Saved", nothingSaved:"Nothing saved yet.", backToday:"Back to today",
     dayOne:"Day one", streak:n=>n+" days in a row",
     tagline:"One health fact a day", fine:"General information, not medical advice.",
+    shareText:(t,url)=>"Health fact: "+t+
+      "\n\nVitals gives you one health fact a day, with the reason behind it and something to do about it. "+
+      "It works offline and keeps everything on your phone."+
+      "\n\nTo install: open the link, tap Share or the browser menu, then Add to Home Screen."+
+      "\n"+url,
     days:DAYS, dow:d=>DAYS[d],
     period:(m,y)=>MONTHS[m]+" "+y,
     cardDate:(d,m,y)=>d+" "+MONTHS[m]+" "+y,
@@ -2711,6 +2716,10 @@ const TR={
     backToday:"回到今天",
     dayOne:"第一天", streak:n=>"连续 "+n+" 天",
     tagline:"每天一条健康知识",
+    shareText:(t,url)=>"健康小知识："+t+
+      "\n\nVitals 每天给你一条健康知识，讲清背后的道理，也给出能马上做的事。断网也能用，数据只留在手机里。"+
+      "\n\n安装方法：打开链接，点分享按钮或浏览器菜单，选「添加到主屏幕」。"+
+      "\n"+url,
     fine:"仅供一般参考，不构成医疗建议。",
     dow:d=>["星期日","星期一","星期二","星期三","星期四","星期五","星期六"][d],
     period:(m,y)=>y+"年"+(m+1)+"月",
@@ -3555,10 +3564,11 @@ async function shareNow(){
   try{
     let blob=(shareFor===f.id&&shareBlob)?shareBlob:await buildShareCard(f);
     const file=new File([blob],"vitals-"+f.id+".png",{type:"image/png"});
+    const msg=L().shareText(txt(f).t,SHARE_URL.replace(/\/$/,""));
     if(navigator.canShare && navigator.canShare({files:[file]})){
-      await navigator.share({files:[file],title:"Vitals",text:f.t});
+      await navigator.share({files:[file],title:"Vitals",text:msg});
     }else if(navigator.share){
-      await navigator.share({title:"Vitals",text:f.t,url:SHARE_URL});
+      await navigator.share({title:"Vitals",text:msg,url:SHARE_URL});
     }else{
       const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=file.name; a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),4000);
