@@ -17,6 +17,11 @@
 @font-face{font-family:"Nunito";src:url("fonts/nunito-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Nunito";src:url("fonts/nunito-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:"Nunito";src:url("fonts/nunito-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+/* 霞鹜文楷 Screen，裁到 GB2312 常用字。unicode-range 限死中日韩区，
+   拉丁字母和数字仍由 Fredoka 和 Nunito 负责，英文版一个像素都不变。 */
+@font-face{font-family:"WenKai";src:url("fonts/lxgwwenkai-screen-gb2312.woff2") format("woff2");
+  font-weight:400;font-display:swap;
+  unicode-range:U+2E80-9FFF,U+3000-303F,U+FF00-FFEF,U+FE10-FE1F}
 </style>
 <style>
 :root{
@@ -33,8 +38,8 @@
   --line:#D8D3C7;
   --sumi:#232833;
   --wall:#16213A;
-  --disp:"Fredoka",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  --sans:"Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --disp:"Fredoka","WenKai",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --sans:"Nunito","WenKai",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -3443,8 +3448,8 @@ function svgToImage(svgEl){
     img.src=url;
   });
 }
-const FD='Fredoka, sans-serif';
-const NU='Nunito, sans-serif';
+const FD='Fredoka, WenKai, sans-serif';
+const NU='Nunito, WenKai, sans-serif';
 
 /* The card carries the whole fact: headline, picture, why, and the steps.
    Height is measured first and the canvas sized to fit, so nothing is cut off.

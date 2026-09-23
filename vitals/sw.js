@@ -1,7 +1,7 @@
 /* Bump CACHE whenever any file below changes, or installed copies keep the old one.
    PREFIX keeps clean-up inside this app: several apps on one github.io domain share
    one cache store, and deleting every cache but ours would wipe the neighbours. */
-const CACHE = "vitals-v10";
+const CACHE = "vitals-v11";
 const PREFIX = "vitals-";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",
@@ -11,7 +11,8 @@ const FILES = [
   "./fonts/fredoka-latin-600-normal.woff2",
   "./fonts/nunito-latin-400-normal.woff2",
   "./fonts/nunito-latin-600-normal.woff2",
-  "./fonts/nunito-latin-700-normal.woff2"
+  "./fonts/nunito-latin-700-normal.woff2",
+  "./fonts/lxgwwenkai-screen-gb2312.woff2"
 ];
 
 self.addEventListener("install", e => {
