@@ -2698,8 +2698,10 @@ const TR={
     shareText:(t,url)=>"Health fact: "+t+
       "\n\nVitals gives you one health fact a day, with the reason behind it and something to do about it. "+
       "It works offline and keeps everything on your phone."+
-      "\n\nTo install: open the link, tap Share or the browser menu, then Add to Home Screen."+
-      "\n"+url,
+      "\n\nInstall it:"+
+      "\niPhone: open the link in Safari, tap the Share button, then Add to Home Screen."+
+      "\nAndroid: open the link in Chrome, tap the three dot menu, then Install."+
+      "\n\n"+url,
     days:DAYS, dow:d=>DAYS[d],
     period:(m,y)=>MONTHS[m]+" "+y,
     cardDate:(d,m,y)=>d+" "+MONTHS[m]+" "+y,
@@ -2718,8 +2720,10 @@ const TR={
     tagline:"每天一条健康知识",
     shareText:(t,url)=>"健康小知识："+t+
       "\n\nVitals 每天给你一条健康知识，讲清背后的道理，也给出能马上做的事。断网也能用，数据只留在手机里。"+
-      "\n\n安装方法：打开链接，点分享按钮或浏览器菜单，选「添加到主屏幕」。"+
-      "\n"+url,
+      "\n\n安装方法："+
+      "\niPhone：用 Safari 打开链接，点下方的分享按钮，选「添加到主屏幕」。"+
+      "\n安卓：用 Chrome 打开链接，点右上角的「更多」，选「安装并创建快捷方式」。"+
+      "\n\n"+url,
     fine:"仅供一般参考，不构成医疗建议。",
     dow:d=>["星期日","星期一","星期二","星期三","星期四","星期五","星期六"][d],
     period:(m,y)=>y+"年"+(m+1)+"月",
